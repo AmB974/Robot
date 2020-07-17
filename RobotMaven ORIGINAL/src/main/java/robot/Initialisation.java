@@ -321,7 +321,7 @@ public class Initialisation implements Serializable {
             placementDuRobot(frameParente.getProgramme().getInitialisation().getOrientationRobot(),
                     frameParente.getProgramme().getInitialisation().getPositionRobot(),
                     frameParente);
-        }//Ajouté par Sélim
+        }//Ajouté par Sélim Test pull
 
         frameParente.getPanneauTerrain().add(frameParente.getTerrain(), "Center");
 
