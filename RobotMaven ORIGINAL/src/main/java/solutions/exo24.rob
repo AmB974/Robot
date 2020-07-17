@@ -1,0 +1,384 @@
+<robot.Programme>
+  <initialisation>
+    <positionRobot>10</positionRobot>
+    <orientationRobot>0</orientationRobot>
+    <presenceMinerai>false</presenceMinerai>
+    <positionMinerai>0</positionMinerai>
+    <presenceHauteur>true</presenceHauteur>
+    <presenceLargeur>true</presenceLargeur>
+    <hauteur>5</hauteur>
+    <largeur>5</largeur>
+  </initialisation>
+  <procedure>
+    <entry>
+      <string>procédure principale</string>
+      <instruction.Bloc serialization="custom">
+        <javax.swing.tree.DefaultMutableTreeNode>
+          <default>
+            <allowsChildren>true</allowsChildren>
+            <children>
+              <instruction.Marque serialization="custom">
+                <javax.swing.tree.DefaultMutableTreeNode>
+                  <default>
+                    <allowsChildren>true</allowsChildren>
+                    <parent class="instruction.Bloc" reference="../../../../../../.."/>
+                  </default>
+                  <object-array/>
+                </javax.swing.tree.DefaultMutableTreeNode>
+                <instruction.Instruction>
+                  <default>
+                    <nom>marque</nom>
+                  </default>
+                </instruction.Instruction>
+              </instruction.Marque>
+              <instruction.Pour serialization="custom">
+                <javax.swing.tree.DefaultMutableTreeNode>
+                  <default>
+                    <allowsChildren>true</allowsChildren>
+                    <children>
+                      <instruction.Bloc serialization="custom">
+                        <javax.swing.tree.DefaultMutableTreeNode>
+                          <default>
+                            <allowsChildren>true</allowsChildren>
+                            <children>
+                              <instruction.TantQue serialization="custom">
+                                <javax.swing.tree.DefaultMutableTreeNode>
+                                  <default>
+                                    <allowsChildren>true</allowsChildren>
+                                    <children>
+                                      <instruction.Bloc serialization="custom">
+                                        <javax.swing.tree.DefaultMutableTreeNode>
+                                          <default>
+                                            <allowsChildren>true</allowsChildren>
+                                            <children>
+                                              <instruction.Avance serialization="custom">
+                                                <javax.swing.tree.DefaultMutableTreeNode>
+                                                  <default>
+                                                    <allowsChildren>true</allowsChildren>
+                                                    <parent class="instruction.Bloc" reference="../../../../../../.."/>
+                                                  </default>
+                                                  <object-array/>
+                                                </javax.swing.tree.DefaultMutableTreeNode>
+                                                <instruction.Instruction>
+                                                  <default>
+                                                    <nom>avance</nom>
+                                                  </default>
+                                                </instruction.Instruction>
+                                              </instruction.Avance>
+                                              <instruction.Marque serialization="custom">
+                                                <javax.swing.tree.DefaultMutableTreeNode>
+                                                  <default>
+                                                    <allowsChildren>true</allowsChildren>
+                                                    <parent class="instruction.Bloc" reference="../../../../../../.."/>
+                                                  </default>
+                                                  <object-array/>
+                                                </javax.swing.tree.DefaultMutableTreeNode>
+                                                <instruction.Instruction>
+                                                  <default>
+                                                    <nom>marque</nom>
+                                                  </default>
+                                                </instruction.Instruction>
+                                              </instruction.Marque>
+                                            </children>
+                                            <parent class="instruction.TantQue" reference="../../../../../../.."/>
+                                          </default>
+                                          <object-array/>
+                                        </javax.swing.tree.DefaultMutableTreeNode>
+                                        <instruction.Instruction>
+                                          <default>
+                                            <nom>bloc</nom>
+                                          </default>
+                                        </instruction.Instruction>
+                                        <instruction.InstructionComposee>
+                                          <default>
+                                            <variable/>
+                                          </default>
+                                        </instruction.InstructionComposee>
+                                      </instruction.Bloc>
+                                    </children>
+                                    <parent class="instruction.Bloc" reference="../../../../../../.."/>
+                                  </default>
+                                  <object-array/>
+                                </javax.swing.tree.DefaultMutableTreeNode>
+                                <instruction.Instruction>
+                                  <default>
+                                    <nom>tant que</nom>
+                                  </default>
+                                </instruction.Instruction>
+                                <instruction.InstructionComposee>
+                                  <default>
+                                    <variable/>
+                                  </default>
+                                </instruction.InstructionComposee>
+                                <instruction.TantQue>
+                                  <default>
+                                    <garde class="expressions.PasDevantMur"/>
+                                  </default>
+                                </instruction.TantQue>
+                              </instruction.TantQue>
+                              <instruction.Tourne serialization="custom">
+                                <javax.swing.tree.DefaultMutableTreeNode>
+                                  <default>
+                                    <allowsChildren>true</allowsChildren>
+                                    <parent class="instruction.Bloc" reference="../../../../../../.."/>
+                                  </default>
+                                  <object-array/>
+                                </javax.swing.tree.DefaultMutableTreeNode>
+                                <instruction.Instruction>
+                                  <default>
+                                    <nom>tourne</nom>
+                                  </default>
+                                </instruction.Instruction>
+                              </instruction.Tourne>
+                            </children>
+                            <parent class="instruction.Pour" reference="../../../../../../.."/>
+                          </default>
+                          <object-array/>
+                        </javax.swing.tree.DefaultMutableTreeNode>
+                        <instruction.Instruction>
+                          <default>
+                            <nom>bloc</nom>
+                          </default>
+                        </instruction.Instruction>
+                        <instruction.InstructionComposee>
+                          <default>
+                            <variable/>
+                          </default>
+                        </instruction.InstructionComposee>
+                      </instruction.Bloc>
+                    </children>
+                    <parent class="instruction.Bloc" reference="../../../../../../.."/>
+                  </default>
+                  <object-array/>
+                </javax.swing.tree.DefaultMutableTreeNode>
+                <instruction.Instruction>
+                  <default>
+                    <nom>pour</nom>
+                  </default>
+                </instruction.Instruction>
+                <instruction.InstructionComposee>
+                  <default>
+                    <variable>
+                      <entry>
+                        <string>i</string>
+                        <int>3</int>
+                      </entry>
+                    </variable>
+                  </default>
+                </instruction.InstructionComposee>
+                <instruction.Pour>
+                  <default>
+                    <debut>1</debut>
+                    <fin>3</fin>
+                    <nomCompteur>i</nomCompteur>
+                    <pas>1</pas>
+                  </default>
+                </instruction.Pour>
+              </instruction.Pour>
+              <instruction.TantQue serialization="custom">
+                <javax.swing.tree.DefaultMutableTreeNode>
+                  <default>
+                    <allowsChildren>true</allowsChildren>
+                    <children>
+                      <instruction.Bloc serialization="custom">
+                        <javax.swing.tree.DefaultMutableTreeNode>
+                          <default>
+                            <allowsChildren>true</allowsChildren>
+                            <children>
+                              <instruction.TantQue serialization="custom">
+                                <javax.swing.tree.DefaultMutableTreeNode>
+                                  <default>
+                                    <allowsChildren>true</allowsChildren>
+                                    <children>
+                                      <instruction.Bloc serialization="custom">
+                                        <javax.swing.tree.DefaultMutableTreeNode>
+                                          <default>
+                                            <allowsChildren>true</allowsChildren>
+                                            <children>
+                                              <instruction.Marque serialization="custom">
+                                                <javax.swing.tree.DefaultMutableTreeNode>
+                                                  <default>
+                                                    <allowsChildren>true</allowsChildren>
+                                                    <parent class="instruction.Bloc" reference="../../../../../../.."/>
+                                                  </default>
+                                                  <object-array/>
+                                                </javax.swing.tree.DefaultMutableTreeNode>
+                                                <instruction.Instruction>
+                                                  <default>
+                                                    <nom>marque</nom>
+                                                  </default>
+                                                </instruction.Instruction>
+                                              </instruction.Marque>
+                                              <instruction.Avance serialization="custom">
+                                                <javax.swing.tree.DefaultMutableTreeNode>
+                                                  <default>
+                                                    <allowsChildren>true</allowsChildren>
+                                                    <parent class="instruction.Bloc" reference="../../../../../../.."/>
+                                                  </default>
+                                                  <object-array/>
+                                                </javax.swing.tree.DefaultMutableTreeNode>
+                                                <instruction.Instruction>
+                                                  <default>
+                                                    <nom>avance</nom>
+                                                  </default>
+                                                </instruction.Instruction>
+                                              </instruction.Avance>
+                                            </children>
+                                            <parent class="instruction.TantQue" reference="../../../../../../.."/>
+                                          </default>
+                                          <object-array/>
+                                        </javax.swing.tree.DefaultMutableTreeNode>
+                                        <instruction.Instruction>
+                                          <default>
+                                            <nom>bloc</nom>
+                                          </default>
+                                        </instruction.Instruction>
+                                        <instruction.InstructionComposee>
+                                          <default>
+                                            <variable/>
+                                          </default>
+                                        </instruction.InstructionComposee>
+                                      </instruction.Bloc>
+                                    </children>
+                                    <parent class="instruction.Bloc" reference="../../../../../../.."/>
+                                  </default>
+                                  <object-array/>
+                                </javax.swing.tree.DefaultMutableTreeNode>
+                                <instruction.Instruction>
+                                  <default>
+                                    <nom>tant que</nom>
+                                  </default>
+                                </instruction.Instruction>
+                                <instruction.InstructionComposee>
+                                  <default>
+                                    <variable/>
+                                  </default>
+                                </instruction.InstructionComposee>
+                                <instruction.TantQue>
+                                  <default>
+                                    <garde class="expressions.PasDevantMarque"/>
+                                  </default>
+                                </instruction.TantQue>
+                              </instruction.TantQue>
+                              <instruction.Tourne serialization="custom">
+                                <javax.swing.tree.DefaultMutableTreeNode>
+                                  <default>
+                                    <allowsChildren>true</allowsChildren>
+                                    <parent class="instruction.Bloc" reference="../../../../../../.."/>
+                                  </default>
+                                  <object-array/>
+                                </javax.swing.tree.DefaultMutableTreeNode>
+                                <instruction.Instruction>
+                                  <default>
+                                    <nom>tourne</nom>
+                                  </default>
+                                </instruction.Instruction>
+                              </instruction.Tourne>
+                            </children>
+                            <parent class="instruction.TantQue" reference="../../../../../../.."/>
+                          </default>
+                          <object-array/>
+                        </javax.swing.tree.DefaultMutableTreeNode>
+                        <instruction.Instruction>
+                          <default>
+                            <nom>bloc</nom>
+                          </default>
+                        </instruction.Instruction>
+                        <instruction.InstructionComposee>
+                          <default>
+                            <variable/>
+                          </default>
+                        </instruction.InstructionComposee>
+                      </instruction.Bloc>
+                    </children>
+                    <parent class="instruction.Bloc" reference="../../../../../../.."/>
+                  </default>
+                  <object-array/>
+                </javax.swing.tree.DefaultMutableTreeNode>
+                <instruction.Instruction>
+                  <default>
+                    <nom>tant que</nom>
+                  </default>
+                </instruction.Instruction>
+                <instruction.InstructionComposee>
+                  <default>
+                    <variable/>
+                  </default>
+                </instruction.InstructionComposee>
+                <instruction.TantQue>
+                  <default>
+                    <garde class="expressions.PasDevantMarque" reference="../../../javax.swing.tree.DefaultMutableTreeNode/default/children/instruction.Bloc/javax.swing.tree.DefaultMutableTreeNode/default/children/instruction.TantQue/instruction.TantQue/default/garde"/>
+                  </default>
+                </instruction.TantQue>
+              </instruction.TantQue>
+              <instruction.Marque serialization="custom">
+                <javax.swing.tree.DefaultMutableTreeNode>
+                  <default>
+                    <allowsChildren>true</allowsChildren>
+                    <parent class="instruction.Bloc" reference="../../../../../../.."/>
+                  </default>
+                  <object-array/>
+                </javax.swing.tree.DefaultMutableTreeNode>
+                <instruction.Instruction>
+                  <default>
+                    <nom>marque</nom>
+                  </default>
+                </instruction.Instruction>
+              </instruction.Marque>
+            </children>
+            <parent class="instruction.Racine" serialization="custom">
+              <javax.swing.tree.DefaultMutableTreeNode>
+                <default>
+                  <allowsChildren>true</allowsChildren>
+                  <children>
+                    <instruction.Bloc reference="../../../../../../.."/>
+                  </children>
+                </default>
+                <object-array/>
+              </javax.swing.tree.DefaultMutableTreeNode>
+              <instruction.Instruction>
+                <default>
+                  <nom>programme</nom>
+                </default>
+              </instruction.Instruction>
+              <instruction.InstructionComposee>
+                <default>
+                  <variable/>
+                </default>
+              </instruction.InstructionComposee>
+            </parent>
+          </default>
+          <object-array/>
+        </javax.swing.tree.DefaultMutableTreeNode>
+        <instruction.Instruction>
+          <default>
+            <nom>procédure principale</nom>
+          </default>
+        </instruction.Instruction>
+        <instruction.InstructionComposee>
+          <default>
+            <variable/>
+          </default>
+        </instruction.InstructionComposee>
+      </instruction.Bloc>
+    </entry>
+  </procedure>
+  <arbreProgramme serialization="custom">
+    <javax.swing.tree.DefaultTreeModel>
+      <default>
+        <asksAllowsChildren>false</asksAllowsChildren>
+        <listenerList serialization="custom">
+          <javax.swing.event.EventListenerList>
+            <default/>
+            <null/>
+          </javax.swing.event.EventListenerList>
+        </listenerList>
+        <root class="instruction.Racine" reference="../../../../procedure/entry/instruction.Bloc/javax.swing.tree.DefaultMutableTreeNode/default/parent"/>
+      </default>
+      <vector>
+        <string>root</string>
+        <instruction.Racine reference="../../../../procedure/entry/instruction.Bloc/javax.swing.tree.DefaultMutableTreeNode/default/parent"/>
+      </vector>
+    </javax.swing.tree.DefaultTreeModel>
+  </arbreProgramme>
+</robot.Programme>
