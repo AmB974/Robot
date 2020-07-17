@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.5" maxVersion="1.6" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <Properties>
+    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+      <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+        <TitledBorder title="Initialisation"/>
+      </Border>
+    </Property>
+  </Properties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="labelPositionRobot" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="labelOrientationRobot" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="comboOrientationRobot" alignment="0" max="32767" attributes="1"/>
+                                  <Component id="comboPositionRobot" alignment="0" min="-2" max="-2" attributes="1"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="labelPositionMinerai" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jCheckBoxMinerai" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="comboPositionMinerai" alignment="0" min="-2" max="-2" attributes="1"/>
+                              </Group>
+                          </Group>
+                      </Group>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="largeurDefinie" min="-2" max="-2" attributes="0"/>
+                          <Component id="hauteurDefinie" alignment="1" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jSliderHauteur" pref="509" max="32767" attributes="0"/>
+                          <Component id="jSliderLargeur" alignment="0" pref="509" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <Component id="labelOrientationRobot" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="comboOrientationRobot" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jCheckBoxMinerai" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="labelPositionRobot" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="labelPositionMinerai" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="comboPositionRobot" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="comboPositionMinerai" alignment="1" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="hauteurDefinie" min="-2" max="-2" attributes="0"/>
+                  <Component id="jSliderHauteur" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jSliderLargeur" min="-2" max="-2" attributes="0"/>
+                  <Component id="largeurDefinie" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JComboBox" name="comboPositionRobot">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="13">
+            <StringItem index="0" value="N&apos;importe o&#xf9;"/>
+            <StringItem index="1" value="Contre un mur"/>
+            <StringItem index="2" value="Dans un coin"/>
+            <StringItem index="3" value="Pas contre un mur"/>
+            <StringItem index="4" value="Pas dans un coin"/>
+            <StringItem index="5" value="Contre le mur nord"/>
+            <StringItem index="6" value="Contre le mur est"/>
+            <StringItem index="7" value="Contre le mur sud"/>
+            <StringItem index="8" value="Contre le mur ouest"/>
+            <StringItem index="9" value="Dans le coin nord-est"/>
+            <StringItem index="10" value="Dans le coin sud-est"/>
+            <StringItem index="11" value="Dans le coin sud-ouest"/>
+            <StringItem index="12" value="Dans le coin nord-ouest"/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="comboPositionRobotItemStateChanged"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelPositionRobot">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Position du robot"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="comboOrientationRobot">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="5">
+            <StringItem index="0" value="Quelconque"/>
+            <StringItem index="1" value="Vers le nord"/>
+            <StringItem index="2" value="Vers l&apos;est"/>
+            <StringItem index="3" value="Vers le  sud"/>
+            <StringItem index="4" value="Vers l&apos;ouest"/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="comboOrientationRobotItemStateChanged"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelOrientationRobot">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Orientation du robot"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="jCheckBoxMinerai">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Pr&#xe9;sence de minerai"/>
+      </Properties>
+      <Events>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jCheckBoxMineraiStateChanged"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelPositionMinerai">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Position du minerai"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="comboPositionMinerai">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="13">
+            <StringItem index="0" value="N&apos;importe o&#xf9;"/>
+            <StringItem index="1" value="Contre un mur"/>
+            <StringItem index="2" value="Dans un coin"/>
+            <StringItem index="3" value="Pas contre un mur"/>
+            <StringItem index="4" value="Pas dans un coin"/>
+            <StringItem index="5" value="Contre le mur nord"/>
+            <StringItem index="6" value="Contre le mur est"/>
+            <StringItem index="7" value="Contre le mur sud"/>
+            <StringItem index="8" value="Contre le mur ouest"/>
+            <StringItem index="9" value="Dans le coin nord-est"/>
+            <StringItem index="10" value="Dans le coin sud-est"/>
+            <StringItem index="11" value="Dans le coin sud-ouest"/>
+            <StringItem index="12" value="Dans le coin nord-ouest"/>
+          </StringArray>
+        </Property>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+      <Events>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="comboPositionMineraiItemStateChanged"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JSlider" name="jSliderHauteur">
+      <Properties>
+        <Property name="majorTickSpacing" type="int" value="5"/>
+        <Property name="minimum" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Terrain.minY" type="code"/>
+        </Property>
+        <Property name="minorTickSpacing" type="int" value="1"/>
+        <Property name="paintLabels" type="boolean" value="true"/>
+        <Property name="paintTicks" type="boolean" value="true"/>
+        <Property name="snapToTicks" type="boolean" value="true"/>
+        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="jSliderHauteur.getValue()+&quot;&quot;" type="code"/>
+        </Property>
+        <Property name="value" type="int" value="10"/>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+            <TitledBorder title="Hauteur"/>
+          </Border>
+        </Property>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+      <Events>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSliderHauteurStateChanged"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JSlider" name="jSliderLargeur">
+      <Properties>
+        <Property name="majorTickSpacing" type="int" value="5"/>
+        <Property name="minimum" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Terrain.minX" type="code"/>
+        </Property>
+        <Property name="minorTickSpacing" type="int" value="1"/>
+        <Property name="paintLabels" type="boolean" value="true"/>
+        <Property name="paintTicks" type="boolean" value="true"/>
+        <Property name="snapToTicks" type="boolean" value="true"/>
+        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="jSliderLargeur.getValue()+&quot;&quot;" type="code"/>
+        </Property>
+        <Property name="value" type="int" value="10"/>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+            <TitledBorder title="Largeur"/>
+          </Border>
+        </Property>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+      <Events>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSliderLargeurStateChanged"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="hauteurDefinie">
+      <Events>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="hauteurDefinieStateChanged"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="largeurDefinie">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="largeurDefinieActionPerformed"/>
+      </Events>
+    </Component>
+  </SubComponents>
+</Form>
