@@ -77,6 +77,11 @@ public class Initialisation implements Serializable {
     private int largeur;
     private static Random random = new Random();
 
+    // debut Ajout
+    private boolean presenceJauge;
+    private int jauge;
+    // fin Ajout
+
     public static Terrain.Position calculPosition(int position, Terrain terrain) {
 
         switch (position) {
@@ -151,6 +156,13 @@ public class Initialisation implements Serializable {
         }
         return null;
     }
+
+    //debut ajout
+    public int getJauge(){ return jauge;}
+    public void setJauge(int jauge){ this.jauge = jauge;}
+    public boolean isPresenceJauge(){ return presenceJauge;}
+    public void setPresenceJauge(boolean presenceJauge){ this.presenceJauge = presenceJauge;}
+    //fin ajout
 
     public static int getNbRobots()
     {
@@ -318,6 +330,14 @@ public class Initialisation implements Serializable {
         }
 
         frameParente.getPanneauTerrain().add(frameParente.getTerrain(), "Center");
+
+        //debut ajout
+        if(frameParente.getProgramme().getInitialisation().isPresenceJauge()){
+            frameParente.getRobot().setNombrePas(frameParente.getProgramme().getInitialisation().getJauge());
+            frameParente.getRobot().setNombreDepPas(frameParente.getProgramme().getInitialisation().getJauge());
+            System.out.println("ici ta race"+frameParente.getProgramme().getInitialisation().getJauge());
+        }
+        //fin ajout
 
 
         frameParente.getRobot().duréeReference = frameParente.getPanneauCommande().getDuree();

@@ -31,6 +31,7 @@ package instruction;
 
 import javax.swing.ImageIcon;
 import robot.DansLeMur;
+import robot.TropDePas;
 
 
 /**
@@ -46,7 +47,7 @@ public class Avance extends InstructionElementaire {
         //this.avancable = avancable;
     }
     @Override
-    public void go(robot.Robot robot) throws DansLeMur, InterruptedException {
+    public void go(robot.Robot robot) throws DansLeMur, InterruptedException, TropDePas {
         synchronized(robot) {
             while(robot.isStopped())
                 robot.wait();

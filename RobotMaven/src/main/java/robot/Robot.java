@@ -85,6 +85,16 @@ public class Robot implements Cellule, Runnable {
     private boolean enMarche = false;
     private int numeroImage = 0;
 
+    //debut ajout
+    private int nombrePas=-1;
+    private int nombreDepPas;
+    public int getNombrePas(){ return this.nombrePas;}
+    public void setNombrePas(int nombrePas){ this.nombrePas=nombrePas;}
+    public void setNombreDepPas(int nombreDepPas){ this.nombreDepPas = nombreDepPas;}
+    private Image[] robotTest = new Image[1];
+    private Image[] robotTestprem = new Image[1];
+    //fin ajout
+
     public int getID()
     {
         return this.ID;
@@ -160,6 +170,8 @@ public class Robot implements Cellule, Runnable {
         robotCasse[1] = robotCasseprem[1].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
         robotCasse[2] = robotCasseprem[2].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
         robotCasse[3] = robotCasseprem[3].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+
+        robotTest[0] = robotTestprem[0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
 
     }
 
@@ -275,6 +287,9 @@ public class Robot implements Cellule, Runnable {
             robotCasse[2] = robotCasseprem[2].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
             robotCasse[3] = robotCasseprem[3].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
 
+            robotTestprem[0] = ImageIO.read(Robot.class.getResource("/images/marque.png"));
+            robotTest[0] = robotTestprem[0].getScaledInstance(terrain.getTailleCelluleX(),terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+
         } catch (IOException ex) {
             Logger.getLogger(Robot.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -355,7 +370,7 @@ public class Robot implements Cellule, Runnable {
      * pasy
      */
     //@Override
-    public void avance() throws DansLeMur {
+    public void avance() throws DansLeMur, TropDePas {
         int xa = x;
         int ya = y;
 
@@ -403,6 +418,11 @@ public class Robot implements Cellule, Runnable {
 
             return;
         }
+        //debut ajout
+        if(nombrePas!=-1) {
+            decrementerPas();
+        }
+        //fin ajout
 
     }
 
@@ -411,14 +431,72 @@ public class Robot implements Cellule, Runnable {
     }
 
     //@Override
-    public void tourne() throws InterruptedException {
+    public void tourne() throws InterruptedException, TropDePas {
         vers = tOrientation[(vers.direction + 1) % 4];
         image = imageSelonOrientation();
         terrain.repaint(x * terrain.getTailleCelluleX(), y * terrain.getTailleCelluleY(), terrain.getTailleCelluleX(), terrain.getTailleCelluleY());
 
         Thread.sleep(duréeReference);
 
+        //debut ajout
+        if(nombrePas!=-1) {
+            decrementerPas();
+        }
+        //fin ajout
+
     }
+
+    //debut ajout
+    public void decrementerPas() throws TropDePas{
+        System.out.println("je savoir "+ nombreDepPas);
+
+
+        if(this.nombrePas <= this.nombreDepPas && this.nombrePas > this.nombreDepPas * 0.75 ){
+            imageOrientation(vers);
+            System.out.println("T'es au top");
+
+        } else if(this.nombrePas <= this.nombreDepPas * 0.75 && this.nombrePas > this.nombreDepPas * 0.50 ){
+            imageOrientation(vers);
+            System.out.println("Ca va encore");
+
+        } else if(this.nombrePas <= this.nombreDepPas * 0.50 && this.nombrePas > this.nombreDepPas * 0.25 ){
+            imageOrientation(vers);
+            System.out.println("bientot c'est fini");
+
+        } else{
+            imageOrientation(vers);
+            System.out.println("tu dead pas ca, t'es dead la");
+
+        }
+
+        this.nombrePas--;
+        System.out.println("je rentre ici "+ this.nombrePas);
+        if (this.nombrePas == 0) {
+            System.out.println("je stop "+ this.nombrePas);
+            throw new TropDePas();
+
+        }
+
+    }
+
+    public void imageOrientation(Orientation orientation){
+
+        if(orientation.direction == Terrain.NORD ){
+            //image Nord
+            this.image= this.robotTest;
+        } else if(orientation.direction == Terrain.EST){
+            //image Est
+            this.image= this.robotTest;
+        }else if(orientation.direction == Terrain.SUD){
+            //image Sud
+            this.image= this.robotTest;
+        }else{
+            //image Ouest
+            this.image= this.robotTest;
+        }
+
+    }
+    //fin ajout
 
     public synchronized void execute(Instruction i) {
         programme = i;
@@ -477,6 +555,8 @@ public class Robot implements Cellule, Runnable {
             //        JOptionPane.ERROR_MESSAGE);
             //processus.interrupt();
 
+        } catch (TropDePas tropDePas) {
+            tropDePas.printStackTrace();
         }
     }
 

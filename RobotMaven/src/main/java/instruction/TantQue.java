@@ -36,6 +36,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import robot.DansLeMur;
+import robot.TropDePas;
 
 /**
  *
@@ -63,7 +64,7 @@ public class TantQue extends InstructionComposee {
     }
 
     @Override
-    public void go(robot.Robot robot) throws DansLeMur, InterruptedException {
+    public void go(robot.Robot robot) throws DansLeMur, InterruptedException, TropDePas {
 
         while (garde.evalue(robot)) {
             if (getChildCount() > 0) {

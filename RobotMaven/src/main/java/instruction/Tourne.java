@@ -28,6 +28,8 @@
  */
 package instruction;
 
+import robot.TropDePas;
+
 import javax.swing.ImageIcon;
 
 /**
@@ -44,7 +46,7 @@ public class Tourne extends InstructionElementaire {
     }
 
     @Override
-    public void go(robot.Robot robot) throws InterruptedException {
+    public void go(robot.Robot robot) throws InterruptedException, TropDePas {
         synchronized (robot) {
             while (robot.isStopped()) {
                 robot.wait();

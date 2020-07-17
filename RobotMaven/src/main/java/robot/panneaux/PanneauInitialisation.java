@@ -72,7 +72,13 @@ public class PanneauInitialisation extends javax.swing.JPanel {
         jSliderLargeur.setValue(initialisation.getLargeur());
         hauteurDefinie.setSelected(initialisation.isPresenceHauteur());
         jSliderHauteur.setEnabled(initialisation.isPresenceHauteur());
-        jSliderHauteur.setValue(initialisation.getHauteur()); 
+        jSliderHauteur.setValue(initialisation.getHauteur());
+
+        //debut ajout
+        jaugeDefinie.setSelected(initialisation.isPresenceJauge());
+        jSliderJauge.setEnabled(initialisation.isPresenceJauge());
+        jSliderJauge.setValue(initialisation.getJauge());
+        //fin ajout
         
         changementInterne = false;
     }
@@ -98,6 +104,11 @@ public class PanneauInitialisation extends javax.swing.JPanel {
         jSliderLargeur = new javax.swing.JSlider();
         hauteurDefinie = new javax.swing.JCheckBox();
         largeurDefinie = new javax.swing.JCheckBox();
+
+        //debut ajout
+        jSliderJauge = new javax.swing.JSlider();
+        jaugeDefinie= new javax.swing.JCheckBox();
+        // fin ajout
 
         setBorder(javax.swing.BorderFactory.createTitledBorder("Initialisation"));
 
@@ -179,6 +190,30 @@ public class PanneauInitialisation extends javax.swing.JPanel {
                 largeurDefinieActionPerformed(evt);
             }
         });
+
+        //debut ajout
+        jSliderJauge.setMajorTickSpacing(9);
+        jSliderJauge.setMinimum(1);
+        jSliderJauge.setMinorTickSpacing(1);
+        jSliderJauge.setPaintLabels(true);
+        jSliderJauge.setPaintTicks(true);
+        jSliderJauge.setSnapToTicks(true);
+        jSliderJauge.setToolTipText(jSliderJauge.getValue()+"");
+        jSliderJauge.setValue(10);
+        jSliderJauge.setBorder(javax.swing.BorderFactory.createTitledBorder("Jauge"));
+        jSliderJauge.setEnabled(false);
+        jSliderJauge.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSliderJaugeStateChanged(evt);
+            }
+        });
+
+        jaugeDefinie.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jaugeDefinieActionPerformed(evt);
+            }
+        });
+        //fin ajout
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -290,6 +325,22 @@ private void jSliderLargeurStateChanged(javax.swing.event.ChangeEvent evt) {//GE
     initialisation.setLargeur(jSliderLargeur.getValue());
 }//GEN-LAST:event_jSliderLargeurStateChanged
 
+    //debut ajout
+    private void jSliderJaugeStateChanged(javax.swing.event.ChangeEvent evt){//GEN-FIRST:event_jSliderJaugeStateChanged
+        if (changementInterne) return;
+        initialisation.setJauge(jSliderJauge.getValue());
+    }//GEN-LAST:event_jSliderJaugeStateChanged
+
+    private void jaugeDefinieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jaugeDefinieActionPerformed
+        if (changementInterne) return;
+        jSliderJauge.setEnabled(jaugeDefinie.isSelected());
+        initialisation.setPresenceJauge(jaugeDefinie.isSelected());
+        initialisation.setJauge(jSliderJauge.getValue());
+
+    }//GEN-LAST:event_jaugeDefinieActionPerformed
+
+    // fin ajout
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox comboOrientationRobot;
@@ -303,6 +354,11 @@ private void jSliderLargeurStateChanged(javax.swing.event.ChangeEvent evt) {//GE
     private javax.swing.JLabel labelPositionMinerai;
     private javax.swing.JLabel labelPositionRobot;
     private javax.swing.JCheckBox largeurDefinie;
+
+    //debut ajout
+    private javax.swing.JSlider jSliderJauge;
+    private javax.swing.JCheckBox jaugeDefinie;
+
     // End of variables declaration//GEN-END:variables
 
     public Initialisation getInitialisation() {

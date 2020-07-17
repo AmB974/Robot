@@ -163,7 +163,7 @@ public class PanneauCommande extends javax.swing.JPanel {
 private void tourneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tourneActionPerformed
         try {
             frameParente.getRobot().tourne();
-        } catch (InterruptedException ex) {
+        } catch (InterruptedException | TropDePas ex) {
             Logger.getLogger(PanneauCommande.class.getName()).log(Level.SEVERE, null, ex);
             frameParente.getRobot().stop();
         }
@@ -195,7 +195,7 @@ private void avanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:
     // TODO add your handling code here:
     try {
         PanneauCommande.this.frameParente.getRobot().avance();
-    } catch (DansLeMur ex) {
+    } catch (DansLeMur | TropDePas ex) {
         Logger.getLogger(PanneauCommande.class.getName()).log(Level.SEVERE, null, ex);
     } 
 }//GEN-LAST:event_avanceActionPerformed

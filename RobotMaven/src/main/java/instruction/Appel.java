@@ -33,6 +33,7 @@ import java.util.Scanner;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import robot.DansLeMur;
+import robot.TropDePas;
 
 /**
  *
@@ -61,7 +62,7 @@ public class Appel extends InstructionElementaire {
     }
     
     @Override
-    public void go(robot.Robot robot) throws DansLeMur, InterruptedException {
+    public void go(robot.Robot robot) throws DansLeMur, InterruptedException, TropDePas {
         Scanner sc = new Scanner(toString());
         sc.useDelimiter(", ");
         sc.next();

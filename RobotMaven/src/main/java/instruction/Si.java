@@ -37,6 +37,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import robot.DansLeMur;
+import robot.TropDePas;
 
 /**
  *
@@ -67,7 +68,7 @@ public class Si extends InstructionComposee {
 
 
     @Override
-    public void go(robot.Robot robot) throws DansLeMur, InterruptedException {
+    public void go(robot.Robot robot) throws DansLeMur, InterruptedException, TropDePas {
         
         //try {
             if (garde.evalue(robot))

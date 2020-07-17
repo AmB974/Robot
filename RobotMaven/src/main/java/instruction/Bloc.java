@@ -32,6 +32,7 @@ package instruction;
 import java.util.Scanner;
 import javax.swing.ImageIcon;
 import robot.DansLeMur;
+import robot.TropDePas;
 
 /**
  *
@@ -56,7 +57,7 @@ public class Bloc extends InstructionComposee {
     }
 
     @Override
-    public void go(robot.Robot robot) throws DansLeMur, InterruptedException {
+    public void go(robot.Robot robot) throws DansLeMur, InterruptedException, TropDePas {
         for(int i = 0; i < getChildCount(); i++) {
             Instruction I = (Instruction) getChildAt(i);
           

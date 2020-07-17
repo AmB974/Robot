@@ -31,6 +31,7 @@ package instruction;
 
 import javax.swing.ImageIcon;
 import robot.DansLeMur;
+import robot.TropDePas;
 
 /**
  *
@@ -66,7 +67,7 @@ public class Pour extends InstructionComposee {
     }
 
     @Override
-    public void go(robot.Robot robot) throws DansLeMur, InterruptedException {
+    public void go(robot.Robot robot) throws DansLeMur, InterruptedException, TropDePas {
         
         int p = get(pas);
         if (p > 0)

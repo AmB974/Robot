@@ -30,6 +30,7 @@ package instruction;
 
 import robot.DansLeMur;
 import robot.NoeudProgramme;
+import robot.TropDePas;
 
 /**
  *
@@ -40,7 +41,7 @@ public abstract class Instruction extends NoeudProgramme {
     public static final long serialVersionUID = 0L;
     protected String nom;
 
-    public abstract void go(robot.Robot robot) throws DansLeMur, InterruptedException;
+    public abstract void go(robot.Robot robot) throws DansLeMur, InterruptedException, TropDePas;
 
     @Override
     public String toString() {
