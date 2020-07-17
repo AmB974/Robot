@@ -1,0 +1,960 @@
+<!--
+To change this template, choose Tools | Templatesand open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <title>Le robot explorateur</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <h1 align="center">Le robot explorateur</h1>
+        <h1>Préambule</h1>
+        <p> Ce petit programme propose une initiation ludique à l'écriture
+            d'algorithmes. L'idée n'est pas originale. Elle s'inspire d'autres
+            amusants outils d'apprentissage de la programmation comme, <a href="http://el.media.mit.edu/logo-foundation/logo/index.html">Logo</a>,
+            le plus célèbre
+            et surtout de celui de <a href="http://www.grappa.univ-lille3.fr/%7Egonzalez/enseignement/2011-2012/algo1/robot.php">D.Gonzalez</a>.
+            Il s'agit de programmer un petit robot explorateur pour l'envoyer sur une
+            planète lointaine à la recherche de minerai en évitant les embûches. Ce
+            petit jeu a pour but d'introduire la programmation structurée de façon
+            progressive. </p>
+        <h1>Environnement du robot</h1>
+        <p> Le robot exécute son programme pour évoluer sur une "planète"
+            rectangulaire délimitée par un mur,et quadrillée en cases. Elle est de
+            dimension finie et supérieure à 3 x 3 cases. La distance entre deux cases
+            est celle parcourue par le robot en un pas. En cas de présence de minerai,
+            il se trouve sur une et une seule case. </p>
+        <h1>"Atterissage" ou initialisation</h1>
+        <p> Il est possible de prévoir de façon plus ou moins précise le lieu
+            d'atterissage du robot, son orientation ainsi que l'existence de minerai
+            et le lieu où il est éventuellement enfoui. </p>
+        <p> La connaissance a priori de ces situations se simule à l'aide d'une
+            boîte de dialogue ouverte en cliquant le bouton intitulé "initialisation </p>
+        <img src="images/initialisation.png" alt="initialisation" height="413" width="550">
+        <ul>
+            <li> Au départ, le robot peut se trouver contre un mur ou pas, dans un
+                coin très précis, comme le coin nord-est, ou dans un coin (sans plus de
+                précision), ou encore n’importe où. </li>
+            <li> Il peut avoir ou non une orientation précise (nord, est, sud, ouest).
+            </li>
+            <li> Le minerai peut être présent ou pas. En sa présence, sa position peut
+                être plus ou moins précise, tout comme celle du robot. </li>
+            <li> Les dimensions du terrain peuvent être inconnues et donc choisies
+                aléatoirement. Mais il est possible aussi de fixer la largeur et/ou la
+                hauteur. </li>
+        </ul>
+        <p> Par exemple, l'initialisation suivante : <br>
+            <img src="images/exemple-initialisation.png" alt="exemple-initialisation"
+                 height="413" width="550"> </p>
+        <p> pourra donner la situation suivante : <br>
+            <img src="images/resultat-initialisation.png" alt="exemple-initialisation"
+                 height="630" width="1200"> </p>
+        <p> L'utilisation de la boite de dialogue et les choix dans les listes sont
+            suffisamment explicites. Essayez-la pour commencer. </p>
+        <h1>Le robot explorateur</h1>
+        <p> Le robot obéit à quatre instructions élémentaires : </p>
+        <ul>
+            <li>Tourne, le robot tourne d’un quart de tour dans le sens des aiguilles
+                d’une montre.</li>
+            <li>Avance, le robot avance d’un pas droit devant lui</li>
+            <li>Marque, le robot marque la case sur laquelle il se trouve. Si la case
+                est déjà marquée, elle le reste.</li>
+            <li>Efface, le robot efface la marque de la case sur laquelle il se
+                trouve. Si elle n’est pas marquée, elle le reste.</li>
+        </ul>
+        <strong>Attention, si une marque est posée sur du minerai, il sera
+            définitivement perdu, même en effaçant la marque.</strong>
+        <h1>Contrôle de l’environnement</h1>
+        Sans précaution, le robot court à sa destruction car il est fragile. Il sera
+        détérioré au moindre choc. Pour éviter ça, mais aussi pour trouver son
+        chemin et l'éventuel minerai, votre robot possède des capteurs lui
+        permettant de connaître un peu son environnement. Ces différents capteurs
+        permettent au programme de poser les questions suivantes.
+        <ul>
+            <li>devant mur ? La réponse est OUI s'il y a un mur JUSTE devant le robot.</li>
+            <li>devant marque ? La réponse est OUI s'il y a une marque JUSTE devant le
+                robot.</li>
+            <li>sur marque ? La réponse est OUI si la case sous le robot est marquée.</li>
+            <li>sur minerai ? La réponse est OUI s'il y a du minerai sous le robot.</li>
+            <li>Il existe la négation de chacune des questions en faisant précéder par
+                le mot "pas" (pas devant mur…)</li>
+        </ul>
+        
+        <p>
+            Il est possible également en cliquant dans le terrain de faire apparaitre
+            ou disparaitre des marques.
+        </p>
+
+        <h1>Le langage</h1>
+
+        Le langage que comprend le robot se décrit sous la forme « d'une
+        arborescence structurée » et combine les instructions décrites dans la
+        suite. Chacune d'elle possède zéro, une ou plusieurs sorties, chaque
+        sortie étant "connectée" à une instruction.
+        <ul>
+            <li> Les instructions élémentaires n'ont pas de sortie, elle se représente
+                par l'un des mots suivants :
+                <ul>
+                    <li>Tourne</li>
+                    <li>Avance</li>
+                    <li>Marque</li>
+                    <li>Efface</li>
+                </ul>
+                Lorsqu'une instruction élémentaire est traitée, le robot l'exécute : il
+                fait un quart de tour, ou il avance d'un pas, ou il pose une marque
+                (sous lui) ou il efface la marque (sous lui).<hr>
+
+
+
+
+            <li> L'instruction "bloc" ou le bloc d’instructions a autant de sorties
+                que nécessaire. <br>
+                <br>
+                <table border="0">
+                    <thead>
+                        <tr>
+                            <th align="justify">Il se représente par un rectangle et plusieurs
+                                sorties (les flèches). </th>
+                            <th><img src="images/bloc.png" alt="bloc" height="55" width="89"></th>
+                            <th align="justify"><br>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td colspan="2" rowspan="1">Le traitement d'un bloc consiste à
+                                traiter les instructions branchées à ses sorties dans l'ordre de
+                                la gauche vers la droite.</td>
+                            <td><br>
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table><hr>
+            </li>
+
+
+
+
+            <li> L'instruction conditionnelle a au moins une sortie, appelée "alors"
+                et éventuellement une deuxième sortie, appelée "sinon".
+                <table border="0">
+                    <thead>
+                        <tr>
+                            <th align="justify">L'instruction conditionnelle se représente à
+                                l'image d'une des deux figures ci-contre.
+                                <br>
+                                La question C peut prendre les valeurs vues précédemment :
+                                "devant mur", "sur minerai"... <br>
+                                <br>
+                            </th>
+                            <th> <img src="images/sialors.png" alt="sialors" height="51" width="83"></th>
+                            <th><img src="images/sialorssinon.png" alt="sialorssinon" height="51"
+                                     width="83"></th>
+                        </tr>
+                        <tr>
+                            <td colspan="3" rowspan="1">Son traitement se fait ainsi :<br>
+                                <ul>
+                                    <li>Si la réponse à C est OUI, la branche de gauche est
+                                        traitée.</li>
+                                    <li>Si la réponse à C est NON, la branche de droite est
+                                        traitée (seulement si elle existe, évidemment).</li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table><hr>
+            </li>
+
+
+
+
+            <li>L'instruction itérative "Tant que" a une et seule sortie.
+                <table border="0">
+                    <thead>
+                        <tr>
+                            <th align="justify">L'instruction itérative "Tant que" se
+                                représente à l'image de la figure ci-contre.
+                                <br>
+                                La question C peut prendre les valeurs vues précédemment :
+                                "devant mur", "sur minerai"... </th>
+                            <th><img src="images/tantque.png" alt="tantque" height="55" width="71">
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>Son traitement se fait ainsi : Tant que la réponse à C&nbsp;
+                                est oui, la sortie est traitée.<br>
+                                Ou plus exactement, si la réponse à la condition est OUI,
+                                l'instruction indiquée par la sortie <br>
+                                est traitée, puis la condition C est réévaluée, si sa réponse
+                                est toujours OUI, la sortie est traitée<br>
+                                et ainsi de suite jusqu'à ce que la réponse à C donne NON. <br>
+                                Remarque : <br>
+                                <ul>
+                                    <li>Il est possible de ne pas "rentrer" dans la "boucle" si C
+                                        donne NON dès le départ.</li>
+                                    <li>Il est possible de ne jamais sortir de la boucle si la
+                                        réponse à C est toujours OUI.</li>
+                                </ul>
+                            </td>
+                            <td><br>
+                                <br>
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table><hr>
+            </li>
+            <li>
+                Il existe quelques autres instructions comme
+                <ul>
+                    <li>l'instruction "pour", qui permet de répéter quelque chose un certain nombre de fois</li>
+                    <li>l'instruction "lire", pour saisir une variable entière</li>
+                    <li>l'instruction "écrire", pour afficher un message</li> 
+                    <li>des instructions pour créer et appeler des procédures</li>
+                    <li>Elles seront toutes expliquées en détail dans la suite.
+                </ul><hr>
+            </li>
+
+
+            <li>
+                <p>Un exemple de programme :</p>
+                <img src="images/exempleProgramme.png" alt="exempleProgramme" height="280"
+                     width="268"> </li>
+        </ul>
+        <h1>Mode de construction et d'exécution du programme </h1>
+        <p> Un programme commence toujours par un bloc. Une sortie pointe
+            nécessairement sur une instruction (élémentaire, un bloc, un si, un tant
+            que). Le programme forme un arbre d'instructions dont la racine est un
+            bloc (le bloc dit "principal") et dont les feuilles sont des instructions
+            élémentaires.
+        </p>
+
+        <p> Le programme s’exécute en commençant par la racine, de haut en bas et de
+            la gauche vers la droite. Il se termine à droite du bloc principal.
+        </p>
+        <p> Par exemple, l'exécution du programme précédent se déroule ainsi : 
+            La flèche la plus à gauche du premier bloc est traitée. C'est un "tant que".
+            Si le robot n'est pas sur du minerai, la sortie de ce "tant que" est traitée.
+            Le robot pose une marque. Ensuite, c'est un "si", de deux choses l'une :
+        </p>
+        <ul>
+
+            <li>s'il est devant un mur, il tourne. S'il est
+                (encore) devant un mur, il tourne (encore). Ensuite, il avance.</li>
+
+            <li>s'il n'est pas devant un mur, il avance</li>
+
+
+
+        </ul>
+        <p>Le bloc est terminée.
+            La condition du "tant que" est à nouveau évaluée, s'il n'est pas sur du minerai,
+            la même chose est répétée. Mais s'il est sur du minerai, le "tant que" est terminé et
+            programme continue après le "tant que", en l'occurrence, il tourne, tourne, tourne, tourne, probablement par exubérance.
+        </p>
+        <h1>Utilisation de l'interface</h1>
+        <h2>Présentation</h2>
+        L'interface présente les parties suivantes comme le montre la figure :
+        <ul>
+            <li>
+                <strong>La barre de menu</strong>
+                <ul>
+                    <li>
+                        Le menu "Fichier", permet d'enregistrer ou de lire des programmes.
+                        Ce menu n'existe pas dans un navigateur internet.
+                    </li>
+                    <li>
+                        Le menu "Niveaux", permet de définir un niveau de programme.
+                        Cette notion sera expliquée en détail dans la suite.
+                    </li>
+                    <li>
+                        Le menu "Aide" permet d'afficher ce document ainsi que des exercices.
+                    </li>
+                </ul>                
+            </li>
+            <li>
+                <strong>Le panneau de programmation</strong> permet d'écrire les programmes.
+            </li>
+            <li>
+                <strong>Le panneau de programme</strong> affiche le programme. Il permet de supprimer,
+                glisser, déposer, couper, copier, coller des instructions.
+            </li>
+            <li>
+                <strong>Le panneau de commande</strong> permet de modifier la 
+                vitesse du robot lorsqu'il exécute son programme. Il permet 
+                également de lui faire faire toutes les commandes élémentaires,
+                avancer, tourner, marquer, effacer, avant même d'exécuter le 
+                programme pour pouvoir par exemple positionner le robot où l'on
+                veut.
+            </li>
+            <li>
+                <strong>Le panneau d'exécution</strong> dans lequel s'ébat le robot.
+            </li>
+            <li>
+                Les panneaux de programmation, de programme et d'exécution sont séparés
+                par <strong>des barres coulissantes</strong>. Il est possible de les faire
+                coulisser avec la souris. Par ailleurs, pendant l'exécution, les panneaux
+                de programmation et de programme disparaissent. 
+
+            </li>
+            <li>
+                Les boutons "Exécution du programme" et "Exécution de la sélection"
+                sont répétés dans le panneau de programmation et le panneau d'exécution.
+                <ul>
+                    <li>Le <strong>bouton "Exécution du programme"</strong> 
+                        lance le programme complet après initialisation
+                    </li>
+                    <li>Le <strong>bouton "Exécution de la sélection"</strong> 
+                        lance le bout de programme dont le noeud est sélectionné
+                        SANS faire l'initialisation (très utile pour faire des
+                        tests).
+                    </li>
+                </ul>
+
+            </li>
+        </ul>
+
+        <p>Les parties de l'interface</p>
+        <img src="images/presentation-interface.png" alt="exempleProgramme" height="639"
+             width="1206"> 
+
+
+        <h2>Le menu "Niveaux"</h2>
+
+        <p>
+            Le niveau choisi au travers de ce menu permet de définir un 
+            ensemble d'instructions limité afin de permettre un apprentissage
+            progressif.
+        </p>
+
+        <p>
+            Les exercices proposés dans le menu "Aide" précisent en général un niveau
+            à définir pour les réaliser.
+        </p>
+
+        <h3>Le niveau 1</h3>
+        <p>
+            Les seules instructions autorisées ici sont les instructions élémentaires :
+            avance, tourne, marque, efface.
+        </p>
+        <p>
+            Une fois le niveau 1 sélectionné, le panneau de programmation ressemble à ça :<br>
+            <img src="images/niveau1.png" alt="exempleProgramme" height="221"
+                 width="428"> 
+        </p>
+        <p>
+            Franchement, ce niveau ne permet pas de programmer grand chose, mais 
+            il permet de se familiariser avec l'outil.
+        </p>
+
+        <h4>Ecriture d'un programme au niveau 1</h4>
+        <h5>Ajouter des instructions</h5>
+        <p>
+            Les programmes possibles à ce niveau n'ont qu'un seul bloc : la procédure principale. 
+            Pour ajouter des instructions, il suffit de sélectionner la procédure principale et
+            de cliquer sur un des boutons, avance, tourne, marque, efface. L'instruction se rajoute
+            au bout de celles déjà installées. L'image ci-dessous montre la situation après avoir
+            cliqué sur marque, avance, marque, tourne, avance, marque, tourne, avance, marque,
+            tourne, tourne, tourne, avance.
+            Une fois le niveau 1 sélectionné, le panneau de programme ressemble à ça :<br>
+            <img src="images/niveau1-ex1.png" alt="exempleProgramme" height="240"
+                 width="180"><br>
+
+        </p>
+        <h5>Insérer des instructions</h5>
+        <p>
+            Il est possible d'insérer des instructions au milieu d'autres. Il suffit
+            de sélectionner une instruction élémentaire. Dans ce cas, toute nouvelle
+            instruction sera insérée à la place de celle sélectionnée.
+        </p>
+        <p>
+            Un exercice possible est de demander au robot de "dessiner" un carré de 2x2 marques
+            dont le coin inférieur gauche est dans le coin sud-ouest du terrain et de se placer
+            de manière à permettre la vision totale du carré de marques, sachant 
+            que le robot est au départ dans le coin sud-ouest, orienté vers le nord et que
+            le terrain fait 5x5 de côté (murs compris).
+        </p>
+
+        <p>
+            La réponse à cet exercice est le programme précédent avec l'initialisation
+            suivante :
+        </p>
+        <p><img src="images/niveau1-ex1-init.png" alt="exempleProgramme" height="397"
+                width="624"> </p>
+
+        <p>Son exécution donnera la situation suivante :</p>
+
+
+        <p><img src="images/niveau1-ex1-resultat.png" alt="exempleProgramme" height="270"
+                width="270"> 
+        </p>
+        <h5>L'utilisation de la souris et du clavier pour modifier le programme</h5>        
+        <p>
+            Avec la souris, il est possible
+            de sélectionner une instruction et de la déplacer en faisant un "glisser-déposer"
+            ou de faire une copie en maintenant la touche CTRL enfoncée.         
+        </p>      
+        <p>
+            Il est possible de sélectionner une instruction ou un groupe d'instruction avec
+            la souris ou le clavier en utilisant SHIFT ou CTRL. Le groupe sélectionné peut être
+            coupé ou copié avec CTRL-X ou CTRL-C ou encore en cliquant sur les boutons prévus
+            à cet effet. Le groupe "copié" ou "coupé" peut être "collé" ailleurs. Dans ce cas, 
+            Le "coller" (CTRL-V ou le bouton) se fait avant l'instruction
+            sélectionnée si c'est une instruction élémentaire ou à la fin du programme si c'est la
+            procédure principale qui est sélectionnée.
+        </p>
+
+
+
+        <h4>Le niveau 2</h4>
+        <p>
+            Au niveau 2, deux nouvelles instructions sont autorisées :
+        </p>
+        <ul>
+            <li>Le bloc d'instructions</li>
+            <li>Le SI, qui se décline en deux versions
+                <ul>
+                    <li>le SI ALORS</li>
+                    <li>le SI ALORS SINON</li>
+                </ul>
+            </li>
+
+
+        </ul>
+        <p>
+            Une fois le niveau 2 sélectionné, le panneau de programmation ressemble à ça :<br>
+            <img src="images/niveau2.png" alt="exempleProgramme" height="276"
+                 width="434">
+        </p> 
+        <p>
+            On peut voir apparaitre le bouton "bloc", le bouton "si" et une boite à liste 
+            qui l'accompagne. Cette boite à liste contient les questions auxquelles
+            le robot pourra répondre en utilisant un "si", il s'agit de :
+        </p>
+        <ul>
+            <li>devant mur</li>
+            <li>pas devant mur</li>
+            <li>sur marque</li>
+            <li>pas sur marque</li>
+            <li>devant marque</li>
+            <li>pas devant marque</li>
+            <li>sur minerai</li>
+            <li>pas sur minerai</li>
+        </ul>
+
+
+        <h4>Ecriture d'un programme au niveau 2</h4>
+        <h5>Ajouter ou insérer des instructions</h5>
+        <p>
+            A ce niveau, il est possible d'ajouter des instructions "si" 
+            (ou conditionnelles) ou des blocs. L'ajout ou l'insertion de ses 
+            instructions fait comme celles du niveau 1. Remarquez qu'une 
+            instruction "si" est associée à une condition qu'il faut choisir
+            dans la boite à liste avant de l'ajouter ou de l'insérer.
+        </p>
+
+        <p>
+            Après ajout ou insertion d'une instruction conditionnelle, celle-ci 
+            se présente un peu comme une instruction élémentaire, c'est-à-dire
+            sans autre instruction associée. Par exemple, l'image suivante montre 
+            un programme dans lequel l'instruction "marque" a été ajoutée suivie
+            de l'instruction "si devant mur".            
+        </p>
+
+        <p>
+            Mais une instruction conditionnelle n'est pas une instruction
+            élémentaire. Elle doit contenir au moins une
+            instruction et au plus deux instructions.
+        </p>
+
+        <p>
+            La première instruction ajoutée correspond à la branche "alors" du
+            "si". La seconde (si elle existe) correspond au "sinon". L'exemple 
+            suivant montre le cas du "si alors", où le robot tourne s'il est 
+            devant un mur.             
+        </p>
+
+        <p>
+            <img src="images/niveau2-ex2-1.png" alt="exempleProgramme" width="250" height="100">
+        </p> 
+        <p>
+            L'exemple 
+            suivant montre le cas du "si alors sinon", où le robot tourne s'il est 
+            devant un mur ou avance sinon.            
+        </p>
+
+        <p>
+            <img src="images/niveau2-ex2-2.png" alt="exempleProgramme" width="250" height="115">
+        </p>
+        <p>
+            Une fois qu'il y a une instruction au bout de la branche "sinon",
+            il n'est plus possible d'en ajouter d'autres. Bien sûr, les 
+            modifications sont toujours permises : suppressions, couper, coller,
+            glisser-déposer, mais il ne peut y avoir qu'un "alors" et qu'un
+            "sinon".
+        </p>
+        <p>
+            Dans ce cas, comment faire exécuter plusieurs instructions
+            au robot dans la branche d'un "alors" ou d'un "sinon" ? 
+        </p>
+        <p>
+            C'est là que l'instruction "bloc" intervient. Un bloc d'instructions
+            est UNE instruction qui contient autant d'instructions que voulu.<br>
+            L'exemple suivant montre comment trois instructions, efface, avance, marque
+            sont exécutées (dans cet ordre) quand le "sinon" est activé.
+        </p>
+
+        <p>
+            <img src="images/niveau2-ex2-3.png" alt="exempleProgramme" width="250" height="160">
+        </p>
+        <p>
+            On ne peut pas encore tout programmer à ce niveau, mais certains
+            petits problèmes commencent à devenir intéressants (cf. Les exercices
+            proposés).
+        </p>
+
+
+
+        <h4>Le niveau 3</h4>
+        <p>
+            Au niveau 3, une seule nouvelle instruction est rajoutée. C'est 
+            l'instruction itérative "tant que". C'est la seule, mais pas la moindre,
+            car elle permet cette fois de programmer à peu près tout ce qu'on veut.
+        </p>
+
+        <p>
+            Une fois le niveau 3 sélectionné, le panneau de programmation ressemble à ça :<br>
+            <img src="images/niveau3.png" alt="exempleProgramme" height="276"
+                 width="434">
+        </p> 
+        <p>
+            Remarquez que le "tant que" est associé aux mêmes conditions que le "si".
+        </p>        
+        <h4>Ecriture d'un programme au niveau 3</h4>
+        <h5>Ajouter ou insérer des instructions</h5>
+        <p>
+            A ce niveau, il est possible d'ajouter des instructions "tant que" 
+            (ou itérative) en plus de celles du niveau 2. Le mode d'ajout et 
+            d'insertion ne change pas. Comme pour le "si", il faut choisir
+            une condition dans la boite à liste avant d'ajouter ou d'insérer un
+            "tant que".
+        </p>
+
+
+        <p>
+            L'exemple suivant montre un programme qui fait avancer le robot
+            jusqu'à un mur.
+        </p> 
+        <p>
+            <img src="images/niveau3-ex1-1.png" alt="exempleProgramme" height="80"
+                 width="250">
+        </p> 
+
+        <p>
+            Un "tant que" ne possède qu'une et une seule branche de sortie. La
+            branche "faire". Tout comme pour les branches "alors" et "sinon" du
+            "si", si l'on veut que plusieurs instructions soient exécutées dans 
+            un "faire", il faut utiliser un bloc.
+        </p> 
+        <p>
+            L'exemple suivant montre comment faire pour que le robot avance
+            jusqu'à un mur tout en marquant son chemin.
+        </p> 
+        <p>
+            <img src="images/niveau3-ex1-2.png" alt="exempleProgramme" height="130"
+                 width="250">
+        </p> 
+
+        <h4>Le niveau 4</h4>
+        <p>
+            Au niveau 4, ce qui change c'est la possibilité de construire des
+            conditions plus complexes que celles proposées dans la boite à liste.
+        </p>
+
+        <p>
+            Une fois le niveau 4 sélectionné, le panneau de programmation ressemble à ça :<br>
+            <img src="images/niveau4.png" alt="exempleProgramme" height="344"
+                 width="432">
+        </p> 
+        <p>
+            Il apparait un zone de texte dans laquelle pourra être construite
+            une condition complexe.
+        </p>   
+
+        <h4>Ecriture d'un programme au niveau 4</h4>
+        <h5>Des conditions complexes</h5>
+        <p>
+            Les conditions que l'on peut construire sont des expressions qui
+            connectent des expressions simples ou complexes entre elles
+            en utilisant les opérateurs "et" et "ou" et les parenthèses.
+        </p>
+
+        <p>
+            Un parseur s'assure que l'expression est syntaxiquement correcte en 
+            écrivant en rouge ou en vert selon que l'expression soit incorrecte
+            ou correcte. Les conditions simples que l'on peut utiliser sont celles
+            de la boite à liste, par exemple :<br>
+            pas devant mur et sur minerai<br>
+            Chaque condition simple est abbrégé pour faciliter l'écriture :
+        </p>
+        <ul>
+            <li>dmr ==> devant mur</li>
+            <li>pdmr ==> pas devant mur</li>
+            <li>smq ==> sur marque</li>
+            <li>psmq ==> pas sur marque</li>
+            <li>dmq ==> devant marque</li>
+            <li>pdmq ==> pas devant marque</li>
+            <li>smn ==> sur minerai</li>
+            <li>psmn ==> pas sur minerai</li>
+        </ul>
+
+
+        <p>
+            L'expression précédente peut être abbrégée ainsi : <br>
+            pdmr et smn
+        </p>  
+        <p>
+            Pour utiliser une expression complexe il suffit de l'écrire dans 
+            la zone de texte. Si elle syntaxiquement correcte (écrite en vert) 
+            alors elle prime devant celle de la boite à liste. Pour utiliser une
+            expression simple de la boite à liste, il suffit d'effacer le contenu
+            de la zone de texte.
+        </p> 
+        <p>
+            Ce genre de condition est parfois très utile. Car même si l'on peut
+            tout faire sans ça, leur utilisation est souvent bienvenue notamment
+            lorsque l'on cherche quelque chose dont on n'a pas la certitude de 
+            trouver.
+        </p>  
+
+
+        <p>
+            L'exemple suivant montre comment le robot peut chercher du minerai
+            droit devant lui (il ne cherche pas ailleurs que droit devant lui).
+            Si on était sur de trouver du minerai, il suffirait de dire 
+            "tant que pas sur minerai". Mais comme il est possible que le minerai
+            ne soit pas là et dans ce cas il faut s'arrêter avant de se cogner
+            contre un mur. La condition devient :<br>
+            tant que pas devant mur et pas sur minerai.<br>
+            A la sortie du "tant que", le robot tourne de joie s'il est sur du
+            minerai. En effet, il pourrait très bien être arrêté sans l'avoir trouvé.
+
+        </p> 
+        <p>
+            <img src="images/niveau4-ex1-1.png" alt="exempleProgramme" height="170"
+                 width="380">
+        </p> 
+
+        <h4>Le niveau 5</h4>
+        <p>
+            Le niveau 5 autorise l'utilisation de "procédures", c'est-à-dire 
+            l'écriture de "blocs nommés" qui définissent un comportement
+            particulier que l'on invoquer au moment voulu.
+        </p>
+
+        <p>
+            Une fois le niveau 5 sélectionné, le panneau de programmation ressemble à ça :<br>
+            <img src="images/niveau5.png" alt="niveau 5" height="436"
+                 width="430">
+        </p> 
+        <p>
+            Il apparait quatre nouvelles zones. Les deux premières (en haut)
+            permettent de définir de nouvelles procédures. Les deux suivantes
+            (en dessous) permettent d'invoquer les procédures préalablement 
+            créées.
+        </p>   
+
+        <h4>Ecriture d'un programme au niveau 5</h4>
+
+        <p>
+            Avant d'appeler une procédure il faut la définir. La zone de saisie
+            de texte permet de donner un nom à votre procédure. Le nom d'une 
+            procédure peut contenir à peu près n'importe quels caractères, même
+            des espaces, ou même commencer par des chiffres, ou même ne contenir que
+            des chiffres... Tout sauf des virgules, ou plutôt les virgules sont
+            interprétées. Nous verrons comment plus loin. Pour l'instant on les
+            évite. Evidemment, il faut aussi choisir un nom qui n'a pas été
+            déjà choisi.
+        </p>
+
+        <p>
+            On peut par exemple vouloir écrire une procédure "youpi !" qui fait
+            faire au robot trois tours sur lui-même. Il suffit de saisir ce nom
+            dans la zone de texte comme le montre l'image ci-dessous
+
+        </p>
+        <p>
+            <img src="images/niveau5-ex1-1.png" alt="niveau 5" height="104"
+                 width="430">
+        </p> 
+
+
+        <p>
+            Un clic sur le bouton "nouvelle procédure" fait apparaitre dans l'arbre de programmation
+            du panneau de programme, entre le noeud "programme" et le noeud
+            "procédure principale" un nouveau noeud dont le nom est celui choisi,
+            "youpi !" dans notre exemple.
+
+        </p>
+        <p>
+            <img src="images/niveau5-ex1-2.png" alt="niveau 5" height="60"
+                 width="260">
+        </p> 
+        <p>
+            Ce nouveau noeud est tout simplement un bloc dans lequel toutes les instructions
+            peuvent y insérées comme dans la procédure principale. Par exemple 12 "tourne"
+            pour faire 3 tours.
+        </p>  
+
+
+        <p>
+            <img src="images/niveau5-ex1-3.png" alt="niveau 5" height="240"
+                 width="250">
+
+        </p> 
+
+        <p>
+            A partir de maintenant, cette procédure peut être appelée de n'importe
+            quel point d'un programme, ou même d'une autre procédure. Pour 
+        </p>   
+        <p>
+            On peut remarquer que la procédure "youpi !" apparait  maintenant
+            dans la boite à liste en dessous. Pour définir l'appel d'une 
+            procédure dans un programme, il suffit de choisir son nom dans la 
+            boite à liste, et de cliquer sur le bouton "appel de procédure".
+
+        </p>  
+        <p>
+            <img src="images/niveau5-ex1-4.png" alt="niveau 5" height="98"
+                 width="427">
+
+        </p>   
+        <p>
+            Par exemple, je peux améliorer le programme précédent pour que le robot
+            fasse "youpi !" quand il trouve du minerai.
+
+        </p>  
+        <p>
+            <img src="images/niveau5-ex1-5.png" alt="niveau 5" height="310"
+                 width="370">
+
+        </p> 
+        
+        
+        
+        
+        
+        
+        
+        
+        
+
+
+
+        <h4>Le niveau 6</h4>
+        <p>
+            Le niveau 6 rajoute une nouvelle instruction itérative : l'instruction
+            "pour". Elle permet de répéter une instruction un certain nombre de fois.            
+        </p>
+
+        <p>
+            Une fois le niveau 6 sélectionné, le panneau de programmation ressemble à ça :<br>
+            <img src="images/niveau6.png" alt="niveau 6" height="438"
+                 width="431">
+        </p> 
+        <p>            
+            Une nouvelle ligne apparait avec un bouton intitulé "pour" et 3 champs
+            de texte :
+        </p>
+        <ul>
+            <li>"de", pour le point de départ (un entier)</li>
+            <li>"à", pour le point d'arrivée (un entier)</li>
+            <li>"pas", pour le pas (un entier)</li>
+        </ul>
+
+    
+
+        <h4>Ecriture d'un programme au niveau 6</h4>
+        <p>
+            L'instruction "pour" contient une branche "faire" au bout de laquelle
+            se trouve l'instruction à répéter. La répétition se fait de (le point de départ)
+            à (le point d'arrivée) par un certain pas.
+        </p>
+
+        <p>            
+            Par exemple, notre précédente procédure "youpi !" peut être améliorée.
+            Pour faire 3 tours, il faut répéter 12 fois "tourne" (donc de 1 à 12).
+        </p>
+        
+        <p>
+            <img src="images/niveau6-ex1-1.png" alt="niveau 5" height="100"
+                 width="270">
+        </p> 
+        <h4>Notion de variables</h4>
+        <p>
+            Vous avez peut être remarqué que l'apparition de la lettre i dans le
+            programme ("pour i de 1 à 10 par pas de 1"). Cette lettre i est une variable.
+            Elle prendra successivement les valeurs de 1 à 10 lors de l'exécution 
+            de cette boucle. Pour l'instant cette variable n'est pas exploitée ailleurs
+            dans le code.
+        </p>
+
+        <p>            
+            Il est possible de rajouter une boucle "pour" dans le faire d'un autre
+            "pour". Vous remarquerez que la variable s'appelle j dans la boucle
+            interne. Et en continuant, k, l, et ainsi de suite.
+            
+        </p>
+        
+        <p>
+            <img src="images/niveau6-ex1-2.png" alt="niveau 5" height="100"
+                 width="330">
+        </p> 
+
+        <p>            
+            Avec le code précédent, le robot tourne 100 fois.
+        </p>
+        
+        <p>
+            Il est possible d'exploiter la variable i dans la boucle interne, en
+            disant par exemple pour j de 1 à i.
+        </p>
+        
+        <p>
+            Par exemple, le programme suivant trace un triangle de marques, pointe en bas.
+        </p>
+        <p>
+            <img src="images/niveau6-ex1-3.png" alt="niveau 5" height="300"
+                 width="320">
+        </p> 
+                
+        
+        
+        
+        
+        
+        
+        
+
+
+
+        <h4>Le niveau 7</h4>
+        <p>
+            Le niveau 7 permet au robot d'interagir avec l'utilisateur pendant
+            son exécution.
+        </p>
+
+        <p>
+            Une fois le niveau 7 sélectionné, le panneau de programmation ressemble à ça :<br>
+            <img src="images/niveau7.png" alt="niveau 7" height="464"
+                 width="432">
+        </p> 
+        <p>   
+            Une nouvelle ligne apparait avec un bouton "lire", un bouton "écrire" et
+            une zone de texte.            
+        </p>
+
+
+    
+
+        <h4>Ecriture d'un programme au niveau 7</h4>
+        <p>
+            Les instructions "lire" et "écrire" sont des instructions élémentaires.
+            Elles sont toutes deux associées au champs de texte. L'insertion d'une
+            instruction "écrire" se présentera dans l'arbre de programmation de la façon
+            suivante :
+        </p>
+        <p>
+            <img src="images/niveau7-ex1-3.png" alt="niveau 7" height="50"
+                 width="230">
+        </p> 
+        <p>
+            L'instruction
+            "écrire" permet au robot d'informer l'utilisateur de quelque chose
+            par un message dans une boite de dialogue, à l'image de la figure suivante.
+        </p>
+  <p>
+            <img src="images/niveau7-ex1-1.png" alt="niveau 7"
+                 width="346" height="197">
+        </p> 
+        <p>
+            L'instruction
+            "lire" permet au robot de demander quelque chose à l'utilisateur,
+            plus précisément une valeur entière ou un nom de variable. Lorsqu'une
+            instruction "lire" est insérée dans un programme, une fenêtre de dialogue
+            comme la suivante apparait :
+        </p>
+        
+      
+        <p>
+            <img src="images/niveau7-ex1-2.png" alt="niveau 5" 
+                 width="397" height="200">
+        </p> 
+        
+        <p>
+            Cette fenêtre permet de préciser le nom d'une variable. Cette variable
+            deviendra effective à l'exécution du programme. Une fois insérée, une 
+            instruction lire ressemble à ça :
+        </p>
+        <p>
+            <img src="images/niveau7-ex1-4.png" alt="niveau 5" 
+                 width="240" height="60">
+        </p> 
+            
+        <p>            
+            Où l'on doit comprendre que le message "Donne moi une valeur" s'affichera et
+            la valeur donnée par l'utilisateur sera affectée à la variable x.
+        </p>
+        
+   
+        
+        <h4>Variables</h4>
+        <p>
+            La notion de variables déjà abordée avec les boucles "pour" est ici renforcée.
+            Les nouvelles variables sont créées au moment de l'exécution des instructions
+            "lire". Lorsqu'une instruction "lire" est exécutée, une boite de dialogue
+            comme ci-dessous est ouverte.
+        </p>
+
+            <img src="images/niveau7-ex1-6.png" alt="niveau 5" 
+                 width="375" height="200">
+        <p>            
+            Une valeur entière ou le nom d'une variable existante peut alors être donnée.
+        </p>
+        
+        <p>
+            <img src="images/niveau7-ex1-5.png" alt="niveau 6" height="80"
+                 width="250">
+        </p> 
+
+        <p>            
+            Avec le code précédent, le robot fait x quart de tours, c'est-à-dire
+            le nombre de fois que l'utilisateur l'aura voulu.
+        </p>
+        
+        
+        
+        <h4>Des paramètres pour les procédures</h4>
+        <p>
+            Une chose concernant les procédures n'a pas encore été abordée jusqu'à présent.
+            Les procédures peuvent être décorées de paramètres. Il suffit de faire suivre
+            leur nom par des nom de paramètres, c'est-à-dire des noms de paramètres séparés par des 
+            virgules.
+        </p>
+        
+        <p>
+            Au moment où une procédure avec paramètres est insérées, le programme de
+            donner des valeurs aux paramètres. Ce peut être des valeurs entiers ou
+            des variables.
+        </p>
+          <img src="images/niveau7-ex1-7.png" alt="niveau 5" 
+                 width="250" height="470">  
+          
+          L'exemple précédent demande au robot de tracer un rectangle de (x+1) par (y+1),
+          où x et y sont saisies à chaque exécution.
+    </body>
+</html>
