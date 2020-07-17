@@ -325,7 +325,7 @@ public class Initialisation implements Serializable {
 
         frameParente.getPanneauTerrain().add(frameParente.getTerrain(), "Center");
 
-        //debut ajout
+        //debut ajout Ambre
         if(frameParente.getProgramme().getInitialisation().isPresenceJauge()){
             frameParente.getRobot().setNombrePas(frameParente.getProgramme().getInitialisation().getJauge());
             frameParente.getRobot().setNombreDepPas(frameParente.getProgramme().getInitialisation().getJauge());
