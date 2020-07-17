@@ -239,7 +239,10 @@ public class PanneauInitialisation extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(largeurDefinie)
-                            .addComponent(hauteurDefinie))
+                            .addComponent(hauteurDefinie)
+                            //debut ajout
+                            .addComponent(jaugeDefinie))
+                            //fin ajout
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSliderHauteur, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
