@@ -45,11 +45,6 @@ import terrain.Terrain;
  */
 public interface Detachable {
 
-
-    public void idSuivant(); // Ajouté par Sélim
-
-    public void switchRobot(); // Ajouté par Sélim
-
     public Programme getProgramme();
     
     public Terrain getTerrain();

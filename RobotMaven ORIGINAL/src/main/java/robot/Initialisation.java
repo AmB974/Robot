@@ -45,7 +45,7 @@ import terrain.Terrain;
  */
 public class Initialisation implements Serializable {
 
-    public static int NBROBOTS = 4;//Ajouté par Sélim
+
 
     private static final long serialVersionUID = 1L;
 
@@ -62,7 +62,14 @@ public class Initialisation implements Serializable {
     public static final int DANS_LE_COIN_SE = 9;
     public static final int DANS_LE_COIN_SO = 10;
     public static final int DANS_LE_COIN_NO = 11;
+
     private int positionRobot = QUELCONQUE;
+    private static int NBMAXROBOTS = 4;
+    private static int NBROBOTS = 4;//--------------------------------- A mettre en place
+    private static int ROBOTACTIF = 1;
+    private static Robot[] robots = new Robot[NBMAXROBOTS+1];
+    //Ajouté par Sélim
+
     private int orientationRobot = QUELCONQUE;
     private boolean presenceMinerai = false;
     private int positionMinerai = QUELCONQUE;
@@ -293,7 +300,6 @@ public class Initialisation implements Serializable {
         }
 
 
-
         frameParente.setTerrain(new Terrain(frameParente, hauteur, largeur));
 
 
@@ -303,7 +309,7 @@ public class Initialisation implements Serializable {
             for (Coord c : marquesALaSouris) {
 
                 if (c.x > 0 && c.x < frameParente.getTerrain().getNx() - 1 && c.y > 0 && c.y < frameParente.getTerrain().getNy() - 1) {
-                    frameParente.getTerrain().set(c.x, c.y, 
+                    frameParente.getTerrain().set(c.x, c.y,
                             new terrain.Marque(frameParente.getTerrain().getTailleCelluleX(), frameParente.getTerrain().getTailleCelluleY(), true));
                 }
 
@@ -317,11 +323,16 @@ public class Initialisation implements Serializable {
             placementDuMinerai(frameParente.getProgramme().getInitialisation().getPositionMinerai(), frameParente.getTerrain());
         }
 
-        for(int i=0; i<NBROBOTS; ++i) {
+        for (int i = 1; i <= NBROBOTS; ++i) {
             placementDuRobot(frameParente.getProgramme().getInitialisation().getOrientationRobot(),
                     frameParente.getProgramme().getInitialisation().getPositionRobot(),
-                    frameParente);
-        }//Ajouté par Sélim Test pull VERSION 4
+                    frameParente,
+                    i);
+        }
+        robots[0]=null;
+        for (int i = 1; i < 5; ++i)
+            robots[i].setRobots(robots);
+        //Ajouté par Sélim
 
         frameParente.getPanneauTerrain().add(frameParente.getTerrain(), "Center");
 
@@ -343,7 +354,7 @@ public class Initialisation implements Serializable {
         terrain.set(p.x, p.y, new Minerai(terrain.getTailleCelluleX(), terrain.getTailleCelluleY()));
     }
 
-    private static void placementDuRobot(int orientationRobot, int positionRobot, Detachable frameParente) {
+    private static void placementDuRobot(int orientationRobot, int positionRobot, Detachable frameParente, int i) {
 
         if (orientationRobot == QUELCONQUE) {
             orientationRobot = random.nextInt(4);
@@ -356,6 +367,19 @@ public class Initialisation implements Serializable {
         }
         while(frameParente.getTerrain().get(p.x,p.y) != null);
 
-        frameParente.setRobot(new Robot(frameParente.getTerrain(), p.x, p.y, orientationRobot));
+
+        Robot r = new Robot(frameParente.getTerrain(), p.x, p.y, orientationRobot);
+        frameParente.setRobot(r);
+        robots[i] = r;
+
+
     }//Ajouté par Sélim
+
+    public Robot[] getRobots()
+    {
+        return this.robots;
+    }
+
+
+
 }

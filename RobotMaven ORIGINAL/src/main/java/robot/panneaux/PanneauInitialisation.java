@@ -112,12 +112,21 @@ public class PanneauInitialisation extends javax.swing.JPanel {
 
         setBorder(javax.swing.BorderFactory.createTitledBorder("Initialisation"));
 
-        comboPositionRobot.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "N'importe où", "Contre un mur", "Dans un coin", "Pas contre un mur", "Pas dans un coin", "Contre le mur nord", "Contre le mur est", "Contre le mur sud", "Contre le mur ouest", "Dans le coin nord-est", "Dans le coin sud-est", "Dans le coin sud-ouest", "Dans le coin nord-ouest" }));
+        if(Initialisation.getNbRobots() == 1)
+        {
+            comboPositionRobot.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "N'importe où", "Contre un mur", "Dans un coin", "Pas contre un mur", "Pas dans un coin", "Contre le mur nord", "Contre le mur est", "Contre le mur sud", "Contre le mur ouest", "Dans le coin nord-est", "Dans le coin sud-est", "Dans le coin sud-ouest", "Dans le coin nord-ouest" }));
+        }
+        else
+        {
+            comboPositionRobot.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "N'importe où", "Contre un mur", "Dans un coin", "Pas contre un mur", "Pas dans un coin", "Contre le mur nord", "Contre le mur est", "Contre le mur sud", "Contre le mur ouest"}));
+        } //Ajouté par Sélim
+
         comboPositionRobot.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 comboPositionRobotItemStateChanged(evt);
             }
         });
+
 
         labelPositionRobot.setText("Position du robot");
 
@@ -324,15 +333,15 @@ public class PanneauInitialisation extends javax.swing.JPanel {
         initialisation.setHauteur(jSliderHauteur.getValue());
     }//GEN-LAST:event_hauteurDefinieStateChanged
 
-private void jSliderHauteurStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderHauteurStateChanged
-        if (changementInterne) return;
-    initialisation.setHauteur(jSliderHauteur.getValue());
-}//GEN-LAST:event_jSliderHauteurStateChanged
+    private void jSliderHauteurStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderHauteurStateChanged
+            if (changementInterne) return;
+        initialisation.setHauteur(jSliderHauteur.getValue());
+    }//GEN-LAST:event_jSliderHauteurStateChanged
 
-private void jSliderLargeurStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderLargeurStateChanged
-        if (changementInterne) return;
-    initialisation.setLargeur(jSliderLargeur.getValue());
-}//GEN-LAST:event_jSliderLargeurStateChanged
+    private void jSliderLargeurStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderLargeurStateChanged
+            if (changementInterne) return;
+        initialisation.setLargeur(jSliderLargeur.getValue());
+    }//GEN-LAST:event_jSliderLargeurStateChanged
 
 
     //debut ajout

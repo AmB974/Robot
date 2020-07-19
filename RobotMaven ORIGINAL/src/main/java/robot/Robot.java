@@ -29,8 +29,8 @@
 package robot;
 
 import instruction.Instruction;
-import java.awt.Color;
-import java.awt.Image;
+
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
@@ -94,15 +94,24 @@ public class Robot implements Cellule, Runnable {
     private Image[] robotTestprem = new Image[1];
     //fin ajout
 
+
     private static AtomicInteger cpt = new AtomicInteger(0);
+    private Robot[] robots = new Robot[NBROBOTS+1];
     private final int ID;
+    private static int NBROBOTS = 4;//--------------------------------- A mettre en place
+    private static int ROBOTACTIF = NBROBOTS;
+    //Ajouté par Sélim
+
 
     public int getID()
     {
         return this.ID;
     }
-
-
+    public void setRobots(Robot[] r)
+    {
+        this.robots = r;
+    }
+    //Ajouté par Sélim
 
     public Cellule quoiDessous() {
         return passage;
@@ -523,6 +532,10 @@ public class Robot implements Cellule, Runnable {
 
     }
 
+    public void change(){
+
+    }
+
     @Override
     public synchronized void run() {
         try {
@@ -583,5 +596,31 @@ public class Robot implements Cellule, Runnable {
         if (passage instanceof terrain.Marque) {
             passage = null;
         }
+    }
+
+    public void idSuivant()
+    {
+        System.out.println("ACTIF :" + ROBOTACTIF );
+        System.out.println("ID :" + getID() );
+        if(ROBOTACTIF < NBROBOTS)
+            ROBOTACTIF++;
+        else
+            ROBOTACTIF=1;
+    }
+
+    public void switchRobot()
+    {
+
+    }//Ajouté par Sélim
+
+    public Robot suivant()
+    {
+        idSuivant();
+        return robots[ROBOTACTIF];
+    }
+
+    public int getNbRobots()
+    {
+        return NBROBOTS;
     }
 }

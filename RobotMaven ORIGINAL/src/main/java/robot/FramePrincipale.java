@@ -2,28 +2,28 @@
  * Creative commons CC BY-NC-SA 2020 Yvan Maillot <yvan.maillot@uha.fr>
  *
  *     Share - You can copy and redistribute the material in any medium or format
- * 
- *     Adapt - You can remix, transform, and build upon the material 
- * 
+ *
+ *     Adapt - You can remix, transform, and build upon the material
+ *
  * Under the following terms :
- * 
- *     Attribution - You must give appropriate credit, provide a link to the license, 
- *     and indicate if changes were made. You may do so in any reasonable manner, 
- *     but not in any way that suggests the licensor endorses you or your use. 
- * 
- *     NonCommercial — You may not use the material for commercial purposes. 
- * 
- *     ShareAlike — If you remix, transform, or build upon the material, 
- *     you must distribute your contributions under the same license as the original. 
- * 
- * Notices:    You do not have to comply with the license for elements of 
- *             the material in the public domain or where your use is permitted 
- *             by an applicable exception or limitation. 
- * 
- * No warranties are given. The license may not give you all of the permissions 
- * necessary for your intended use. For example, other rights such as publicity, 
- * privacy, or moral rights may limit how you use the material. 
- * 
+ *
+ *     Attribution - You must give appropriate credit, provide a link to the license,
+ *     and indicate if changes were made. You may do so in any reasonable manner,
+ *     but not in any way that suggests the licensor endorses you or your use.
+ *
+ *     NonCommercial — You may not use the material for commercial purposes.
+ *
+ *     ShareAlike — If you remix, transform, or build upon the material,
+ *     you must distribute your contributions under the same license as the original.
+ *
+ * Notices:    You do not have to comply with the license for elements of
+ *             the material in the public domain or where your use is permitted
+ *             by an applicable exception or limitation.
+ *
+ * No warranties are given. The license may not give you all of the permissions
+ * necessary for your intended use. For example, other rights such as publicity,
+ * privacy, or moral rights may limit how you use the material.
+ *
  * See <https://creativecommons.org/licenses/by-nc-sa/4.0/>.
  */
 package robot;
@@ -31,6 +31,7 @@ package robot;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import interfaces.Detachable;
+
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,18 +44,17 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
 import robot.panneaux.*;
 import terrain.Terrain;
 
 /**
- *
  * @author Yvan
  */
 public class FramePrincipale extends JFrame implements Detachable {
 
-    private int NBMAXROBOTS=4;
-    private Robot[] robots = new Robot[NBMAXROBOTS];
-    private int ROBOTACTIF=1;
+    private Robot robot=null;
+
     //Ajouté par Sélim
 
     private static final long serialVersionUID = 1L;
@@ -63,7 +63,7 @@ public class FramePrincipale extends JFrame implements Detachable {
     private PanneauPrincipal panneauPrincipal;
     private PanneauTerrain panneauTerrain = new PanneauTerrain();
     private Terrain terrain;
-    private Robot robot = null;
+
     private PanneauCommande panneauCommande;
     private Programme programme;
     private JSplitPane splitPane;
@@ -72,6 +72,7 @@ public class FramePrincipale extends JFrame implements Detachable {
     private BoiteDeDialogueInit dialogueInitialisation;
     //private File oldDir;
     private PanneauDExecution panneauDExecution;
+
 
     @Override
     public JMenuBar getJMenuBar() {
@@ -110,22 +111,6 @@ public class FramePrincipale extends JFrame implements Detachable {
     }
 
     @Override
-    public void switchRobot()
-    {
-        idSuivant();
-        setRobot(robots[ROBOTACTIF]);
-    }//Ajouté par Sélim
-
-    @Override
-    public void idSuivant()
-    {
-        if(this.ROBOTACTIF!=4)
-            this.ROBOTACTIF++;
-        else
-            this.ROBOTACTIF = 4;
-    }//Ajouté par Sélim
-
-    @Override
     public JSplitPane getSplitPane() {
         return splitPane;
     }
@@ -153,7 +138,7 @@ public class FramePrincipale extends JFrame implements Detachable {
     }
 
     public FramePrincipale() {
-        super("Le monde de nono");
+        super("Le monde de Nono");
         setJMenuBar(new JMenuBar());
 
         setSize(800, 600);
