@@ -72,8 +72,10 @@ public class Initialisation implements Serializable {
     private int largeur;
 
     // debut Ajout
-    private boolean presenceJauge;
+    private boolean presenceJauge= false;
     private int jauge;
+    private String textArea;
+    private boolean presenceTextArea = false;
     // fin Ajout
 
     private static Random random = new Random();
@@ -158,6 +160,10 @@ public class Initialisation implements Serializable {
     public void setJauge(int jauge){ this.jauge = jauge;}
     public boolean isPresenceJauge(){ return presenceJauge;}
     public void setPresenceJauge(boolean presenceJauge){ this.presenceJauge = presenceJauge;}
+    public void setTextArea(String textArea){this.textArea = textArea;}
+    public String getTextArea(){ return this.textArea; }
+    public boolean isPresenceTextArea(){ return this.presenceTextArea;}
+    public void setPresenceTextArea(boolean presenceTextArea){this.presenceTextArea = presenceTextArea;}
     //fin ajout
 
     public static int getNbRobots()
@@ -326,10 +332,16 @@ public class Initialisation implements Serializable {
         frameParente.getPanneauTerrain().add(frameParente.getTerrain(), "Center");
 
         //debut ajout Ambre
-        if(frameParente.getProgramme().getInitialisation().isPresenceJauge()){
+        if(frameParente.getProgramme().getInitialisation().isPresenceJauge() && !(frameParente.getProgramme().getInitialisation().isPresenceTextArea())){
             frameParente.getRobot().setNombrePas(frameParente.getProgramme().getInitialisation().getJauge());
             frameParente.getRobot().setNombreDepPas(frameParente.getProgramme().getInitialisation().getJauge());
             System.out.println("ici ta race"+frameParente.getProgramme().getInitialisation().getJauge());
+        }
+
+         else if(frameParente.getProgramme().getInitialisation().isPresenceTextArea() && !(frameParente.getProgramme().getInitialisation().isPresenceJauge())){
+            frameParente.getRobot().setNombrePas(frameParente.getProgramme().getInitialisation().getJauge());
+            frameParente.getRobot().setNombreDepPas(frameParente.getProgramme().getInitialisation().getJauge());
+            System.out.println("ici ta race a la main"+frameParente.getProgramme().getInitialisation().getJauge());
         }
         //fin ajout
 

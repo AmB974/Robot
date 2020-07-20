@@ -2,28 +2,28 @@
  * Creative commons CC BY-NC-SA 2020 Yvan Maillot <yvan.maillot@uha.fr>
  *
  *     Share - You can copy and redistribute the material in any medium or format
- * 
- *     Adapt - You can remix, transform, and build upon the material 
- * 
+ *
+ *     Adapt - You can remix, transform, and build upon the material
+ *
  * Under the following terms :
- * 
- *     Attribution - You must give appropriate credit, provide a link to the license, 
- *     and indicate if changes were made. You may do so in any reasonable manner, 
- *     but not in any way that suggests the licensor endorses you or your use. 
- * 
- *     NonCommercial — You may not use the material for commercial purposes. 
- * 
- *     ShareAlike — If you remix, transform, or build upon the material, 
- *     you must distribute your contributions under the same license as the original. 
- * 
- * Notices:    You do not have to comply with the license for elements of 
- *             the material in the public domain or where your use is permitted 
- *             by an applicable exception or limitation. 
- * 
- * No warranties are given. The license may not give you all of the permissions 
- * necessary for your intended use. For example, other rights such as publicity, 
- * privacy, or moral rights may limit how you use the material. 
- * 
+ *
+ *     Attribution - You must give appropriate credit, provide a link to the license,
+ *     and indicate if changes were made. You may do so in any reasonable manner,
+ *     but not in any way that suggests the licensor endorses you or your use.
+ *
+ *     NonCommercial — You may not use the material for commercial purposes.
+ *
+ *     ShareAlike — If you remix, transform, or build upon the material,
+ *     you must distribute your contributions under the same license as the original.
+ *
+ * Notices:    You do not have to comply with the license for elements of
+ *             the material in the public domain or where your use is permitted
+ *             by an applicable exception or limitation.
+ *
+ * No warranties are given. The license may not give you all of the permissions
+ * necessary for your intended use. For example, other rights such as publicity,
+ * privacy, or moral rights may limit how you use the material.
+ *
  * See <https://creativecommons.org/licenses/by-nc-sa/4.0/>.
  */
 
@@ -34,39 +34,46 @@
  */
 
 
-
 package robot.panneaux;
 
 import robot.*;
 import terrain.Terrain;
 
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
- *
  * @author Yvan
  */
 public class PanneauInitialisation extends javax.swing.JPanel {
-    
+
     private static final long serialVersionUID = 1L;
-    
+
     private final Initialisation initialisation;
-    
+
     private boolean changementInterne = false;
 
-    /** Creates new form NewJPanel */
+    /**
+     * Creates new form NewJPanel
+     */
     public PanneauInitialisation() {
         initialisation = new Initialisation();
         initComponents();
     }
+
     public PanneauInitialisation(Initialisation initialisation) {
         this.initialisation = initialisation;
         initComponents();
-        
+
         changementInterne = true;
-        
+
         jCheckBoxMinerai.setSelected(initialisation.isPresenceMinerai());
-        comboOrientationRobot.setSelectedIndex(initialisation.getOrientationRobot()+1);
-        comboPositionMinerai.setSelectedIndex(initialisation.getPositionMinerai()+1);
-        comboPositionRobot.setSelectedIndex(initialisation.getPositionRobot()+1);
+        comboOrientationRobot.setSelectedIndex(initialisation.getOrientationRobot() + 1);
+        comboPositionMinerai.setSelectedIndex(initialisation.getPositionMinerai() + 1);
+        comboPositionRobot.setSelectedIndex(initialisation.getPositionRobot() + 1);
         largeurDefinie.setSelected(initialisation.isPresenceLargeur());
         jSliderLargeur.setEnabled(initialisation.isPresenceLargeur());
         jSliderLargeur.setValue(initialisation.getLargeur());
@@ -75,16 +82,20 @@ public class PanneauInitialisation extends javax.swing.JPanel {
         jSliderHauteur.setValue(initialisation.getHauteur());
 
         //debut ajout
-        jaugeDefinie.setSelected(initialisation.isPresenceJauge());
-        jSliderJauge.setEnabled(initialisation.isPresenceJauge());
-        jSliderJauge.setValue(initialisation.getJauge());
+        nombrePasDefinie.setSelected(initialisation.isPresenceJauge());
+        jSliderNombrePas.setEnabled(initialisation.isPresenceJauge());
+        jSliderNombrePas.setValue(initialisation.getJauge());
+        nombrePasExacteDefinie.setSelected(initialisation.isPresenceJauge());
+        textNombrePasExact.setEnabled(initialisation.isPresenceTextArea());
+
         //fin ajout
-        
+
         changementInterne = false;
     }
 
 
-    /** This method is called from within the constructor to
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.
@@ -106,13 +117,15 @@ public class PanneauInitialisation extends javax.swing.JPanel {
         largeurDefinie = new javax.swing.JCheckBox();
 
         //debut ajout
-        jSliderJauge = new javax.swing.JSlider();
-        jaugeDefinie= new javax.swing.JCheckBox();
+        jSliderNombrePas = new JSlider();
+        nombrePasDefinie = new JCheckBox();
+        nombrePasExacteDefinie = new JCheckBox();
+        textNombrePasExact = new JTextArea();
         // fin ajout
 
         setBorder(javax.swing.BorderFactory.createTitledBorder("Initialisation"));
 
-        comboPositionRobot.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "N'importe où", "Contre un mur", "Dans un coin", "Pas contre un mur", "Pas dans un coin", "Contre le mur nord", "Contre le mur est", "Contre le mur sud", "Contre le mur ouest", "Dans le coin nord-est", "Dans le coin sud-est", "Dans le coin sud-ouest", "Dans le coin nord-ouest" }));
+        comboPositionRobot.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"N'importe où", "Contre un mur", "Dans un coin", "Pas contre un mur", "Pas dans un coin", "Contre le mur nord", "Contre le mur est", "Contre le mur sud", "Contre le mur ouest", "Dans le coin nord-est", "Dans le coin sud-est", "Dans le coin sud-ouest", "Dans le coin nord-ouest"}));
         comboPositionRobot.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 comboPositionRobotItemStateChanged(evt);
@@ -121,7 +134,7 @@ public class PanneauInitialisation extends javax.swing.JPanel {
 
         labelPositionRobot.setText("Position du robot");
 
-        comboOrientationRobot.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quelconque", "Vers le nord", "Vers l'est", "Vers le  sud", "Vers l'ouest" }));
+        comboOrientationRobot.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Quelconque", "Vers le nord", "Vers l'est", "Vers le  sud", "Vers l'ouest"}));
         comboOrientationRobot.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 comboOrientationRobotItemStateChanged(evt);
@@ -139,7 +152,7 @@ public class PanneauInitialisation extends javax.swing.JPanel {
 
         labelPositionMinerai.setText("Position du minerai");
 
-        comboPositionMinerai.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "N'importe où", "Contre un mur", "Dans un coin", "Pas contre un mur", "Pas dans un coin", "Contre le mur nord", "Contre le mur est", "Contre le mur sud", "Contre le mur ouest", "Dans le coin nord-est", "Dans le coin sud-est", "Dans le coin sud-ouest", "Dans le coin nord-ouest" }));
+        comboPositionMinerai.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"N'importe où", "Contre un mur", "Dans un coin", "Pas contre un mur", "Pas dans un coin", "Contre le mur nord", "Contre le mur est", "Contre le mur sud", "Contre le mur ouest", "Dans le coin nord-est", "Dans le coin sud-est", "Dans le coin sud-ouest", "Dans le coin nord-ouest"}));
         comboPositionMinerai.setEnabled(false);
         comboPositionMinerai.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -153,7 +166,7 @@ public class PanneauInitialisation extends javax.swing.JPanel {
         jSliderHauteur.setPaintLabels(true);
         jSliderHauteur.setPaintTicks(true);
         jSliderHauteur.setSnapToTicks(true);
-        jSliderHauteur.setToolTipText(jSliderHauteur.getValue()+"");
+        jSliderHauteur.setToolTipText(jSliderHauteur.getValue() + "");
         jSliderHauteur.setValue(10);
         jSliderHauteur.setBorder(javax.swing.BorderFactory.createTitledBorder("Hauteur"));
         jSliderHauteur.setEnabled(false);
@@ -169,7 +182,7 @@ public class PanneauInitialisation extends javax.swing.JPanel {
         jSliderLargeur.setPaintLabels(true);
         jSliderLargeur.setPaintTicks(true);
         jSliderLargeur.setSnapToTicks(true);
-        jSliderLargeur.setToolTipText(jSliderLargeur.getValue()+"");
+        jSliderLargeur.setToolTipText(jSliderLargeur.getValue() + "");
         jSliderLargeur.setValue(10);
         jSliderLargeur.setBorder(javax.swing.BorderFactory.createTitledBorder("Largeur"));
         jSliderLargeur.setEnabled(false);
@@ -192,25 +205,55 @@ public class PanneauInitialisation extends javax.swing.JPanel {
         });
 
         //debut ajout
-        jSliderJauge.setMajorTickSpacing(9);
-        jSliderJauge.setMinimum(1);
-        jSliderJauge.setMinorTickSpacing(1);
-        jSliderJauge.setPaintLabels(true);
-        jSliderJauge.setPaintTicks(true);
-        jSliderJauge.setSnapToTicks(true);
-        jSliderJauge.setToolTipText(jSliderJauge.getValue()+"");
-        jSliderJauge.setValue(10);
-        jSliderJauge.setBorder(javax.swing.BorderFactory.createTitledBorder("Jauge"));
-        jSliderJauge.setEnabled(false);
-        jSliderJauge.addChangeListener(new javax.swing.event.ChangeListener() {
+        jSliderNombrePas.setMajorTickSpacing(5);
+        jSliderNombrePas.setMinimum(5);
+        jSliderNombrePas.setMinorTickSpacing(1);
+        jSliderNombrePas.setPaintLabels(true);
+        jSliderNombrePas.setPaintTicks(true);
+        jSliderNombrePas.setSnapToTicks(true);
+        jSliderNombrePas.setToolTipText(jSliderNombrePas.getValue() + "");
+        jSliderNombrePas.setValue(10);
+        jSliderNombrePas.setBorder(javax.swing.BorderFactory.createTitledBorder("Nombre de Pas"));
+        jSliderNombrePas.setEnabled(false);
+        jSliderNombrePas.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jSliderJaugeStateChanged(evt);
+                jSliderNombrePasStateChanged(evt);
             }
         });
 
-        jaugeDefinie.addActionListener(new java.awt.event.ActionListener() {
+        nombrePasDefinie.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jaugeDefinieActionPerformed(evt);
+                nombrePasDefinieActionPerformed(evt);
+            }
+        });
+
+        nombrePasExacteDefinie.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                nombrePasExactDefineActionPerformed(e);
+
+            }
+        });
+
+        textNombrePasExact.setColumns(1);
+        textNombrePasExact.setRows(1);
+        textNombrePasExact.setEditable(false);
+        textNombrePasExact.setBorder(javax.swing.BorderFactory.createTitledBorder("Nombre de Pas Exacte"));
+        textNombrePasExact.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                textNombrePasExactStateChanged(e);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                textNombrePasExactStateChanged(e);
+
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                textNombrePasExactStateChanged(e);
             }
         });
         //fin ajout
@@ -218,68 +261,76 @@ public class PanneauInitialisation extends javax.swing.JPanel {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelPositionRobot)
-                            .addComponent(labelOrientationRobot)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(comboOrientationRobot, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(comboPositionRobot, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(labelPositionMinerai)
-                                    .addComponent(jCheckBoxMinerai)
-                                    .addComponent(comboPositionMinerai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(largeurDefinie)
-                            .addComponent(hauteurDefinie)
-                            //debut ajout
-                            .addComponent(jaugeDefinie))
-                            //fin ajout
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSliderHauteur, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
-                            .addComponent(jSliderLargeur, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
-                                .addComponent(jSliderJauge, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE))
-                        .addContainerGap())))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(labelPositionRobot)
+                                                        .addComponent(labelOrientationRobot)
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                                        .addComponent(comboOrientationRobot, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                        .addComponent(comboPositionRobot, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addGap(18, 18, 18)
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addComponent(labelPositionMinerai)
+                                                                        .addComponent(jCheckBoxMinerai)
+                                                                        .addComponent(comboPositionMinerai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                .addContainerGap())
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                        .addComponent(largeurDefinie)
+                                                        .addComponent(hauteurDefinie)
+                                                        //debut ajout
+                                                        .addComponent(nombrePasDefinie)
+                                                        .addComponent(nombrePasExacteDefinie))
+                                                //fin ajout
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(jSliderHauteur, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
+                                                        .addComponent(jSliderLargeur, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
+                                                        .addComponent(jSliderNombrePas, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE) //ajout Ambre
+                                                        .addComponent(textNombrePasExact, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE))
+                                                .addContainerGap())))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(labelOrientationRobot)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(comboOrientationRobot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBoxMinerai))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelPositionRobot)
-                    .addComponent(labelPositionMinerai))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(comboPositionRobot, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(comboPositionMinerai, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(hauteurDefinie)
-                    .addComponent(jSliderHauteur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSliderLargeur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(largeurDefinie))
-                    //debut ajout
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSliderJauge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jaugeDefinie))
-                    //fin ajout
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addComponent(labelOrientationRobot)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(comboOrientationRobot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jCheckBoxMinerai))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(labelPositionRobot)
+                                        .addComponent(labelPositionMinerai))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(comboPositionRobot, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(comboPositionMinerai, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(hauteurDefinie)
+                                        .addComponent(jSliderHauteur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jSliderLargeur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(largeurDefinie))
+                                //debut ajout
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jSliderNombrePas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(nombrePasDefinie))
+
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(textNombrePasExact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(nombrePasExacteDefinie))
+
+
+                                //fin ajout
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -295,18 +346,18 @@ public class PanneauInitialisation extends javax.swing.JPanel {
     private void comboOrientationRobotItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboOrientationRobotItemStateChanged
         // TODO add your handling code here:
         if (changementInterne) return;
-        initialisation.setOrientationRobot(comboOrientationRobot.getSelectedIndex()-1);
+        initialisation.setOrientationRobot(comboOrientationRobot.getSelectedIndex() - 1);
     }//GEN-LAST:event_comboOrientationRobotItemStateChanged
 
     private void comboPositionRobotItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboPositionRobotItemStateChanged
         // TODO add your handling code here:
         if (changementInterne) return;
-        initialisation.setPositionRobot(comboPositionRobot.getSelectedIndex()-1);
+        initialisation.setPositionRobot(comboPositionRobot.getSelectedIndex() - 1);
     }//GEN-LAST:event_comboPositionRobotItemStateChanged
 
     private void comboPositionMineraiItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboPositionMineraiItemStateChanged
         if (changementInterne) return;
-        initialisation.setPositionMinerai(comboPositionMinerai.getSelectedIndex()-1);
+        initialisation.setPositionMinerai(comboPositionMinerai.getSelectedIndex() - 1);
     }//GEN-LAST:event_comboPositionMineraiItemStateChanged
 
     private void largeurDefinieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_largeurDefinieActionPerformed
@@ -314,7 +365,7 @@ public class PanneauInitialisation extends javax.swing.JPanel {
         jSliderLargeur.setEnabled(largeurDefinie.isSelected());
         initialisation.setPresenceLargeur(largeurDefinie.isSelected());
         initialisation.setLargeur(jSliderLargeur.getValue());
-      
+
     }//GEN-LAST:event_largeurDefinieActionPerformed
 
     private void hauteurDefinieStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_hauteurDefinieStateChanged
@@ -324,50 +375,76 @@ public class PanneauInitialisation extends javax.swing.JPanel {
         initialisation.setHauteur(jSliderHauteur.getValue());
     }//GEN-LAST:event_hauteurDefinieStateChanged
 
-private void jSliderHauteurStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderHauteurStateChanged
+    private void jSliderHauteurStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderHauteurStateChanged
         if (changementInterne) return;
-    initialisation.setHauteur(jSliderHauteur.getValue());
-}//GEN-LAST:event_jSliderHauteurStateChanged
+        initialisation.setHauteur(jSliderHauteur.getValue());
+    }//GEN-LAST:event_jSliderHauteurStateChanged
 
-private void jSliderLargeurStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderLargeurStateChanged
+    private void jSliderLargeurStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderLargeurStateChanged
         if (changementInterne) return;
-    initialisation.setLargeur(jSliderLargeur.getValue());
-}//GEN-LAST:event_jSliderLargeurStateChanged
+        initialisation.setLargeur(jSliderLargeur.getValue());
+    }//GEN-LAST:event_jSliderLargeurStateChanged
 
 
     //debut ajout
-    private void jSliderJaugeStateChanged(javax.swing.event.ChangeEvent evt){//GEN-FIRST:event_jSliderJaugeStateChanged
+    private void jSliderNombrePasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderJaugeStateChanged
         if (changementInterne) return;
-        initialisation.setJauge(jSliderJauge.getValue());
+        initialisation.setJauge(jSliderNombrePas.getValue());
     }//GEN-LAST:event_jSliderJaugeStateChanged
 
-    private void jaugeDefinieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jaugeDefinieActionPerformed
+    private void nombrePasDefinieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jaugeDefinieActionPerformed
         if (changementInterne) return;
-        jSliderJauge.setEnabled(jaugeDefinie.isSelected());
-        initialisation.setPresenceJauge(jaugeDefinie.isSelected());
-        initialisation.setJauge(jSliderJauge.getValue());
+        jSliderNombrePas.setEnabled(nombrePasDefinie.isSelected());
+        nombrePasExacteDefinie.setEnabled(!nombrePasDefinie.isSelected());
+        initialisation.setPresenceJauge(nombrePasDefinie.isSelected());
+        initialisation.setJauge(jSliderNombrePas.getValue());
+
 
     }//GEN-LAST:event_jaugeDefinieActionPerformed
+
+    private void nombrePasExactDefineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jaugeDefinieActionPerformed
+        if (changementInterne) return;
+        textNombrePasExact.setEnabled(nombrePasExacteDefinie.isSelected());
+        textNombrePasExact.setEditable(nombrePasExacteDefinie.isSelected());
+        nombrePasDefinie.setEnabled(!nombrePasExacteDefinie.isSelected());
+        initialisation.setPresenceTextArea(nombrePasExacteDefinie.isSelected());
+        initialisation.setTextArea(textNombrePasExact.getText());
+
+
+    }//GEN-LAST:event_jaugeDefinieActionPerformed
+
+    private void textNombrePasExactStateChanged(DocumentEvent evt) {//GEN-FIRST:event_jSliderJaugeStateChanged
+        if (changementInterne) return;
+        int nombrePas = Integer.parseInt(textNombrePasExact.getText());
+
+        if (nombrePas > 0 && nombrePas<= 100) {
+            initialisation.setJauge(nombrePas);
+            initialisation.setTextArea(textNombrePasExact.getText());
+
+        }
+    }//GEN-LAST:event_jSliderJaugeStateChanged
 
     // fin ajout
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox comboOrientationRobot;
-    private javax.swing.JComboBox comboPositionMinerai;
-    private javax.swing.JComboBox comboPositionRobot;
-    private javax.swing.JCheckBox hauteurDefinie;
-    private javax.swing.JCheckBox jCheckBoxMinerai;
-    private javax.swing.JSlider jSliderHauteur;
-    private javax.swing.JSlider jSliderLargeur;
-    private javax.swing.JLabel labelOrientationRobot;
-    private javax.swing.JLabel labelPositionMinerai;
-    private javax.swing.JLabel labelPositionRobot;
-    private javax.swing.JCheckBox largeurDefinie;
+    private JComboBox comboOrientationRobot;
+    private JComboBox comboPositionMinerai;
+    private JComboBox comboPositionRobot;
+    private JCheckBox hauteurDefinie;
+    private JCheckBox jCheckBoxMinerai;
+    private JSlider jSliderHauteur;
+    private JSlider jSliderLargeur;
+    private JLabel labelOrientationRobot;
+    private JLabel labelPositionMinerai;
+    private JLabel labelPositionRobot;
+    private JCheckBox largeurDefinie;
 
     //debut ajout
-    private javax.swing.JSlider jSliderJauge;
-    private javax.swing.JCheckBox jaugeDefinie;
+    private JSlider jSliderNombrePas;
+    private JCheckBox nombrePasDefinie;
+    private JTextArea textNombrePasExact = new JTextArea();
+    private JCheckBox nombrePasExacteDefinie;
     // End of variables declaration//GEN-END:variables
 
     public Initialisation getInitialisation() {

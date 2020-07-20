@@ -501,7 +501,8 @@ public class Robot implements Cellule, Runnable {
             return;
         }
         //debut ajout
-        if(nombrePas!=-1) {
+        System.out.println("tititititi "+ nombrePas );
+        if(nombrePas>0) {
             decrementerPas();
         }
         //fin ajout
@@ -521,7 +522,8 @@ public class Robot implements Cellule, Runnable {
         Thread.sleep(duréeReference);
 
         //debut ajout
-        if(nombrePas!=-1) {
+
+        if(nombrePas>0) {
             decrementerPas();
         }
         //fin ajout
@@ -530,36 +532,37 @@ public class Robot implements Cellule, Runnable {
 
     //debut ajout
     public void decrementerPas() throws TropDePas{
-        System.out.println("je savoir "+ nombreDepPas);
 
 
-            if(this.nombrePas <= this.nombreDepPas && this.nombrePas > this.nombreDepPas * 0.75 ){
+
+            if(this.nombrePas*1.0 > this.nombreDepPas * 0.75 ){
                 imageOrientation(vers,0);
                 System.out.println("T'es au top");
 
-            } else if(this.nombrePas <= this.nombreDepPas * 0.75 && this.nombrePas > this.nombreDepPas * 0.50 ){
+            } else if(this.nombrePas*1.0 <= this.nombreDepPas * 0.75 && this.nombrePas*1.0 > this.nombreDepPas * 0.50 ){
                 imageOrientation(vers, 1);
                 System.out.println("Ca va encore");
 
-            } else if(this.nombrePas <= this.nombreDepPas * 0.50 && this.nombrePas > this.nombreDepPas * 0.25 ){
+            } else if(this.nombrePas*1.0 <= this.nombreDepPas * 0.50 && this.nombrePas*1.0 > this.nombreDepPas * 0.25 ){
                 imageOrientation(vers, 2);
                 System.out.println("bientot c'est fini");
 
-            } else{
+            } else if (nombrePas>0){
                 imageOrientation(vers,3);
                 System.out.println("tu dead pas ca, t'es dead la");
 
             }
 
             this.nombrePas--;
-            System.out.println("je rentre ici "+ this.nombrePas);
+        System.out.println(nombrePas);
             if (this.nombrePas == 0) {
                 nombrePas=-1;
                 imageOrientation(vers, 4);
-                System.out.println("je stop "+ this.nombrePas);
-                throw new TropDePas();
+
+                //throw new TropDePas();
 
             }
+
 
     }
 
