@@ -141,16 +141,14 @@ public class PanneauCommande extends javax.swing.JPanel {
                                         .addGroup(layout.createSequentialGroup()
                                                 .addComponent(tourne)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(change))
+                                                .addComponent(efface))
                                         .addGroup(layout.createSequentialGroup()
                                                 .addComponent(avance)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(marque))
-                                        /*.addGroup(layout.createSequentialGroup()
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED))
-                                                .addComponent(change)*/)
+                                                .addComponent(marque)))
                                 .addGap(44, 44, 44)
                                 .addComponent(sliderDuréeAction, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(change) //Ajouté par Sélim
                                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -163,13 +161,13 @@ public class PanneauCommande extends javax.swing.JPanel {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                         .addComponent(avance, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(marque, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        /*.addComponent(change, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)*/)
+                                                        .addComponent(marque, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                         .addComponent(tourne)
-                                                        .addComponent(change)))
-                                        .addComponent(sliderDuréeAction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                        .addComponent(efface)))
+                                        .addComponent(sliderDuréeAction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(change, GroupLayout.PREFERRED_SIZE,23, GroupLayout.PREFERRED_SIZE))//Ajouté par Sélim
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -213,12 +211,13 @@ public class PanneauCommande extends javax.swing.JPanel {
 
     private void changeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_avanceActionPerformed
         // TODO add your handling code here:
-        frameParente.setRobot(frameParente.getRobot().suivant());
+        frameParente.setRobot(frameParente.getRobot().getRobotSuivant());
     }//Ajouté par Sélim
 
     public int getDuree() {
         return sliderDuréeAction.getValue();
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton avance;

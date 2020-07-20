@@ -49,9 +49,10 @@ public class BoiteDeDialogueInit extends JDialog {
     
     private PanneauInitialisation panneauInit;
     private Detachable environnement;
-    private JButton valider = new JButton("initialisation");
-    private JButton annuler = new JButton("annulation");
-    
+    private JButton valider = new JButton("Initialiser");
+    private JButton annuler = new JButton("Annuler");
+
+
     private boolean reponse = false;
     public BoiteDeDialogueInit(Detachable environnement) {
         super((Dialog)null, "Initialisation");
@@ -70,6 +71,7 @@ public class BoiteDeDialogueInit extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
                 reponse = false;
+                panneauInit.selectionneRobotUn();
             }
         });
       
@@ -78,6 +80,7 @@ public class BoiteDeDialogueInit extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
+
                 reponse = true;
             }
         });
