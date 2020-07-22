@@ -71,7 +71,7 @@ public class BoiteDeDialogueInit extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
                 reponse = false;
-                panneauInit.selectionneRobotUn();
+                panneauInit.selectionneRobot(1);
             }
         });
       
