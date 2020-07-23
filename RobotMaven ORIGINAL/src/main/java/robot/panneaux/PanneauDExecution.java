@@ -111,6 +111,7 @@ public class PanneauDExecution extends JPanel {
                             PanneauDExecution.this.fenetreRobot.getTerrain().revalidate();
                         }
                         PanneauDExecution.this.fenetreRobot.getRobot().execute(instruction);
+
                         try {
 
                             Thread.sleep(1000);

@@ -559,7 +559,7 @@ public class Robot implements Cellule, Runnable {
                 nombrePas=-1;
                 imageOrientation(vers, 4);
 
-                //throw new TropDePas();
+                throw new TropDePas();
 
             }
 
@@ -594,6 +594,7 @@ public class Robot implements Cellule, Runnable {
         programme = i;
         stop();
         processus = new Thread(this);
+
         //processus.setDaemon(true);
         processus.start();
 

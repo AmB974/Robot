@@ -45,7 +45,7 @@ import terrain.Terrain;
  */
 public class Initialisation implements Serializable {
 
-    public static int NBROBOTS = 4;//Ajouté par Sélim
+    public static int NBROBOTS = 1;//Ajouté par Sélim
 
     private static final long serialVersionUID = 1L;
 
