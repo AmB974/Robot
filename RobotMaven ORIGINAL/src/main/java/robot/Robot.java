@@ -473,6 +473,8 @@ public class Robot implements Cellule, Runnable {
             y = terrain.getNy() - 1;
         }
 
+
+
         Cellule cellule = terrain.get(x, y);
         if (cellule != this) {
             if (cellule instanceof Robot || cellule instanceof Mur) {
@@ -488,6 +490,12 @@ public class Robot implements Cellule, Runnable {
                 terrain.set(x, y, this);
             }
         }
+        //debut ajout
+
+        if(nombrePas>0) {
+            decrementerPas();
+        }
+        //fin ajout
 
         terrain.repaint(x * terrain.getTailleCelluleX(), y * terrain.getTailleCelluleY(), terrain.getTailleCelluleX(), terrain.getTailleCelluleY());
         terrain.repaint(xa * terrain.getTailleCelluleX(), ya * terrain.getTailleCelluleY(), terrain.getTailleCelluleX(), terrain.getTailleCelluleY());
@@ -500,12 +508,7 @@ public class Robot implements Cellule, Runnable {
 
             return;
         }
-        //debut ajout
-        System.out.println("tititititi "+ nombrePas );
-        if(nombrePas>0) {
-            decrementerPas();
-        }
-        //fin ajout
+
 
     }
 
@@ -517,9 +520,6 @@ public class Robot implements Cellule, Runnable {
     public void tourne() throws InterruptedException, TropDePas {
         vers = tOrientation[(vers.direction + 1) % 4];
         image = imageSelonOrientation();
-        terrain.repaint(x * terrain.getTailleCelluleX(), y * terrain.getTailleCelluleY(), terrain.getTailleCelluleX(), terrain.getTailleCelluleY());
-
-        Thread.sleep(duréeReference);
 
         //debut ajout
 
@@ -527,6 +527,12 @@ public class Robot implements Cellule, Runnable {
             decrementerPas();
         }
         //fin ajout
+
+        terrain.repaint(x * terrain.getTailleCelluleX(), y * terrain.getTailleCelluleY(), terrain.getTailleCelluleX(), terrain.getTailleCelluleY());
+
+        Thread.sleep(duréeReference);
+
+
 
     }
 
@@ -537,19 +543,19 @@ public class Robot implements Cellule, Runnable {
 
             if(this.nombrePas*1.0 > this.nombreDepPas * 0.75 ){
                 imageOrientation(vers,0);
-                System.out.println("T'es au top");
+
 
             } else if(this.nombrePas*1.0 <= this.nombreDepPas * 0.75 && this.nombrePas*1.0 > this.nombreDepPas * 0.50 ){
                 imageOrientation(vers, 1);
-                System.out.println("Ca va encore");
+
 
             } else if(this.nombrePas*1.0 <= this.nombreDepPas * 0.50 && this.nombrePas*1.0 > this.nombreDepPas * 0.25 ){
                 imageOrientation(vers, 2);
-                System.out.println("bientot c'est fini");
+
 
             } else if (nombrePas>0){
                 imageOrientation(vers,3);
-                System.out.println("tu dead pas ca, t'es dead la");
+
 
             }
 
@@ -558,6 +564,8 @@ public class Robot implements Cellule, Runnable {
             if (this.nombrePas == 0) {
                 nombrePas=-1;
                 imageOrientation(vers, 4);
+                enMarche=false;
+                terrain.repaint();
 
                 throw new TropDePas();
 
@@ -613,6 +621,7 @@ public class Robot implements Cellule, Runnable {
     @Override
     public synchronized void run() {
         try {
+
             terrain.repaint();
             Thread.sleep(500);
             enMarche = true;
@@ -650,6 +659,8 @@ public class Robot implements Cellule, Runnable {
 
         } catch (TropDePas tropDePas) {
             tropDePas.printStackTrace();
+
+
         }
     }
 

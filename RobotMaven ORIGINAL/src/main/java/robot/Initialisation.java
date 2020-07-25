@@ -332,17 +332,12 @@ public class Initialisation implements Serializable {
         frameParente.getPanneauTerrain().add(frameParente.getTerrain(), "Center");
 
         //debut ajout Ambre
-        if(frameParente.getProgramme().getInitialisation().isPresenceJauge() && !(frameParente.getProgramme().getInitialisation().isPresenceTextArea())){
+        if(frameParente.getProgramme().getInitialisation().isPresenceJauge()){
             frameParente.getRobot().setNombrePas(frameParente.getProgramme().getInitialisation().getJauge());
             frameParente.getRobot().setNombreDepPas(frameParente.getProgramme().getInitialisation().getJauge());
-            System.out.println("ici ta race"+frameParente.getProgramme().getInitialisation().getJauge());
+
         }
 
-         else if(frameParente.getProgramme().getInitialisation().isPresenceTextArea() && !(frameParente.getProgramme().getInitialisation().isPresenceJauge())){
-            frameParente.getRobot().setNombrePas(frameParente.getProgramme().getInitialisation().getJauge());
-            frameParente.getRobot().setNombreDepPas(frameParente.getProgramme().getInitialisation().getJauge());
-            System.out.println("ici ta race a la main"+frameParente.getProgramme().getInitialisation().getJauge());
-        }
         //fin ajout
 
 

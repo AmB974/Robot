@@ -85,7 +85,6 @@ public class PanneauInitialisation extends javax.swing.JPanel {
         nombrePasDefinie.setSelected(initialisation.isPresenceJauge());
         jSliderNombrePas.setEnabled(initialisation.isPresenceJauge());
         jSliderNombrePas.setValue(initialisation.getJauge());
-        nombrePasExacteDefinie.setSelected(initialisation.isPresenceJauge());
         textNombrePasExact.setEnabled(initialisation.isPresenceTextArea());
 
         //fin ajout
@@ -119,7 +118,7 @@ public class PanneauInitialisation extends javax.swing.JPanel {
         //debut ajout
         jSliderNombrePas = new JSlider();
         nombrePasDefinie = new JCheckBox();
-        nombrePasExacteDefinie = new JCheckBox();
+
         textNombrePasExact = new JTextArea();
         // fin ajout
 
@@ -227,18 +226,11 @@ public class PanneauInitialisation extends javax.swing.JPanel {
             }
         });
 
-        nombrePasExacteDefinie.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                nombrePasExactDefineActionPerformed(e);
-
-            }
-        });
 
         textNombrePasExact.setColumns(1);
         textNombrePasExact.setRows(1);
         textNombrePasExact.setEditable(false);
-        textNombrePasExact.setBorder(javax.swing.BorderFactory.createTitledBorder("Nombre de Pas Exacte"));
+        textNombrePasExact.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
         textNombrePasExact.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -285,7 +277,7 @@ public class PanneauInitialisation extends javax.swing.JPanel {
                                                         .addComponent(hauteurDefinie)
                                                         //debut ajout
                                                         .addComponent(nombrePasDefinie)
-                                                        .addComponent(nombrePasExacteDefinie))
+                                                )
                                                 //fin ajout
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -326,7 +318,7 @@ public class PanneauInitialisation extends javax.swing.JPanel {
 
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(textNombrePasExact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(nombrePasExacteDefinie))
+                                )
 
 
                                 //fin ajout
@@ -389,39 +381,47 @@ public class PanneauInitialisation extends javax.swing.JPanel {
     //debut ajout
     private void jSliderNombrePasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderJaugeStateChanged
         if (changementInterne) return;
-        initialisation.setJauge(jSliderNombrePas.getValue());
+        if(!testChiffre) {
+            initialisation.setJauge(jSliderNombrePas.getValue());
+            textNombrePasExact.setText(jSliderNombrePas.getValue() + "");
+        }else if(testChiffre){
+            testChiffre= false;
+        }
     }//GEN-LAST:event_jSliderJaugeStateChanged
 
     private void nombrePasDefinieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jaugeDefinieActionPerformed
         if (changementInterne) return;
         jSliderNombrePas.setEnabled(nombrePasDefinie.isSelected());
-        nombrePasExacteDefinie.setEnabled(!nombrePasDefinie.isSelected());
+        textNombrePasExact.setEnabled(nombrePasDefinie.isSelected());
+        textNombrePasExact.setEditable(nombrePasDefinie.isSelected());
         initialisation.setPresenceJauge(nombrePasDefinie.isSelected());
         initialisation.setJauge(jSliderNombrePas.getValue());
 
 
     }//GEN-LAST:event_jaugeDefinieActionPerformed
 
-    private void nombrePasExactDefineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jaugeDefinieActionPerformed
-        if (changementInterne) return;
-        textNombrePasExact.setEnabled(nombrePasExacteDefinie.isSelected());
-        textNombrePasExact.setEditable(nombrePasExacteDefinie.isSelected());
-        nombrePasDefinie.setEnabled(!nombrePasExacteDefinie.isSelected());
-        initialisation.setPresenceTextArea(nombrePasExacteDefinie.isSelected());
-        initialisation.setTextArea(textNombrePasExact.getText());
-
-
-    }//GEN-LAST:event_jaugeDefinieActionPerformed
 
     private void textNombrePasExactStateChanged(DocumentEvent evt) {//GEN-FIRST:event_jSliderJaugeStateChanged
         if (changementInterne) return;
         int nombrePas = Integer.parseInt(textNombrePasExact.getText());
 
-        if (nombrePas > 0 && nombrePas<= 100) {
-            initialisation.setJauge(nombrePas);
-            initialisation.setTextArea(textNombrePasExact.getText());
+        if (!testChiffre) {
 
+            if (nombrePas > 0 && nombrePas <= 100) {
+                initialisation.setJauge(nombrePas);
+                initialisation.setTextArea(textNombrePasExact.getText());
+                jSliderNombrePas.setValue(nombrePas);
+
+            } else if (nombrePas > 100) {
+                initialisation.setJauge(nombrePas);
+                initialisation.setTextArea(textNombrePasExact.getText());
+                jSliderNombrePas.setValue(100);
+            }
+            testChiffre= true;
+        }else if (testChiffre){
+            testChiffre= false;
         }
+
     }//GEN-LAST:event_jSliderJaugeStateChanged
 
     // fin ajout
@@ -444,7 +444,8 @@ public class PanneauInitialisation extends javax.swing.JPanel {
     private JSlider jSliderNombrePas;
     private JCheckBox nombrePasDefinie;
     private JTextArea textNombrePasExact = new JTextArea();
-    private JCheckBox nombrePasExacteDefinie;
+    private boolean testChiffre = false;
+
     // End of variables declaration//GEN-END:variables
 
     public Initialisation getInitialisation() {
