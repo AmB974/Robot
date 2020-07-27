@@ -53,7 +53,7 @@ import terrain.Terrain;
  */
 public class FramePrincipale extends JFrame implements Detachable {
 
-    private Robot robot=null;
+    private static Robot robot=null;
 
     //Ajouté par Sélim
 

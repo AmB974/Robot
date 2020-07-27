@@ -405,4 +405,14 @@ public class Initialisation implements Serializable {
         for (int i = 1; i < 5; ++i)
             robots[i].setRobots(robots);
     }
+
+    public static void setROBOTACTIF(int id)
+    {
+        ROBOTACTIF = id;
+    }
+
+    public int getROBOTACTIF()
+    {
+        return ROBOTACTIF;
+    }
 }

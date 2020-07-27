@@ -214,5 +214,10 @@ public class AppletPrincipale extends JApplet implements Detachable {
     public void setTitle(String nom) {
         
     }
+
+    public static void setRobot()
+    {
+
+    }
 }
 

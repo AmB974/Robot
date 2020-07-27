@@ -30,16 +30,22 @@
 package robot.panneaux;
 
 import interfaces.Detachable;
+import javafx.scene.Group;
+import javafx.scene.control.ComboBox;
 import robot.*;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 /**
  * @author Maillot
  */
-public class PanneauCommande extends javax.swing.JPanel {
+public class PanneauCommande extends JPanel {
     private static final long serialVersionUID = 1L;
 
     private Detachable frameParente;
@@ -62,14 +68,14 @@ public class PanneauCommande extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        sliderDuréeAction = new javax.swing.JSlider();
-        avance = new javax.swing.JButton();
-        tourne = new javax.swing.JButton();
-        stopLeRobot = new javax.swing.JButton();
-        marque = new javax.swing.JButton();
-        change = new javax.swing.JButton();
-        efface = new javax.swing.JButton();
-        image = new javax.swing.ImageIcon();
+        sliderDuréeAction = new JSlider();
+        avance = new JButton();
+        tourne = new JButton();
+        stopLeRobot = new JButton();
+        marque = new JButton();
+        change = new JButton();
+        efface = new JButton();
+        image = new ImageIcon();
 
         sliderDuréeAction.setMajorTickSpacing(50);
         sliderDuréeAction.setMaximum(300);
@@ -79,23 +85,23 @@ public class PanneauCommande extends javax.swing.JPanel {
         sliderDuréeAction.setSnapToTicks(true);
         sliderDuréeAction.setToolTipText("<html>\nDéfinit la durée de référence pour les déplacements du robot.<br>\nEn l'occurence, il s'agit du temps en millisecondes nécessaire au robot pour se déplacer d'une case.\n</html>");
         sliderDuréeAction.setValue(200);
-        sliderDuréeAction.setBorder(javax.swing.BorderFactory.createTitledBorder("Vitesse du robot"));
-        sliderDuréeAction.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+        sliderDuréeAction.setBorder(BorderFactory.createTitledBorder("Vitesse du robot"));
+        sliderDuréeAction.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent evt) {
                 sliderDuréeActionStateChanged(evt);
             }
         });
 
         avance.setText("Avance");
-        avance.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        avance.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 avanceActionPerformed(evt);
             }
         });
 
         tourne.setText("Tourne");
-        tourne.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        tourne.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 tourneActionPerformed(evt);
             }
         });
@@ -103,72 +109,80 @@ public class PanneauCommande extends javax.swing.JPanel {
         stopLeRobot.setText("Stoppe le robot");
         stopLeRobot.setToolTipText("<html>\nPour arrêter le robot<br>\nEn case d'erreur.\n</html>");
         stopLeRobot.setVisible(false);
-        stopLeRobot.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        stopLeRobot.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 stopLeRobotActionPerformed(evt);
             }
         });
 
         marque.setText("Marque");
-        marque.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        marque.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 marqueActionPerformed(evt);
             }
         });
 
         change.setText("Change");
-        change.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        change.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 changeActionPerformed(evt);
             }
         });
 
         efface.setText("Efface");
-        efface.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        efface.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 effaceActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        initialiseSelectionRobot();
+
+        GroupLayout layout = new GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                         .addComponent(stopLeRobot)
                                         .addGroup(layout.createSequentialGroup()
                                                 .addComponent(tourne)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(efface))
                                         .addGroup(layout.createSequentialGroup()
                                                 .addComponent(avance)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(marque)))
                                 .addGap(44, 44, 44)
-                                .addComponent(sliderDuréeAction, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(change) //Ajouté par Sélim
+                                .addComponent(sliderDuréeAction, GroupLayout.PREFERRED_SIZE, 528, GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap()
+                                .addGap(44, 44, 44)
+                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addComponent(labelSelectionDuRobot)
+                                        .addComponent(comboRobotSelectionne,GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE))//Ajouté par Sélim
                                 .addContainerGap())
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                         .addGroup(layout.createSequentialGroup()
                                                 .addComponent(stopLeRobot)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(avance, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(marque, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(tourne)
-                                                        .addComponent(efface)))
-                                        .addComponent(sliderDuréeAction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(change, GroupLayout.PREFERRED_SIZE,23, GroupLayout.PREFERRED_SIZE))//Ajouté par Sélim
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(avance, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(marque, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(tourne, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(efface, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(sliderDuréeAction, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(labelSelectionDuRobot)
+                                            .addComponent(comboRobotSelectionne,GroupLayout.PREFERRED_SIZE, 30,GroupLayout.PREFERRED_SIZE)))//Ajouté par Sélim
+                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -214,8 +228,33 @@ public class PanneauCommande extends javax.swing.JPanel {
         frameParente.setRobot(frameParente.getRobot().getRobotSuivant());
     }//Ajouté par Sélim
 
+    private void comboRobotSelectionneDefinieActionPerformed(ActionEvent evt) {
+
+        Initialisation.setROBOTACTIF(comboRobotSelectionne.getSelectedIndex() + 1);
+    }// Ajouté par Sélim
+
     public int getDuree() {
         return sliderDuréeAction.getValue();
+    }
+
+    private void initialiseSelectionRobot()
+    {
+        labelSelectionDuRobot = new JLabel();
+        labelSelectionDuRobot.setText("Sélection du robot");
+
+        String s[] = new String[Initialisation.getNbRobots()];
+
+        for (int i = 0; i < Initialisation.getNbRobots(); ++i)
+            s[i] = "Robot " + (i + 1);
+
+        comboRobotSelectionne = new JComboBox();
+        comboRobotSelectionne.setModel(new DefaultComboBoxModel(s));
+        comboRobotSelectionne.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                comboRobotSelectionneDefinieActionPerformed(e);
+            }
+        });
     }
 
 
@@ -229,5 +268,10 @@ public class PanneauCommande extends javax.swing.JPanel {
     private javax.swing.JButton tourne;
     private javax.swing.ImageIcon image;
     // End of variables declaration//GEN-END:variables
+
+    private JLabel labelSelectionDuRobot;
+    private JComboBox comboRobotSelectionne;
+
+
 
 }

@@ -74,7 +74,6 @@ public class PanneauInitialisation extends JPanel {
     private JCheckBox jaugeDefinie;
     //fin ajout
 
-    private static int ROBOTSELECTIONNE = 1;
     private JComboBox comboRobotSelectionne;
     private JLabel labelSelectionDuRobot;
     //Ajouté par Sélim
@@ -242,12 +241,12 @@ public class PanneauInitialisation extends JPanel {
 
     private void comboOrientationRobotItemStateChanged(ActionEvent evt) {
         if (changementInterne) return;
-        initialisation.setOrientationRobot(comboOrientationRobot.getSelectedIndex() - 1, ROBOTSELECTIONNE);
+        initialisation.setOrientationRobot(comboOrientationRobot.getSelectedIndex() - 1, initialisation.getROBOTACTIF());
     }
 
     private void comboPositionRobotItemStateChanged(ActionEvent evt) {
         if (changementInterne) return;
-        initialisation.setPositionRobot(comboPositionRobot.getSelectedIndex() - 1, ROBOTSELECTIONNE);
+        initialisation.setPositionRobot(comboPositionRobot.getSelectedIndex() - 1, initialisation.getROBOTACTIF());
     }
 
     private void comboPositionMineraiItemStateChanged(ItemEvent evt) {
@@ -296,8 +295,8 @@ public class PanneauInitialisation extends JPanel {
     private void comboRobotSelectionneDefinieActionPerformed(ActionEvent evt) {
         if (changementInterne) return;
         selectionneRobot(comboRobotSelectionne.getSelectedIndex() + 1);
-        initialisation.setPositionRobot(comboPositionRobot.getSelectedIndex() - 1, ROBOTSELECTIONNE);
-        initialisation.setOrientationRobot(comboOrientationRobot.getSelectedIndex() - 1, ROBOTSELECTIONNE);
+        initialisation.setPositionRobot(comboPositionRobot.getSelectedIndex() - 1, initialisation.getROBOTACTIF());
+        initialisation.setOrientationRobot(comboOrientationRobot.getSelectedIndex() - 1, initialisation.getROBOTACTIF());
     }// Ajouté par Sélim
 
     public Initialisation getInitialisation() {
@@ -305,7 +304,7 @@ public class PanneauInitialisation extends JPanel {
     }
 
     public static void selectionneRobot(int id) {
-        ROBOTSELECTIONNE = id;
+        Initialisation.setROBOTACTIF(id);
     }//Ajouté par Sélim
 
     private void initialiseSelectionRobot()
