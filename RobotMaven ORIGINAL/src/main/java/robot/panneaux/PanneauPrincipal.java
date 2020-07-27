@@ -522,7 +522,8 @@ public class PanneauPrincipal extends JPanel {
                     instruction = new Avance(/*
                              * PanneauPrincipal.this.frameParente.getRobot()
                              */);
-                } else if (source == boutonTourne) {
+                }
+                else if (source == boutonTourne) {
                     instruction = new Tourne(/*
                              * PanneauPrincipal.this.frameParente.getRobot()
                              */);
@@ -686,6 +687,7 @@ public class PanneauPrincipal extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 PanneauPrincipal.this.frameParente.montreDialInit();
+                Initialisation.setROBOTACTIF(1);
             }
         });
 

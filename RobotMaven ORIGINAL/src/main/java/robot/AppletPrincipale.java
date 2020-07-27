@@ -42,12 +42,6 @@ import terrain.Terrain;
  */
 public class AppletPrincipale extends JApplet implements Detachable {
 
-
-    private int NBMAXROBOTS=4;
-    private Robot[] robots = new Robot[NBMAXROBOTS];
-    private int ROBOTACTIF=1;
-    //Ajouté par Sélim
-
     private static final long serialVersionUID = 1L;
 
     private static Random random = new Random();
@@ -55,7 +49,7 @@ public class AppletPrincipale extends JApplet implements Detachable {
     private PanneauPrincipal panneauPrincipal;
     private PanneauTerrain panneauTerrain = new PanneauTerrain();
     private Terrain terrain;
-    private Robot robot = null;
+    private Robot robot;
     private PanneauCommande panneauCommande;
     private Programme programme;
     private JSplitPane splitPane;
@@ -120,11 +114,6 @@ public class AppletPrincipale extends JApplet implements Detachable {
             terrain.revalidate();
         }
     }
-
- 
-
-
-
 
     @Override
     public void init() {
@@ -226,26 +215,9 @@ public class AppletPrincipale extends JApplet implements Detachable {
         
     }
 
-    @Override
-    public void idSuivant()
+    public static void setRobot()
     {
-        if(this.ROBOTACTIF!=4)
-            this.ROBOTACTIF++;
-        else
-            this.ROBOTACTIF = 4;
-    }//Ajouté par Sélim
 
-    @Override
-    public void switchRobot()
-    {
-        idSuivant();
-        setRobot(robots[ROBOTACTIF]);
-    }//Ajouté par Sélim
-
-
-
-
-
-
+    }
 }
 

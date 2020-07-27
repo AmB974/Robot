@@ -2,35 +2,35 @@
  * Creative commons CC BY-NC-SA 2020 Yvan Maillot <yvan.maillot@uha.fr>
  *
  *     Share - You can copy and redistribute the material in any medium or format
- * 
- *     Adapt - You can remix, transform, and build upon the material 
- * 
+ *
+ *     Adapt - You can remix, transform, and build upon the material
+ *
  * Under the following terms :
- * 
- *     Attribution - You must give appropriate credit, provide a link to the license, 
- *     and indicate if changes were made. You may do so in any reasonable manner, 
- *     but not in any way that suggests the licensor endorses you or your use. 
- * 
- *     NonCommercial — You may not use the material for commercial purposes. 
- * 
- *     ShareAlike — If you remix, transform, or build upon the material, 
- *     you must distribute your contributions under the same license as the original. 
- * 
- * Notices:    You do not have to comply with the license for elements of 
- *             the material in the public domain or where your use is permitted 
- *             by an applicable exception or limitation. 
- * 
- * No warranties are given. The license may not give you all of the permissions 
- * necessary for your intended use. For example, other rights such as publicity, 
- * privacy, or moral rights may limit how you use the material. 
- * 
+ *
+ *     Attribution - You must give appropriate credit, provide a link to the license,
+ *     and indicate if changes were made. You may do so in any reasonable manner,
+ *     but not in any way that suggests the licensor endorses you or your use.
+ *
+ *     NonCommercial — You may not use the material for commercial purposes.
+ *
+ *     ShareAlike — If you remix, transform, or build upon the material,
+ *     you must distribute your contributions under the same license as the original.
+ *
+ * Notices:    You do not have to comply with the license for elements of
+ *             the material in the public domain or where your use is permitted
+ *             by an applicable exception or limitation.
+ *
+ * No warranties are given. The license may not give you all of the permissions
+ * necessary for your intended use. For example, other rights such as publicity,
+ * privacy, or moral rights may limit how you use the material.
+ *
  * See <https://creativecommons.org/licenses/by-nc-sa/4.0/>.
  */
 package robot;
 
 import instruction.Instruction;
-import java.awt.Color;
-import java.awt.Image;
+
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
@@ -85,24 +85,41 @@ public class Robot implements Cellule, Runnable {
     private int numeroImage = 0;
 
     //debut ajout
-    private int nombrePas=-1;
+    private int nombrePas = -1;
     private int nombreDepPas;
-    public int getNombrePas(){ return this.nombrePas;}
-    public void setNombrePas(int nombrePas){ this.nombrePas=nombrePas;}
-    public void setNombreDepPas(int nombreDepPas){ this.nombreDepPas = nombreDepPas;}
+
+    public int getNombrePas() {
+        return this.nombrePas;
+    }
+
+    public void setNombrePas(int nombrePas) {
+        this.nombrePas = nombrePas;
+    }
+
+    public void setNombreDepPas(int nombreDepPas) {
+        this.nombreDepPas = nombreDepPas;
+    }
+
     private Image[] robotTest = new Image[1];
     private Image[] robotTestprem = new Image[1];
     //fin ajout
 
-    private static AtomicInteger cpt = new AtomicInteger(0);
-    private final int ID;
 
-    public int getID()
-    {
+    private static Integer cpt = 0;
+    private Robot[] robots = new Robot[NBROBOTS + 1];
+    private final int ID;
+    private static int NBROBOTS = Initialisation.getNbRobots();//--------------------------------- A mettre en place
+    //Ajouté par Sélim
+
+
+    public int getID() {
         return this.ID;
     }
 
-
+    public void setRobots(Robot[] r) {
+        this.robots = r;
+    }
+    //Ajouté par Sélim
 
     public Cellule quoiDessous() {
         return passage;
@@ -187,7 +204,9 @@ public class Robot implements Cellule, Runnable {
             pasy = py;
             direction = ix;
         }
-    };
+    }
+
+    ;
 
 
     /*
@@ -230,7 +249,7 @@ public class Robot implements Cellule, Runnable {
         terrain.set(x, y, this);
 
         try {
-            
+
             robotEprem[0] = ImageIO.read(Robot.class.getResource("/images/robotVersEst.png"));
             robotSprem[0] = ImageIO.read(Robot.class.getResource("/images/robotVersSud.png"));
             robotOprem[0] = ImageIO.read(Robot.class.getResource("/images/robotVersOuest.png"));
@@ -292,7 +311,7 @@ public class Robot implements Cellule, Runnable {
             robotCasse[3] = robotCasseprem[3].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
 
             robotTestprem[0] = ImageIO.read(Robot.class.getResource("/images/smileTest.png"));
-            robotTest[0] = robotTestprem[0].getScaledInstance(terrain.getTailleCelluleX(),terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotTest[0] = robotTestprem[0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
 
         } catch (IOException ex) {
             Logger.getLogger(Robot.class.getName()).log(Level.SEVERE, null, ex);
@@ -311,32 +330,57 @@ public class Robot implements Cellule, Runnable {
     public Robot(Terrain terrain) {
         init(terrain, random.nextInt(terrain.getNx()), random.nextInt(terrain.getNy()), random.nextInt(4), new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256)));
         lancementAnimation();
-        ID = cpt.incrementAndGet(); //Ajouté par Sélim
+        if (cpt < NBROBOTS)
+            ID = ++cpt;
+        else {
+            cpt = 1;
+            ID = cpt;
+        } //Ajouté par Sélim
 
     }
 
     public Robot(Terrain terrain, int x, int y) {
         init(terrain, x, y, random.nextInt(4), new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256)));
         lancementAnimation();
-        ID = cpt.incrementAndGet(); //Ajouté par Sélim
+        if (cpt < NBROBOTS)
+            ID = ++cpt;
+        else {
+            cpt = 1;
+            ID = cpt;
+        } //Ajouté par Sélim
     }
 
     public Robot(Terrain terrain, int x, int y, Color couleur) {
         init(terrain, x, y, random.nextInt(4), new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256)));
         lancementAnimation();
-        ID = cpt.incrementAndGet(); //Ajouté par Sélim
+        if (cpt < NBROBOTS)
+            ID = ++cpt;
+        else {
+            cpt = 1;
+            ID = cpt;
+        } //Ajouté par Sélim
     }
 
     public Robot(Terrain terrain, Color couleur) {
         init(terrain, random.nextInt(terrain.getNx()), random.nextInt(terrain.getNy()), random.nextInt(4), couleur);
         lancementAnimation();
-        ID = cpt.incrementAndGet(); //Ajouté par Sélim
+        if (cpt < NBROBOTS)
+            ID = ++cpt;
+        else {
+            cpt = 1;
+            ID = cpt;
+        } //Ajouté par Sélim
     }
 
     public Robot(Terrain terrain, int x, int y, int dir) {
         init(terrain, x, y, dir, new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256)));
         lancementAnimation();
-        ID = cpt.incrementAndGet(); //Ajouté par Sélim
+        if (cpt < NBROBOTS)
+            ID = ++cpt;
+        else {
+            cpt = 1;
+            ID = cpt;
+        } //Ajouté par Sélim
     }
 
     /**
@@ -425,7 +469,7 @@ public class Robot implements Cellule, Runnable {
             return;
         }
         //debut ajout
-        if(nombrePas!=-1) {
+        if (nombrePas != -1) {
             decrementerPas();
         }
         //fin ajout
@@ -445,62 +489,59 @@ public class Robot implements Cellule, Runnable {
         Thread.sleep(duréeReference);
 
         //debut ajout
-        if(nombrePas!=-1) {
+        if (nombrePas != -1) {
             decrementerPas();
         }
         //fin ajout
-
     }
 
     //debut ajout
-    public void decrementerPas() throws TropDePas{
-        System.out.println("je savoir "+ nombreDepPas);
+    public void decrementerPas() throws TropDePas {
+        System.out.println("je savoir " + nombreDepPas);
 
 
-            if(this.nombrePas <= this.nombreDepPas && this.nombrePas > this.nombreDepPas * 0.75 ){
-                imageOrientation(vers);
-                System.out.println("T'es au top");
+        if (this.nombrePas <= this.nombreDepPas && this.nombrePas > this.nombreDepPas * 0.75) {
+            imageOrientation(vers);
+            System.out.println("T'es au top");
 
-            } else if(this.nombrePas <= this.nombreDepPas * 0.75 && this.nombrePas > this.nombreDepPas * 0.50 ){
-                imageOrientation(vers);
-                System.out.println("Ca va encore");
+        } else if (this.nombrePas <= this.nombreDepPas * 0.75 && this.nombrePas > this.nombreDepPas * 0.50) {
+            imageOrientation(vers);
+            System.out.println("Ca va encore");
 
-            } else if(this.nombrePas <= this.nombreDepPas * 0.50 && this.nombrePas > this.nombreDepPas * 0.25 ){
-                imageOrientation(vers);
-                System.out.println("bientot c'est fini");
+        } else if (this.nombrePas <= this.nombreDepPas * 0.50 && this.nombrePas > this.nombreDepPas * 0.25) {
+            imageOrientation(vers);
+            System.out.println("bientot c'est fini");
 
-            } else{
-                imageOrientation(vers);
-                System.out.println("tu dead pas ca, t'es dead la");
+        } else {
+            imageOrientation(vers);
+            System.out.println("tu dead pas ca, t'es dead la");
 
-            }
-
-            this.nombrePas--;
-            System.out.println("je rentre ici "+ this.nombrePas);
-            if (this.nombrePas == 0) {
-                System.out.println("je stop "+ this.nombrePas);
-                throw new TropDePas();
-
-            }
-
-    }
-
-    public void imageOrientation(Orientation orientation){
-
-        if(orientation.direction == Terrain.NORD ){
-            //image Nord
-            this.image= this.robotTest;
-        } else if(orientation.direction == Terrain.EST){
-            //image Est
-            this.image= this.robotTest;
-        }else if(orientation.direction == Terrain.SUD){
-            //image Sud
-            this.image= this.robotTest;
-        }else{
-            //image Ouest
-            this.image= this.robotTest;
         }
 
+        this.nombrePas--;
+        System.out.println("je rentre ici " + this.nombrePas);
+        if (this.nombrePas == 0) {
+            System.out.println("je stop " + this.nombrePas);
+            throw new TropDePas();
+
+        }
+    }
+
+    public void imageOrientation(Orientation orientation) {
+
+        if (orientation.direction == Terrain.NORD) {
+            //image Nord
+            this.image = this.robotTest;
+        } else if (orientation.direction == Terrain.EST) {
+            //image Est
+            this.image = this.robotTest;
+        } else if (orientation.direction == Terrain.SUD) {
+            //image Sud
+            this.image = this.robotTest;
+        } else {
+            //image Ouest
+            this.image = this.robotTest;
+        }
     }
     //fin ajout
 
@@ -510,7 +551,6 @@ public class Robot implements Cellule, Runnable {
         processus = new Thread(this);
         //processus.setDaemon(true);
         processus.start();
-
     }
 
     public void stop() {
@@ -520,6 +560,10 @@ public class Robot implements Cellule, Runnable {
                 processus.interrupt();
             }
         }
+
+    }
+
+    public void change() {
 
     }
 
@@ -549,7 +593,7 @@ public class Robot implements Cellule, Runnable {
         } catch (InterruptedException ex) {
             //Logger.getLogger(Robot.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "<html><p>Arrêt du robot</p>"
-                    + "<p>Sans doute s'agit-il d'une erreur de programmation</p></html>",
+                            + "<p>Sans doute s'agit-il d'une erreur de programmation</p></html>",
                     "Arrêt du robot",
                     JOptionPane.ERROR_MESSAGE);
             stop();
@@ -584,4 +628,19 @@ public class Robot implements Cellule, Runnable {
             passage = null;
         }
     }
+
+    private int getIdSuivant() {
+        if (getID() < NBROBOTS)
+            return getID() + 1;
+        else
+            return 1;
+    } //Ajouté par Sélim
+
+    public Robot getRobotSuivant() {
+        return robots[getIdSuivant()];
+    } //Ajouté par Sélim
+
+    public int getNbRobots() {
+        return NBROBOTS;
+    } //Ajouté par Sélim
 }
