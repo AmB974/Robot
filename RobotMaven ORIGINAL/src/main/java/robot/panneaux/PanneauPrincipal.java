@@ -708,6 +708,7 @@ public class PanneauPrincipal extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 TreePath selection[] = PanneauPrincipal.this.frameParente.getArbre().getSelectionPaths();
                 if (selection != null) {
                     for (TreePath currentSelection : selection) {

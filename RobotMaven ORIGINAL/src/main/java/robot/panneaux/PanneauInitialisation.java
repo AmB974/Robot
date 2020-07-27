@@ -104,9 +104,11 @@ public class PanneauInitialisation extends JPanel {
         jSliderHauteur.setValue(initialisation.getHauteur());
 
         //debut ajout
-        jaugeDefinie.setSelected(initialisation.isPresenceJauge());
-        jSliderJauge.setEnabled(initialisation.isPresenceJauge());
-        jSliderJauge.setValue(initialisation.getJauge());
+        nombrePasDefinie.setSelected(initialisation.isPresenceJauge());
+        jSliderNombrePas.setEnabled(initialisation.isPresenceJauge());
+        jSliderNombrePas.setValue(initialisation.getJauge());
+        textNombrePasExact.setEnabled(initialisation.isPresenceTextArea());
+
         //fin ajout
 
         changementInterne = false;
@@ -127,9 +129,11 @@ public class PanneauInitialisation extends JPanel {
         largeurDefinie = new JCheckBox();
 
         //debut ajout
-        jSliderJauge = new JSlider();
-        jaugeDefinie = new JCheckBox();
-        //fin ajout
+        jSliderNombrePas = new JSlider();
+        nombrePasDefinie = new JCheckBox();
+
+        textNombrePasExact = new JTextArea();
+        // fin ajout
 
         labelSelectionDuRobot = new JLabel();
         comboRobotSelectionne = new JComboBox();
@@ -343,16 +347,10 @@ public class PanneauInitialisation extends JPanel {
     {
         labelPositionRobot.setText("Position du robot");
 
-        if (Initialisation.getNbRobots() == 1) {
-            comboPositionRobot.setModel(new DefaultComboBoxModel(new String[]{"N'importe où", "Contre un mur", "Dans un coin", "Pas contre un mur", "Pas dans un coin", "Contre le mur nord", "Contre le mur est", "Contre le mur sud", "Contre le mur ouest", "Dans le coin nord-est", "Dans le coin sud-est", "Dans le coin sud-ouest", "Dans le coin nord-ouest"}));
-        } else {
-            comboPositionRobot.setModel(new DefaultComboBoxModel(new String[]{"N'importe où", "Contre un mur", "Dans un coin", "Pas contre un mur", "Pas dans un coin", "Contre le mur nord", "Contre le mur est", "Contre le mur sud", "Contre le mur ouest"}));
-        } //Ajouté par Sélim
-
-        comboPositionRobot.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                comboPositionRobotItemStateChanged(e);
+        comboOrientationRobot.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quelconque", "Vers le nord", "Vers l'est", "Vers le  sud", "Vers l'ouest" }));
+        comboOrientationRobot.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboOrientationRobotItemStateChanged(evt);
             }
         });
     }// Modifié par Sélim
@@ -371,7 +369,7 @@ public class PanneauInitialisation extends JPanel {
     {
         labelPositionMinerai.setText("Position du minerai");
 
-        comboPositionMinerai.setModel(new DefaultComboBoxModel(new String[]{"N'importe où", "Contre un mur", "Dans un coin", "Pas contre un mur", "Pas dans un coin", "Contre le mur nord", "Contre le mur est", "Contre le mur sud", "Contre le mur ouest", "Dans le coin nord-est", "Dans le coin sud-est", "Dans le coin sud-ouest", "Dans le coin nord-ouest"}));
+        comboPositionMinerai.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "N'importe où", "Contre un mur", "Dans un coin", "Pas contre un mur", "Pas dans un coin", "Contre le mur nord", "Contre le mur est", "Contre le mur sud", "Contre le mur ouest", "Dans le coin nord-est", "Dans le coin sud-est", "Dans le coin sud-ouest", "Dans le coin nord-ouest" }));
         comboPositionMinerai.setEnabled(false);
         comboPositionMinerai.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent evt) {
@@ -432,26 +430,238 @@ public class PanneauInitialisation extends JPanel {
 
     private void initialiseJauge()
     {
-        jSliderJauge.setMajorTickSpacing(9);
-        jSliderJauge.setMinimum(1);
-        jSliderJauge.setMinorTickSpacing(1);
-        jSliderJauge.setPaintLabels(true);
-        jSliderJauge.setPaintTicks(true);
-        jSliderJauge.setSnapToTicks(true);
-        jSliderJauge.setToolTipText(jSliderJauge.getValue() + "");
-        jSliderJauge.setValue(10);
-        jSliderJauge.setBorder(BorderFactory.createTitledBorder("Jauge"));
-        jSliderJauge.setEnabled(false);
-        jSliderJauge.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent evt) {
-                jSliderJaugeStateChanged(evt);
+        //debut ajout
+        jSliderNombrePas.setMajorTickSpacing(5);
+        jSliderNombrePas.setMinimum(5);
+        jSliderNombrePas.setMinorTickSpacing(1);
+        jSliderNombrePas.setPaintLabels(true);
+        jSliderNombrePas.setPaintTicks(true);
+        jSliderNombrePas.setSnapToTicks(true);
+        jSliderNombrePas.setToolTipText(jSliderNombrePas.getValue() + "");
+        jSliderNombrePas.setValue(10);
+        jSliderNombrePas.setBorder(javax.swing.BorderFactory.createTitledBorder("Nombre de Pas"));
+        jSliderNombrePas.setEnabled(false);
+        jSliderNombrePas.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSliderNombrePasStateChanged(evt);
             }
         });
 
-        jaugeDefinie.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                jaugeDefinieActionPerformed(evt);
+        nombrePasDefinie.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nombrePasDefinieActionPerformed(evt);
             }
         });
+
+
+        textNombrePasExact.setColumns(1);
+        textNombrePasExact.setRows(1);
+        textNombrePasExact.setEditable(false);
+        textNombrePasExact.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
+        textNombrePasExact.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                textNombrePasExactStateChanged(e);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                textNombrePasExactStateChanged(e);
+
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                textNombrePasExactStateChanged(e);
+            }
+        });
+        //fin ajout
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(labelPositionRobot)
+                                                        .addComponent(labelOrientationRobot)
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                                        .addComponent(comboOrientationRobot, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                        .addComponent(comboPositionRobot, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addGap(18, 18, 18)
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addComponent(labelPositionMinerai)
+                                                                        .addComponent(jCheckBoxMinerai)
+                                                                        .addComponent(comboPositionMinerai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                .addContainerGap())
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                        .addComponent(largeurDefinie)
+                                                        .addComponent(hauteurDefinie)
+                                                        //debut ajout
+                                                        .addComponent(nombrePasDefinie)
+                                                )
+                                                //fin ajout
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(jSliderHauteur, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
+                                                        .addComponent(jSliderLargeur, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
+                                                        .addComponent(jSliderNombrePas, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE) //ajout Ambre
+                                                        .addComponent(textNombrePasExact, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE))
+                                                .addContainerGap())))
+        );
+        layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addComponent(labelOrientationRobot)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(comboOrientationRobot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jCheckBoxMinerai))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(labelPositionRobot)
+                                        .addComponent(labelPositionMinerai))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(comboPositionRobot, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(comboPositionMinerai, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(hauteurDefinie)
+                                        .addComponent(jSliderHauteur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jSliderLargeur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(largeurDefinie))
+                                //debut ajout
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jSliderNombrePas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(nombrePasDefinie))
+
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(textNombrePasExact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                )
+
+
+                                //fin ajout
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jCheckBoxMineraiStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBoxMineraiStateChanged
+        if (changementInterne) return;
+        if (jCheckBoxMinerai.isSelected())
+            comboPositionMinerai.setEnabled(true);
+        else
+            comboPositionMinerai.setEnabled(false);
+        initialisation.setPrésenceMinerai(jCheckBoxMinerai.isSelected());
+    }//GEN-LAST:event_jCheckBoxMineraiStateChanged
+
+    private void comboOrientationRobotItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboOrientationRobotItemStateChanged
+        // TODO add your handling code here:
+        if (changementInterne) return;
+        initialisation.setOrientationRobot(comboOrientationRobot.getSelectedIndex() - 1);
+    }//GEN-LAST:event_comboOrientationRobotItemStateChanged
+
+    private void comboPositionRobotItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboPositionRobotItemStateChanged
+        // TODO add your handling code here:
+        if (changementInterne) return;
+        initialisation.setPositionRobot(comboPositionRobot.getSelectedIndex() - 1);
+    }//GEN-LAST:event_comboPositionRobotItemStateChanged
+
+    private void comboPositionMineraiItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboPositionMineraiItemStateChanged
+        if (changementInterne) return;
+        initialisation.setPositionMinerai(comboPositionMinerai.getSelectedIndex() - 1);
+    }//GEN-LAST:event_comboPositionMineraiItemStateChanged
+
+    private void largeurDefinieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_largeurDefinieActionPerformed
+        if (changementInterne) return;
+        jSliderLargeur.setEnabled(largeurDefinie.isSelected());
+        initialisation.setPresenceLargeur(largeurDefinie.isSelected());
+        initialisation.setLargeur(jSliderLargeur.getValue());
+
+    }//GEN-LAST:event_largeurDefinieActionPerformed
+
+    private void hauteurDefinieStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_hauteurDefinieStateChanged
+        if (changementInterne) return;
+        jSliderHauteur.setEnabled(hauteurDefinie.isSelected());
+        initialisation.setPresenceHauteur(hauteurDefinie.isSelected());
+        initialisation.setHauteur(jSliderHauteur.getValue());
+    }//GEN-LAST:event_hauteurDefinieStateChanged
+
+    private void jSliderHauteurStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderHauteurStateChanged
+        if (changementInterne) return;
+        initialisation.setHauteur(jSliderHauteur.getValue());
+    }//GEN-LAST:event_jSliderHauteurStateChanged
+
+    private void jSliderLargeurStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderLargeurStateChanged
+        if (changementInterne) return;
+        initialisation.setLargeur(jSliderLargeur.getValue());
+    }//GEN-LAST:event_jSliderLargeurStateChanged
+
+
+    //debut ajout
+    private void jSliderNombrePasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderJaugeStateChanged
+        if (changementInterne) return;
+        if(!testChiffre) {
+            initialisation.setJauge(jSliderNombrePas.getValue());
+            textNombrePasExact.setText(jSliderNombrePas.getValue() + "");
+        }else if(testChiffre){
+            testChiffre= false;
+        }
+    }//GEN-LAST:event_jSliderJaugeStateChanged
+
+    private void nombrePasDefinieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jaugeDefinieActionPerformed
+        if (changementInterne) return;
+        jSliderNombrePas.setEnabled(nombrePasDefinie.isSelected());
+        textNombrePasExact.setEnabled(nombrePasDefinie.isSelected());
+        textNombrePasExact.setEditable(nombrePasDefinie.isSelected());
+        initialisation.setPresenceJauge(nombrePasDefinie.isSelected());
+        initialisation.setJauge(jSliderNombrePas.getValue());
+
+
+    }//GEN-LAST:event_jaugeDefinieActionPerformed
+
+
+    private void textNombrePasExactStateChanged(DocumentEvent evt) {//GEN-FIRST:event_jSliderJaugeStateChanged
+        if (changementInterne) return;
+        int nombrePas = Integer.parseInt(textNombrePasExact.getText());
+
+        if (!testChiffre) {
+
+            if (nombrePas > 0 && nombrePas <= 100) {
+                initialisation.setJauge(nombrePas);
+                initialisation.setTextArea(textNombrePasExact.getText());
+                jSliderNombrePas.setValue(nombrePas);
+
+            } else if (nombrePas > 100) {
+                initialisation.setJauge(nombrePas);
+                initialisation.setTextArea(textNombrePasExact.getText());
+                jSliderNombrePas.setValue(100);
+            }
+            testChiffre= true;
+        }else if (testChiffre){
+            testChiffre= false;
+        }
+
+    }//GEN-LAST:event_jSliderJaugeStateChanged
+
+    // fin ajout
+
+    //debut ajout
+    private JSlider jSliderNombrePas;
+    private JCheckBox nombrePasDefinie;
+    private JTextArea textNombrePasExact = new JTextArea();
+    private boolean testChiffre = false;
+
+    // End of variables declaration//GEN-END:variables
+
+    public Initialisation getInitialisation() {
+        return initialisation;
     }
 }

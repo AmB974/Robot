@@ -72,6 +72,7 @@ public class Programme implements Serializable {
         instruction.set(robot);
         for(int i = 0; i < instruction.getChildCount(); i++)
             changerDeRobot((Instruction) instruction.getChildAt(i), robot);
+
     }*/
     public DefaultTreeModel getArbreProgramme() {
         return arbreProgramme;
