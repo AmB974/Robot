@@ -26,6 +26,7 @@ import terrain.Terrain;
 public class FramePrincipale extends JFrame implements Detachable {
 
     private static Robot robot = null;
+    private static int NBROBOTS = 4;
 
     //Ajouté par Sélim
 
@@ -37,14 +38,13 @@ public class FramePrincipale extends JFrame implements Detachable {
     private Terrain terrain;
 
     private static PanneauCommande panneauCommande;
-    private Programme programme;
+    private Programme[] programme = new Programme[NBROBOTS+1];
     private JSplitPane splitPane;
-    private JTreeRobot arbre;
+    private JTreeRobot[] arbre = new JTreeRobot[NBROBOTS+1];
     private JFileChooser chooser;
     private BoiteDeDialogueInit dialogueInitialisation;
     //private File oldDir;
     private PanneauDExecution panneauDExecution;
-    private static int NBROBOTS = 4;
     private static int ROBOTACTIF = 1;
     private static int VIDE = -2;
     private static int QUELCONQUE = -1;
@@ -75,12 +75,12 @@ public class FramePrincipale extends JFrame implements Detachable {
 
     @Override
     public JTree getArbre() {
-        return arbre;
+        return arbre[ROBOTACTIF];
     }
 
     @Override
     public Programme getProgramme() {
-        return programme;
+        return programme[ROBOTACTIF];
     }
 
     @Override
@@ -97,7 +97,7 @@ public class FramePrincipale extends JFrame implements Detachable {
     public void montreDialInit() {
         dialogueInitialisation.setVisible(true);
         if (dialogueInitialisation.getOk()) {
-            programme.setInitialisation(dialogueInitialisation.getInitialisation());
+            programme[ROBOTACTIF].setInitialisation(dialogueInitialisation.getInitialisation());
             Initialisation.initialiser(dialogueInitialisation.getInitialisation(), this, true);
         }
     }
@@ -123,8 +123,11 @@ public class FramePrincipale extends JFrame implements Detachable {
 
         dialogueInitialisation = new BoiteDeDialogueInit(this);
 
-        programme = new Programme();
-        arbre = new JTreeRobot(programme.getArbreProgramme());
+        for(int i=0; i<NBROBOTS; ++i)
+        {
+            programme[i] = new Programme();
+            arbre[i] = new JTreeRobot(programme[i].getArbreProgramme());
+        }
 
         miseEnPlaceDesMenus();
 
@@ -324,5 +327,10 @@ public class FramePrincipale extends JFrame implements Detachable {
     {
         ROBOTACTIF = 1;
         panneauCommande.getComboRobotSelectionne().setSelectedIndex(FramePrincipale.getROBOTACTIF()-1);
+    }
+
+    public static Robot getRobotSelectionne()
+    {
+        return robot;
     }
 }
