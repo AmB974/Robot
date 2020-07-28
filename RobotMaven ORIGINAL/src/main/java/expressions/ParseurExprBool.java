@@ -78,23 +78,23 @@ public class ParseurExprBool {
 
 
     public ExprBoolElt getFrom(String abr) throws Exception {
-        if (abr.equals("dmr") || abr.equals("devant mur"))
+        if (abr.equals("dmr") || abr.equals("Devant mur"))
             return new DevantMur(/*robot*/);
-        else if (abr.equals("pdmr") || abr.equals("pas devant mur"))
+        else if (abr.equals("pdmr") || abr.equals("Pas devant mur"))
             return new PasDevantMur(/*robot*/);
-        else if (abr.equals("smn") || abr.equals("sur minerai"))
+        else if (abr.equals("smn") || abr.equals("Sur minerai"))
             return new SurMinerai(/*robot*/);
-        else if (abr.equals("psmn") || abr.equals("pas sur minerai"))
+        else if (abr.equals("psmn") || abr.equals("Pas sur minerai"))
             return new PasSurMinerai(/*robot*/);
-        else if (abr.equals("smq") || abr.equals("sur marque"))
+        else if (abr.equals("smq") || abr.equals("Sur marque"))
             return new SurMarque(/*robot*/);
-        else if (abr.equals("psmq") || abr.equals("pas sur marque"))
+        else if (abr.equals("psmq") || abr.equals("Pas sur marque"))
             return new PasSurMarque(/*robot*/);
-        else if (abr.equals("dmq") || abr.equals("devant marque"))
+        else if (abr.equals("dmq") || abr.equals("Devant marque"))
             return new DevantMarque(/*robot*/);
-        else if (abr.equals("pdmq") || abr.equals("pas devant marque"))
+        else if (abr.equals("pdmq") || abr.equals("Pas devant marque"))
             return new PasDevantMarque(/*robot*/);
-        else if (abr.equals("pdmor") || abr.equals("pas devant mur ou robot"))
+        else if (abr.equals("pdmor") || abr.equals("Pas devant mur ou robot"))
             return new PasDevantMurOuRobot(/*robot*/);//Ajouté par Sélim
         else 
             throw new Exception("Nom incorrect pour une expression élémentaire");

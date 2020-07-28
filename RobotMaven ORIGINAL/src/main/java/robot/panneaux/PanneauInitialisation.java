@@ -74,7 +74,6 @@ public class PanneauInitialisation extends JPanel {
     private JCheckBox largeurDefinie;
 
 
-
     private JComboBox comboRobotSelectionne;
     private JLabel labelSelectionDuRobot;
     //Ajouté par Sélim
@@ -190,14 +189,14 @@ public class PanneauInitialisation extends JPanel {
                                                                         .addComponent(hauteurDefinie)
                                                                         //debut ajout
                                                                         .addComponent(nombrePasDefinie))
-                                                                        //fin ajout
+                                                                //fin ajout
                                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                                                         .addComponent(jSliderHauteur, GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
                                                                         .addComponent(jSliderLargeur, GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
 
-                                                                .addComponent(jSliderNombrePas, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE) //ajout Ambre
-                                                                .addComponent(textNombrePasExact, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE))
+                                                                        .addComponent(jSliderNombrePas, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE) //ajout Ambre
+                                                                        .addComponent(textNombrePasExact, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE))
                                                                 .addContainerGap()))
                                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)))
                                 )));
@@ -239,7 +238,6 @@ public class PanneauInitialisation extends JPanel {
                                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }
-
 
 
     private void jCheckBoxMineraiStateChanged(ChangeEvent evt) {
@@ -299,13 +297,11 @@ public class PanneauInitialisation extends JPanel {
     }// Ajouté par Sélim
 
 
-
     public static void selectionneRobot(int id) {
         FramePrincipale.setROBOTACTIF(id);
     }//Ajouté par Sélim
 
-    private void initialiseSelectionRobot()
-    {
+    private void initialiseSelectionRobot() {
         labelSelectionDuRobot.setText("Sélection du robot");
 
         String s[] = new String[FramePrincipale.getNbRobots()];
@@ -323,8 +319,7 @@ public class PanneauInitialisation extends JPanel {
         });
     }// Modifié par Sélim
 
-    private void initialiseOrientationRobot()
-    {
+    private void initialiseOrientationRobot() {
         labelOrientationRobot.setText("Orientation du robot");
 
         comboOrientationRobot.setModel(new DefaultComboBoxModel(new String[]{"Quelconque", "Vers le nord", "Vers l'est", "Vers le  sud", "Vers l'ouest"}));
@@ -336,8 +331,7 @@ public class PanneauInitialisation extends JPanel {
         });
     }// Modifié par Sélim
 
-    private void initialisePositionRobot()
-    {
+    private void initialisePositionRobot() {
         labelPositionRobot.setText("Position du robot");
 
         if (FramePrincipale.getNbRobots() == 1) {
@@ -354,8 +348,7 @@ public class PanneauInitialisation extends JPanel {
         });
     }// Modifié par Sélim
 
-    private void initialisePresenceMinerai()
-    {
+    private void initialisePresenceMinerai() {
         jCheckBoxMinerai.setText("Présence de minerai");
         jCheckBoxMinerai.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent evt) {
@@ -364,11 +357,10 @@ public class PanneauInitialisation extends JPanel {
         });
     }// Modifié par Sélim
 
-    private void initialisePositionMinerai()
-    {
+    private void initialisePositionMinerai() {
         labelPositionMinerai.setText("Position du minerai");
 
-        comboPositionMinerai.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "N'importe où", "Contre un mur", "Dans un coin", "Pas contre un mur", "Pas dans un coin", "Contre le mur nord", "Contre le mur est", "Contre le mur sud", "Contre le mur ouest", "Dans le coin nord-est", "Dans le coin sud-est", "Dans le coin sud-ouest", "Dans le coin nord-ouest" }));
+        comboPositionMinerai.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"N'importe où", "Contre un mur", "Dans un coin", "Pas contre un mur", "Pas dans un coin", "Contre le mur nord", "Contre le mur est", "Contre le mur sud", "Contre le mur ouest", "Dans le coin nord-est", "Dans le coin sud-est", "Dans le coin sud-ouest", "Dans le coin nord-ouest"}));
         comboPositionMinerai.setEnabled(false);
         comboPositionMinerai.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent evt) {
@@ -377,8 +369,7 @@ public class PanneauInitialisation extends JPanel {
         });
     }// Modifié par Sélim
 
-    private void initialiseSliderHauteur()
-    {
+    private void initialiseSliderHauteur() {
         jSliderHauteur.setMajorTickSpacing(5);
         jSliderHauteur.setMinimum(Terrain.minY);
         jSliderHauteur.setMinorTickSpacing(1);
@@ -402,8 +393,7 @@ public class PanneauInitialisation extends JPanel {
         });
     }// Modifié par Sélim
 
-    private void initialiseSliderLargeur()
-    {
+    private void initialiseSliderLargeur() {
         jSliderLargeur.setMajorTickSpacing(5);
         jSliderLargeur.setMinimum(Terrain.minX);
         jSliderLargeur.setMinorTickSpacing(1);
@@ -477,16 +467,14 @@ public class PanneauInitialisation extends JPanel {
     }
 
 
-
-
     //debut ajout
     private void jSliderNombrePasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderJaugeStateChanged
         if (changementInterne) return;
-        if(!testChiffre) {
+        if (!testChiffre) {
             initialisation.setJauge(jSliderNombrePas.getValue());
             textNombrePasExact.setText(jSliderNombrePas.getValue() + "");
-        }else if(testChiffre){
-            testChiffre= false;
+        } else if (testChiffre) {
+            testChiffre = false;
         }
     }//GEN-LAST:event_jSliderJaugeStateChanged
 
@@ -518,9 +506,9 @@ public class PanneauInitialisation extends JPanel {
                 initialisation.setTextArea(textNombrePasExact.getText());
                 jSliderNombrePas.setValue(100);
             }
-            testChiffre= true;
-        }else if (testChiffre){
-            testChiffre= false;
+            testChiffre = true;
+        } else if (testChiffre) {
+            testChiffre = false;
         }
 
     }//GEN-LAST:event_jSliderJaugeStateChanged

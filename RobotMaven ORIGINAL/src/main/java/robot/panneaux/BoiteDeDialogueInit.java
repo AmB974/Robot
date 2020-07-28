@@ -71,7 +71,7 @@ public class BoiteDeDialogueInit extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
                 reponse = false;
-                panneauInit.selectionneRobot(1);
+                FramePrincipale.resetComboBoxEtROBOTACTIF();
             }
         });
       
@@ -80,8 +80,8 @@ public class BoiteDeDialogueInit extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
-
                 reponse = true;
+                FramePrincipale.resetComboBoxEtROBOTACTIF();
             }
         });
 
@@ -102,6 +102,11 @@ public class BoiteDeDialogueInit extends JDialog {
         //environnement.pack();
         //if (environnement.getExtendedState() != JFrame.MAXIMIZED_BOTH)
         //    environnement.setExtendedState(JFrame.MAXIMIZED_BOTH);
+    }
+
+    private void resetRobotActif()
+    {
+        FramePrincipale.setROBOTACTIF(1);
     }
 
     public Initialisation getInitialisation() {

@@ -51,7 +51,7 @@ public class PasSurMarque extends ExprBoolElt {
     }
     @Override
     public String toString() {
-        return "pas sur marque";
+        return "Pas sur marque";
     }
 
     /*@Override

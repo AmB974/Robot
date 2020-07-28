@@ -213,10 +213,6 @@ public class PanneauCommande extends JPanel {
         frameParente.setRobotActif(comboRobotSelectionne.getSelectedIndex() + 1);
     }// Ajouté par Sélim
 
-    public int getDuree() {
-        return sliderDuréeAction.getValue();
-    }
-
     private void initialiseSelectionRobot()
     {
         labelSelectionDuRobot = new JLabel();
@@ -237,6 +233,10 @@ public class PanneauCommande extends JPanel {
         });
     }
 
+    public JComboBox getComboRobotSelectionne()
+    {
+        return comboRobotSelectionne;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton avance;
