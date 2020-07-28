@@ -481,6 +481,7 @@ public class PanneauInitialisation extends JPanel {
     //debut ajout
     private void jSliderNombrePasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderJaugeStateChanged
         if (changementInterne) return;
+
         if(!testChiffre) {
             initialisation.setJauge(jSliderNombrePas.getValue());
             textNombrePasExact.setText(jSliderNombrePas.getValue() + "");
@@ -503,24 +504,28 @@ public class PanneauInitialisation extends JPanel {
 
     private void textNombrePasExactStateChanged(DocumentEvent evt) {//GEN-FIRST:event_jSliderJaugeStateChanged
         if (changementInterne) return;
-        int nombrePas = Integer.parseInt(textNombrePasExact.getText());
+        int nombrePas;
+        if(!textNombrePasExact.getText().isEmpty()) {
+            System.out.println("Ici : "+ textNombrePasExact.getText());
+            nombrePas = Integer.parseInt(textNombrePasExact.getText());
 
-        if (!testChiffre) {
 
-            if (nombrePas > 0 && nombrePas <= 100) {
-                initialisation.setJauge(nombrePas);
-                initialisation.setTextArea(textNombrePasExact.getText());
-                jSliderNombrePas.setValue(nombrePas);
 
-            } else if (nombrePas > 100) {
-                initialisation.setJauge(nombrePas);
-                initialisation.setTextArea(textNombrePasExact.getText());
-                jSliderNombrePas.setValue(100);
+                if (nombrePas > 0 && nombrePas <= 100) {
+                    initialisation.setJauge(nombrePas);
+                    initialisation.setTextArea(textNombrePasExact.getText());
+                    jSliderNombrePas.setValue(nombrePas);
+
+                } else if (nombrePas > 100) {
+                    initialisation.setJauge(nombrePas);
+                    initialisation.setTextArea(textNombrePasExact.getText());
+                    jSliderNombrePas.setValue(100);
+                }
+                testChiffre = true;
+            } else if (testChiffre) {
+                testChiffre = false;
             }
-            testChiffre= true;
-        }else if (testChiffre){
-            testChiffre= false;
-        }
+        
 
     }//GEN-LAST:event_jSliderJaugeStateChanged
 
