@@ -455,12 +455,12 @@ public class PanneauInitialisation extends JPanel {
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-
+                //textNombrePasExactStateChanged(e);
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-
+                textNombrePasExactStateChanged(e);
             }
         });
         //fin ajout
@@ -468,7 +468,10 @@ public class PanneauInitialisation extends JPanel {
 
     //debut ajout
     private void jSliderNombrePasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderJaugeStateChanged
-        if (changementInterne) return;
+        if (changementInterne) {
+            changementInterne = false;
+            return;
+        }
         textNombrePasExact.setText(jSliderNombrePas.getValue() + "");
         initialisation.setTextArea(textNombrePasExact.getText());
     }//GEN-LAST:event_jSliderJaugeStateChanged
@@ -481,25 +484,20 @@ public class PanneauInitialisation extends JPanel {
     }//GEN-LAST:event_jaugeDefinieActionPerformed
 
     private void textNombrePasExactStateChanged(DocumentEvent evt) throws NumberFormatException {//GEN-FIRST:event_jSliderJaugeStateChanged
-        if (changementInterne) return;
 
         int nombrePas;
 
-        try {
-            nombrePas = Integer.parseInt(textNombrePasExact.getText());
-        } catch (NumberFormatException e) {
-            throw new NumberFormatException();
-        }
+        nombrePas = Integer.parseInt(textNombrePasExact.getText());
 
-        initialisation.setTextArea(String.valueOf(nombrePas));
-
-        if (nombrePas >= 5 && nombrePas <= 100) {
+        if (nombrePas > 5 && nombrePas < 100) {
             jSliderNombrePas.setValue(nombrePas);
-        } else if (nombrePas > 100) {
+        } else if (nombrePas >= 100) {
             jSliderNombrePas.setValue(100);
         } else {
             jSliderNombrePas.setValue(5);
         }
+        changementInterne=true;
+
     }//GEN-LAST:event_jSliderJaugeStateChanged
 
     // fin ajout
