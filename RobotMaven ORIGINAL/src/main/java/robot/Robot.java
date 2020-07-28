@@ -594,7 +594,7 @@ public class Robot implements Cellule, Runnable {
             }
 
             this.nombrePas--;
-        System.out.println(nombrePas);
+
             if (this.nombrePas == 0) {
                 nombrePas=-1;
                 imageOrientation(vers, 4);

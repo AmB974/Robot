@@ -54,7 +54,7 @@ public class Avance extends InstructionElementaire {
         }
         robot.avance();
         //avancable.avance();
-        System.out.println("j passe pas ici 4 fois");
+
     }
 
     /*@Override
