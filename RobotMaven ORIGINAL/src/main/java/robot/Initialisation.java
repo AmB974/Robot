@@ -151,7 +151,7 @@ public class Initialisation implements Serializable {
                 return new Terrain.Position(1, 1);
             default:
                 try {
-                    throw new Exception("position : " + position + " Ne devrait pas arriver");
+                    throw new Exception("Position : " + position + " Ne devrait pas arriver");
                 } catch (Exception ex) {
                     Logger.getLogger(FramePrincipale.class.getName()).log(Level.SEVERE, null, ex);
                 }

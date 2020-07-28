@@ -26,7 +26,7 @@ public class PasDevantMurOuRobot extends ExprBoolElt{
 
     @Override
     public String toString() {
-        return "pas devant mur ou robot";
+        return "Pas devant mur ou robot";
     }
 
 }

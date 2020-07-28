@@ -52,7 +52,7 @@ public class PasSurMinerai extends ExprBoolElt {
 
     @Override
     public String toString() {
-        return "pas sur minerai";
+        return "Pas sur minerai";
     }
 /*
     @Override

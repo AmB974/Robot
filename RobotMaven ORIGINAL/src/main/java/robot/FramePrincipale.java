@@ -36,7 +36,7 @@ public class FramePrincipale extends JFrame implements Detachable {
     private PanneauTerrain panneauTerrain = new PanneauTerrain();
     private Terrain terrain;
 
-    private PanneauCommande panneauCommande;
+    private static PanneauCommande panneauCommande;
     private Programme programme;
     private JSplitPane splitPane;
     private JTreeRobot arbre;
@@ -318,5 +318,11 @@ public class FramePrincipale extends JFrame implements Detachable {
 
     public static void setRobot(int i, Robot r) {
         Robot.getRobots()[i] = r;
+    }
+
+    public static void resetComboBoxEtROBOTACTIF()
+    {
+        ROBOTACTIF = 1;
+        panneauCommande.getComboRobotSelectionne().setSelectedIndex(FramePrincipale.getROBOTACTIF()-1);
     }
 }
