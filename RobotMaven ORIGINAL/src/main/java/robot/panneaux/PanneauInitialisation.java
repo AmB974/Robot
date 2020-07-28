@@ -42,6 +42,8 @@ import terrain.Terrain;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -69,10 +71,7 @@ public class PanneauInitialisation extends JPanel {
     private JLabel labelPositionRobot;
     private JCheckBox largeurDefinie;
 
-    //debut ajout
-    private JSlider jSliderJauge;
-    private JCheckBox jaugeDefinie;
-    //fin ajout
+
 
     private JComboBox comboRobotSelectionne;
     private JLabel labelSelectionDuRobot;
@@ -189,13 +188,15 @@ public class PanneauInitialisation extends JPanel {
                                                                         .addComponent(largeurDefinie)
                                                                         .addComponent(hauteurDefinie)
                                                                         //debut ajout
-                                                                        .addComponent(jaugeDefinie))
+                                                                        .addComponent(nombrePasDefinie))
                                                                         //fin ajout
                                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                                                         .addComponent(jSliderHauteur, GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
                                                                         .addComponent(jSliderLargeur, GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
-                                                                        .addComponent(jSliderJauge, GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE))
+
+                                                                .addComponent(jSliderNombrePas, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE) //ajout Ambre
+                                                                .addComponent(textNombrePasExact, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE))
                                                                 .addContainerGap()))
                                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)))
                                 )));
@@ -226,13 +227,19 @@ public class PanneauInitialisation extends JPanel {
                                         .addComponent(jSliderLargeur, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                         .addComponent(largeurDefinie))
                                 //debut ajout
-                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                        .addComponent(jSliderJauge, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jaugeDefinie))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jSliderNombrePas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(nombrePasDefinie))
+
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(textNombrePasExact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                )
                                 //fin ajout
                                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }
+
+
 
     private void jCheckBoxMineraiStateChanged(ChangeEvent evt) {
         if (changementInterne) return;
@@ -282,19 +289,6 @@ public class PanneauInitialisation extends JPanel {
         initialisation.setLargeur(jSliderLargeur.getValue());
     }
 
-    //debut ajout
-    private void jSliderJaugeStateChanged(ChangeEvent evt) {
-        if (changementInterne) return;
-        initialisation.setJauge(jSliderJauge.getValue());
-    }
-
-    private void jaugeDefinieActionPerformed(ActionEvent evt) {
-        if (changementInterne) return;
-        jSliderJauge.setEnabled(jaugeDefinie.isSelected());
-        initialisation.setPresenceJauge(jaugeDefinie.isSelected());
-        initialisation.setJauge(jSliderJauge.getValue());
-    }
-    //fin ajout
 
     private void comboRobotSelectionneDefinieActionPerformed(ActionEvent evt) {
         if (changementInterne) return;
@@ -303,9 +297,7 @@ public class PanneauInitialisation extends JPanel {
         initialisation.setOrientationRobot(comboOrientationRobot.getSelectedIndex() - 1, initialisation.getROBOTACTIF());
     }// Ajouté par Sélim
 
-    public Initialisation getInitialisation() {
-        return initialisation;
-    }
+
 
     public static void selectionneRobot(int id) {
         Initialisation.setROBOTACTIF(id);
@@ -347,10 +339,16 @@ public class PanneauInitialisation extends JPanel {
     {
         labelPositionRobot.setText("Position du robot");
 
-        comboOrientationRobot.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Quelconque", "Vers le nord", "Vers l'est", "Vers le  sud", "Vers l'ouest" }));
-        comboOrientationRobot.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                comboOrientationRobotItemStateChanged(evt);
+        if (Initialisation.getNbRobots() == 1) {
+            comboPositionRobot.setModel(new DefaultComboBoxModel(new String[]{"N'importe où", "Contre un mur", "Dans un coin", "Pas contre un mur", "Pas dans un coin", "Contre le mur nord", "Contre le mur est", "Contre le mur sud", "Contre le mur ouest", "Dans le coin nord-est", "Dans le coin sud-est", "Dans le coin sud-ouest", "Dans le coin nord-ouest"}));
+        } else {
+            comboPositionRobot.setModel(new DefaultComboBoxModel(new String[]{"N'importe où", "Contre un mur", "Dans un coin", "Pas contre un mur", "Pas dans un coin", "Contre le mur nord", "Contre le mur est", "Contre le mur sud", "Contre le mur ouest"}));
+        } //Ajouté par Sélim
+
+        comboPositionRobot.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                comboPositionRobotItemStateChanged(e);
             }
         });
     }// Modifié par Sélim
@@ -428,8 +426,7 @@ public class PanneauInitialisation extends JPanel {
         });
     }// Modifié par Sélim
 
-    private void initialiseJauge()
-    {
+    private void initialiseJauge() {
         //debut ajout
         jSliderNombrePas.setMajorTickSpacing(5);
         jSliderNombrePas.setMinimum(5);
@@ -476,133 +473,9 @@ public class PanneauInitialisation extends JPanel {
             }
         });
         //fin ajout
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(labelPositionRobot)
-                                                        .addComponent(labelOrientationRobot)
-                                                        .addGroup(layout.createSequentialGroup()
-                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                                        .addComponent(comboOrientationRobot, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                                        .addComponent(comboPositionRobot, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                                .addGap(18, 18, 18)
-                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                        .addComponent(labelPositionMinerai)
-                                                                        .addComponent(jCheckBoxMinerai)
-                                                                        .addComponent(comboPositionMinerai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                                .addContainerGap())
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                        .addComponent(largeurDefinie)
-                                                        .addComponent(hauteurDefinie)
-                                                        //debut ajout
-                                                        .addComponent(nombrePasDefinie)
-                                                )
-                                                //fin ajout
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jSliderHauteur, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
-                                                        .addComponent(jSliderLargeur, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
-                                                        .addComponent(jSliderNombrePas, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE) //ajout Ambre
-                                                        .addComponent(textNombrePasExact, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE))
-                                                .addContainerGap())))
-        );
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addComponent(labelOrientationRobot)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(comboOrientationRobot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jCheckBoxMinerai))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(labelPositionRobot)
-                                        .addComponent(labelPositionMinerai))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(comboPositionRobot, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(comboPositionMinerai, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(hauteurDefinie)
-                                        .addComponent(jSliderHauteur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jSliderLargeur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(largeurDefinie))
-                                //debut ajout
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jSliderNombrePas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(nombrePasDefinie))
-
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(textNombrePasExact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                )
+    }
 
 
-                                //fin ajout
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-    }// </editor-fold>//GEN-END:initComponents
-
-    private void jCheckBoxMineraiStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBoxMineraiStateChanged
-        if (changementInterne) return;
-        if (jCheckBoxMinerai.isSelected())
-            comboPositionMinerai.setEnabled(true);
-        else
-            comboPositionMinerai.setEnabled(false);
-        initialisation.setPrésenceMinerai(jCheckBoxMinerai.isSelected());
-    }//GEN-LAST:event_jCheckBoxMineraiStateChanged
-
-    private void comboOrientationRobotItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboOrientationRobotItemStateChanged
-        // TODO add your handling code here:
-        if (changementInterne) return;
-        initialisation.setOrientationRobot(comboOrientationRobot.getSelectedIndex() - 1);
-    }//GEN-LAST:event_comboOrientationRobotItemStateChanged
-
-    private void comboPositionRobotItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboPositionRobotItemStateChanged
-        // TODO add your handling code here:
-        if (changementInterne) return;
-        initialisation.setPositionRobot(comboPositionRobot.getSelectedIndex() - 1);
-    }//GEN-LAST:event_comboPositionRobotItemStateChanged
-
-    private void comboPositionMineraiItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboPositionMineraiItemStateChanged
-        if (changementInterne) return;
-        initialisation.setPositionMinerai(comboPositionMinerai.getSelectedIndex() - 1);
-    }//GEN-LAST:event_comboPositionMineraiItemStateChanged
-
-    private void largeurDefinieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_largeurDefinieActionPerformed
-        if (changementInterne) return;
-        jSliderLargeur.setEnabled(largeurDefinie.isSelected());
-        initialisation.setPresenceLargeur(largeurDefinie.isSelected());
-        initialisation.setLargeur(jSliderLargeur.getValue());
-
-    }//GEN-LAST:event_largeurDefinieActionPerformed
-
-    private void hauteurDefinieStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_hauteurDefinieStateChanged
-        if (changementInterne) return;
-        jSliderHauteur.setEnabled(hauteurDefinie.isSelected());
-        initialisation.setPresenceHauteur(hauteurDefinie.isSelected());
-        initialisation.setHauteur(jSliderHauteur.getValue());
-    }//GEN-LAST:event_hauteurDefinieStateChanged
-
-    private void jSliderHauteurStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderHauteurStateChanged
-        if (changementInterne) return;
-        initialisation.setHauteur(jSliderHauteur.getValue());
-    }//GEN-LAST:event_jSliderHauteurStateChanged
-
-    private void jSliderLargeurStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderLargeurStateChanged
-        if (changementInterne) return;
-        initialisation.setLargeur(jSliderLargeur.getValue());
-    }//GEN-LAST:event_jSliderLargeurStateChanged
 
 
     //debut ajout
