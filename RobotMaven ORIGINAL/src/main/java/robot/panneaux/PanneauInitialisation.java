@@ -45,6 +45,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.applet.Applet;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -93,9 +94,9 @@ public class PanneauInitialisation extends JPanel {
         changementInterne = true;
 
         jCheckBoxMinerai.setSelected(initialisation.isPresenceMinerai());
-        comboOrientationRobot.setSelectedIndex(AppletPrincipale.getOrientationRobotActif() + 1);
+        comboOrientationRobot.setSelectedIndex(FramePrincipale.getOrientationRobotActif() + 1);
         comboPositionMinerai.setSelectedIndex(initialisation.getPositionMinerai() + 1);
-        comboPositionRobot.setSelectedIndex(AppletPrincipale.getPositionRobotActif() + 1);
+        comboPositionRobot.setSelectedIndex(FramePrincipale.getPositionRobotActif() + 1);
         largeurDefinie.setSelected(initialisation.isPresenceLargeur());
         jSliderLargeur.setEnabled(initialisation.isPresenceLargeur());
         jSliderLargeur.setValue(initialisation.getLargeur());
@@ -252,12 +253,12 @@ public class PanneauInitialisation extends JPanel {
 
     private void comboOrientationRobotItemStateChanged(ActionEvent evt) {
         if (changementInterne) return;
-        AppletPrincipale.setOrientationRobot(comboOrientationRobot.getSelectedIndex() - 1, AppletPrincipale.getROBOTACTIF());
+        FramePrincipale.setOrientationRobot(comboOrientationRobot.getSelectedIndex() - 1, FramePrincipale.getROBOTACTIF());
     }
 
     private void comboPositionRobotItemStateChanged(ActionEvent evt) {
         if (changementInterne) return;
-        AppletPrincipale.setPositionRobot(comboPositionRobot.getSelectedIndex() - 1, AppletPrincipale.getROBOTACTIF());
+        FramePrincipale.setPositionRobot(comboPositionRobot.getSelectedIndex() - 1, FramePrincipale.getROBOTACTIF());
     }
 
     private void comboPositionMineraiItemStateChanged(ItemEvent evt) {
@@ -293,23 +294,23 @@ public class PanneauInitialisation extends JPanel {
     private void comboRobotSelectionneDefinieActionPerformed(ActionEvent evt) {
         if (changementInterne) return;
         selectionneRobot(comboRobotSelectionne.getSelectedIndex() + 1);
-        AppletPrincipale.setPositionRobot(comboPositionRobot.getSelectedIndex() - 1, AppletPrincipale.getROBOTACTIF());
-        AppletPrincipale.setOrientationRobot(comboOrientationRobot.getSelectedIndex() - 1, AppletPrincipale.getROBOTACTIF());
+        FramePrincipale.setPositionRobot(comboPositionRobot.getSelectedIndex() - 1, FramePrincipale.getROBOTACTIF());
+        FramePrincipale.setOrientationRobot(comboOrientationRobot.getSelectedIndex() - 1, FramePrincipale.getROBOTACTIF());
     }// Ajouté par Sélim
 
 
 
     public static void selectionneRobot(int id) {
-        AppletPrincipale.setROBOTACTIF(id);
+        FramePrincipale.setROBOTACTIF(id);
     }//Ajouté par Sélim
 
     private void initialiseSelectionRobot()
     {
         labelSelectionDuRobot.setText("Sélection du robot");
 
-        String s[] = new String[AppletPrincipale.getNbRobots()];
+        String s[] = new String[FramePrincipale.getNbRobots()];
 
-        for (int i = 0; i < AppletPrincipale.getNbRobots(); ++i)
+        for (int i = 0; i < FramePrincipale.getNbRobots(); ++i)
             s[i] = "Robot " + (i + 1);
 
 
@@ -339,7 +340,7 @@ public class PanneauInitialisation extends JPanel {
     {
         labelPositionRobot.setText("Position du robot");
 
-        if (AppletPrincipale.getNbRobots() == 1) {
+        if (FramePrincipale.getNbRobots() == 1) {
             comboPositionRobot.setModel(new DefaultComboBoxModel(new String[]{"N'importe où", "Contre un mur", "Dans un coin", "Pas contre un mur", "Pas dans un coin", "Contre le mur nord", "Contre le mur est", "Contre le mur sud", "Contre le mur ouest", "Dans le coin nord-est", "Dans le coin sud-est", "Dans le coin sud-ouest", "Dans le coin nord-ouest"}));
         } else {
             comboPositionRobot.setModel(new DefaultComboBoxModel(new String[]{"N'importe où", "Contre un mur", "Dans un coin", "Pas contre un mur", "Pas dans un coin", "Contre le mur nord", "Contre le mur est", "Contre le mur sud", "Contre le mur ouest"}));

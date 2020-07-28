@@ -104,9 +104,9 @@ public class Robot implements Cellule, Runnable {
     //fin ajout
 
     private static Integer cpt = 0;
-    private static Robot[] robots = new Robot[AppletPrincipale.getNbRobots() + 1];
+    private static Robot[] robots = new Robot[FramePrincipale.getNbRobots() + 1];
     private final int ID;
-    private static int NBROBOTS = AppletPrincipale.getNbRobots();//--------------------------------- A mettre en place
+    private static int NBROBOTS = FramePrincipale.getNbRobots();//--------------------------------- A mettre en place
     //Ajouté par Sélim
 
     public Cellule quoiDessous() {

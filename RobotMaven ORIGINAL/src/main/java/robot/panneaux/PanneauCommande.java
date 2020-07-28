@@ -222,9 +222,9 @@ public class PanneauCommande extends JPanel {
         labelSelectionDuRobot = new JLabel();
         labelSelectionDuRobot.setText("Sélection du robot");
 
-        String s[] = new String[AppletPrincipale.getNbRobots()];
+        String s[] = new String[FramePrincipale.getNbRobots()];
 
-        for (int i = 0; i < AppletPrincipale.getNbRobots(); ++i)
+        for (int i = 0; i < FramePrincipale.getNbRobots(); ++i)
             s[i] = "Robot " + (i + 1);
 
         comboRobotSelectionne = new JComboBox();

@@ -152,7 +152,7 @@ public class Initialisation implements Serializable {
                 try {
                     throw new Exception("position : " + position + " Ne devrait pas arriver");
                 } catch (Exception ex) {
-                    Logger.getLogger(AppletPrincipale.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(FramePrincipale.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 return null;
         }
@@ -223,11 +223,11 @@ public class Initialisation implements Serializable {
         String s="";
         String s2="";
 
-        for(int i=1; i<=AppletPrincipale.getNbRobots(); ++i)
-            s+=i + " " + AppletPrincipale.getPositionRobot(i) + " ";
+        for(int i=1; i<=FramePrincipale.getNbRobots(); ++i)
+            s+=i + " " + FramePrincipale.getPositionRobot(i) + " ";
 
-        for(int i=1; i<=AppletPrincipale.getNbRobots(); ++i)
-            s2+=i + " " + AppletPrincipale.getOrientationRobot(i) + " ";
+        for(int i=1; i<=FramePrincipale.getNbRobots(); ++i)
+            s2+=i + " " + FramePrincipale.getOrientationRobot(i) + " ";
 
         return "{Position des robots : " + s
                 + ",\\nOrientations des robots : " + s2
@@ -354,19 +354,19 @@ public class Initialisation implements Serializable {
 
         Robot r = new Robot(frameParente.getTerrain(), p.x, p.y, orientationRobot);
         frameParente.setRobot(r);
-        AppletPrincipale.setRobot(i,r);
+        FramePrincipale.setRobot(i,r);
     }//Ajouté par Sélim
 
     private static void placementDesRobots(Detachable frameParente)
     {
-        for (int i = 1; i < AppletPrincipale.getNbRobots() + 1; ++i) {
-            placementDuRobot(AppletPrincipale.getOrientationRobot(i),
-                    AppletPrincipale.getPositionRobot(i),
+        for (int i = 1; i < FramePrincipale.getNbRobots() + 1; ++i) {
+            placementDuRobot(FramePrincipale.getOrientationRobot(i),
+                    FramePrincipale.getPositionRobot(i),
                     frameParente,
                     i);
         }
         Robot.setRobot(0,null);
-        AppletPrincipale.setROBOTACTIF(AppletPrincipale.getROBOTACTIF());
-        frameParente.setRobot(Robot.getRobots()[AppletPrincipale.getROBOTACTIF()]);
+        FramePrincipale.setROBOTACTIF(FramePrincipale.getROBOTACTIF());
+        frameParente.setRobot(Robot.getRobots()[FramePrincipale.getROBOTACTIF()]);
     }
 }
