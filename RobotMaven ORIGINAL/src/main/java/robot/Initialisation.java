@@ -31,6 +31,7 @@ package robot;
 import interfaces.Detachable;
 
 import java.applet.Applet;
+import java.awt.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Random;
@@ -329,7 +330,7 @@ public class Initialisation implements Serializable {
         //fin ajout
 
 
-        frameParente.getRobot().duréeReference = frameParente.getPanneauCommande().getDuree();
+        //frameParente.getRobot().dureeReference = frameParente.getPanneauCommande().getDuree();
         //Programme.changerDeRobot((Instruction) frameParente.getProgramme().getArbreProgramme().getRoot(), frameParente.getRobot());
     }
 
@@ -351,22 +352,20 @@ public class Initialisation implements Serializable {
         }
         while(frameParente.getTerrain().get(p.x,p.y) != null);
 
-
-        Robot r = new Robot(frameParente.getTerrain(), p.x, p.y, orientationRobot);
-        frameParente.setRobot(r);
-        FramePrincipale.setRobot(i,r);
+        FramePrincipale.setRobot(i,new Robot(frameParente.getTerrain(), p.x, p.y, orientationRobot));
     }//Ajouté par Sélim
 
     private static void placementDesRobots(Detachable frameParente)
     {
+        Robot.setRobot(0,null);
+
         for (int i = 1; i < FramePrincipale.getNbRobots() + 1; ++i) {
             placementDuRobot(FramePrincipale.getOrientationRobot(i),
                     FramePrincipale.getPositionRobot(i),
                     frameParente,
                     i);
         }
-        Robot.setRobot(0,null);
-        FramePrincipale.setROBOTACTIF(FramePrincipale.getROBOTACTIF());
-        frameParente.setRobot(Robot.getRobots()[FramePrincipale.getROBOTACTIF()]);
+
+        frameParente.setRobotActif(FramePrincipale.getROBOTACTIF());
     }
 }

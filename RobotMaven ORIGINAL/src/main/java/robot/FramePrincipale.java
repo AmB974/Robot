@@ -25,7 +25,7 @@ import terrain.Terrain;
  */
 public class FramePrincipale extends JFrame implements Detachable {
 
-    private static Robot robot=null;
+    private static Robot robot = null;
 
     //Ajouté par Sélim
 
@@ -48,8 +48,8 @@ public class FramePrincipale extends JFrame implements Detachable {
     private static int ROBOTACTIF = 1;
     private static int VIDE = -2;
     private static int QUELCONQUE = -1;
-    private static int[] orientationsRobots = {VIDE,QUELCONQUE,QUELCONQUE,QUELCONQUE,QUELCONQUE};
-    private static int[] positionsRobots = {VIDE,QUELCONQUE,QUELCONQUE,QUELCONQUE,QUELCONQUE};
+    private static int[] orientationsRobots = {VIDE, QUELCONQUE, QUELCONQUE, QUELCONQUE, QUELCONQUE};
+    private static int[] positionsRobots = {VIDE, QUELCONQUE, QUELCONQUE, QUELCONQUE, QUELCONQUE};
 
 
     @Override
@@ -227,8 +227,9 @@ public class FramePrincipale extends JFrame implements Detachable {
     }
 
     @Override
-    public void setRobot(Robot robot) {
-        this.robot = robot;
+    public void setRobotActif(int id) {
+        robot = Robot.getRobots()[id];
+        ROBOTACTIF = id;
     }
 
     @Override
@@ -271,64 +272,51 @@ public class FramePrincipale extends JFrame implements Detachable {
         panneauDExecution.executeSelection();
     }
 
-    public static int getNbRobots()
-    {
+    public static int getNbRobots() {
         return NBROBOTS;
     }
 
-    public static int[] getOrientationsRobots()
-    {
+    public static int[] getOrientationsRobots() {
         return orientationsRobots;
     }
 
-    public static int getOrientationRobotActif()
-    {
+    public static int getOrientationRobotActif() {
         return orientationsRobots[ROBOTACTIF];
     }
 
-    public static int[] getPositionsRobots()
-    {
+    public static int[] getPositionsRobots() {
         return orientationsRobots;
     }
 
-    public static int getPositionRobotActif()
-    {
+    public static int getPositionRobotActif() {
         return positionsRobots[ROBOTACTIF];
     }
 
-    public static void setOrientationRobot(int orientation, int id)
-    {
+    public static void setOrientationRobot(int orientation, int id) {
         orientationsRobots[id] = orientation;
     }
 
-    public static void setPositionRobot(int position, int id)
-    {
+    public static void setPositionRobot(int position, int id) {
         positionsRobots[id] = position;
     }
 
-    public static int getROBOTACTIF()
-    {
+    public static int getROBOTACTIF() {
         return ROBOTACTIF;
     }
 
-    public static void setROBOTACTIF(int id)
-    {
+    public static void setROBOTACTIF(int id) {
         ROBOTACTIF = id;
     }
 
-    public static int getOrientationRobot(int i)
-    {
+    public static int getOrientationRobot(int i) {
         return orientationsRobots[i];
     }
 
-    public static int getPositionRobot(int i)
-    {
+    public static int getPositionRobot(int i) {
         return positionsRobots[i];
     }
 
-    public static void setRobot(int i, Robot r)
-    {
-        ROBOTACTIF = i;
-        robot = r;
+    public static void setRobot(int i, Robot r) {
+        Robot.getRobots()[i] = r;
     }
 }

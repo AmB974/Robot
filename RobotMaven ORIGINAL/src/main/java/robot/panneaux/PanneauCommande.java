@@ -183,7 +183,7 @@ public class PanneauCommande extends JPanel {
     }//GEN-LAST:event_tourneActionPerformed
 
     private void sliderDuréeActionStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sliderDuréeActionStateChanged
-        frameParente.getRobot().duréeReference = ((JSlider) evt.getSource()).getValue();
+        frameParente.getRobot().dureeReference = ((JSlider) evt.getSource()).getValue();
     }//GEN-LAST:event_sliderDuréeActionStateChanged
 
     private void stopLeRobotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopLeRobotActionPerformed
@@ -210,7 +210,7 @@ public class PanneauCommande extends JPanel {
     }//GEN-LAST:event_avanceActionPerformed
 
     private void comboRobotSelectionneDefinieActionPerformed(ActionEvent evt) {
-        frameParente.setRobot(Robot.getRobots()[comboRobotSelectionne.getSelectedIndex() + 1]);
+        frameParente.setRobotActif(comboRobotSelectionne.getSelectedIndex() + 1);
     }// Ajouté par Sélim
 
     public int getDuree() {
