@@ -54,6 +54,7 @@ public class Avance extends InstructionElementaire {
         }
         robot.avance();
         //avancable.avance();
+
     }
 
     /*@Override

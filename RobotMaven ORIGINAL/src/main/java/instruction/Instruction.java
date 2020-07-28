@@ -67,7 +67,7 @@ public abstract class Instruction extends NoeudProgramme {
      * Permet de changer éventuellement l'objet sur lequel s'applique
      * l'instruction
      *
-     * @param o
+     * @param
      */
     //public abstract void set(Object o);
 

@@ -42,6 +42,9 @@ import terrain.Terrain;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.applet.Applet;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -69,10 +72,7 @@ public class PanneauInitialisation extends JPanel {
     private JLabel labelPositionRobot;
     private JCheckBox largeurDefinie;
 
-    //debut ajout
-    private JSlider jSliderJauge;
-    private JCheckBox jaugeDefinie;
-    //fin ajout
+
 
     private JComboBox comboRobotSelectionne;
     private JLabel labelSelectionDuRobot;
@@ -93,9 +93,9 @@ public class PanneauInitialisation extends JPanel {
         changementInterne = true;
 
         jCheckBoxMinerai.setSelected(initialisation.isPresenceMinerai());
-        comboOrientationRobot.setSelectedIndex(initialisation.getOrientationRobotActif() + 1);
+        comboOrientationRobot.setSelectedIndex(AppletPrincipale.getOrientationRobotActif() + 1);
         comboPositionMinerai.setSelectedIndex(initialisation.getPositionMinerai() + 1);
-        comboPositionRobot.setSelectedIndex(initialisation.getPositionRobotActif() + 1);
+        comboPositionRobot.setSelectedIndex(AppletPrincipale.getPositionRobotActif() + 1);
         largeurDefinie.setSelected(initialisation.isPresenceLargeur());
         jSliderLargeur.setEnabled(initialisation.isPresenceLargeur());
         jSliderLargeur.setValue(initialisation.getLargeur());
@@ -104,9 +104,10 @@ public class PanneauInitialisation extends JPanel {
         jSliderHauteur.setValue(initialisation.getHauteur());
 
         //debut ajout
-        jaugeDefinie.setSelected(initialisation.isPresenceJauge());
-        jSliderJauge.setEnabled(initialisation.isPresenceJauge());
-        jSliderJauge.setValue(initialisation.getJauge());
+        nombrePasDefinie.setSelected(initialisation.isPresenceJauge());
+        jSliderNombrePas.setEnabled(initialisation.isPresenceJauge());
+        jSliderNombrePas.setValue(initialisation.getJauge());
+        textNombrePasExact.setEnabled(initialisation.isPresenceTextArea());
         //fin ajout
 
         changementInterne = false;
@@ -127,9 +128,11 @@ public class PanneauInitialisation extends JPanel {
         largeurDefinie = new JCheckBox();
 
         //debut ajout
-        jSliderJauge = new JSlider();
-        jaugeDefinie = new JCheckBox();
-        //fin ajout
+        jSliderNombrePas = new JSlider();
+        nombrePasDefinie = new JCheckBox();
+
+        textNombrePasExact = new JTextArea();
+        // fin ajout
 
         labelSelectionDuRobot = new JLabel();
         comboRobotSelectionne = new JComboBox();
@@ -185,13 +188,15 @@ public class PanneauInitialisation extends JPanel {
                                                                         .addComponent(largeurDefinie)
                                                                         .addComponent(hauteurDefinie)
                                                                         //debut ajout
-                                                                        .addComponent(jaugeDefinie))
+                                                                        .addComponent(nombrePasDefinie))
                                                                         //fin ajout
                                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                                                         .addComponent(jSliderHauteur, GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
                                                                         .addComponent(jSliderLargeur, GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
-                                                                        .addComponent(jSliderJauge, GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE))
+
+                                                                .addComponent(jSliderNombrePas, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE) //ajout Ambre
+                                                                .addComponent(textNombrePasExact, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE))
                                                                 .addContainerGap()))
                                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)))
                                 )));
@@ -222,13 +227,19 @@ public class PanneauInitialisation extends JPanel {
                                         .addComponent(jSliderLargeur, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                         .addComponent(largeurDefinie))
                                 //debut ajout
-                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                        .addComponent(jSliderJauge, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jaugeDefinie))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jSliderNombrePas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(nombrePasDefinie))
+
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(textNombrePasExact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                )
                                 //fin ajout
                                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }
+
+
 
     private void jCheckBoxMineraiStateChanged(ChangeEvent evt) {
         if (changementInterne) return;
@@ -241,12 +252,12 @@ public class PanneauInitialisation extends JPanel {
 
     private void comboOrientationRobotItemStateChanged(ActionEvent evt) {
         if (changementInterne) return;
-        initialisation.setOrientationRobot(comboOrientationRobot.getSelectedIndex() - 1, initialisation.getROBOTACTIF());
+        AppletPrincipale.setOrientationRobot(comboOrientationRobot.getSelectedIndex() - 1, AppletPrincipale.getROBOTACTIF());
     }
 
     private void comboPositionRobotItemStateChanged(ActionEvent evt) {
         if (changementInterne) return;
-        initialisation.setPositionRobot(comboPositionRobot.getSelectedIndex() - 1, initialisation.getROBOTACTIF());
+        AppletPrincipale.setPositionRobot(comboPositionRobot.getSelectedIndex() - 1, AppletPrincipale.getROBOTACTIF());
     }
 
     private void comboPositionMineraiItemStateChanged(ItemEvent evt) {
@@ -278,42 +289,27 @@ public class PanneauInitialisation extends JPanel {
         initialisation.setLargeur(jSliderLargeur.getValue());
     }
 
-    //debut ajout
-    private void jSliderJaugeStateChanged(ChangeEvent evt) {
-        if (changementInterne) return;
-        initialisation.setJauge(jSliderJauge.getValue());
-    }
-
-    private void jaugeDefinieActionPerformed(ActionEvent evt) {
-        if (changementInterne) return;
-        jSliderJauge.setEnabled(jaugeDefinie.isSelected());
-        initialisation.setPresenceJauge(jaugeDefinie.isSelected());
-        initialisation.setJauge(jSliderJauge.getValue());
-    }
-    //fin ajout
 
     private void comboRobotSelectionneDefinieActionPerformed(ActionEvent evt) {
         if (changementInterne) return;
         selectionneRobot(comboRobotSelectionne.getSelectedIndex() + 1);
-        initialisation.setPositionRobot(comboPositionRobot.getSelectedIndex() - 1, initialisation.getROBOTACTIF());
-        initialisation.setOrientationRobot(comboOrientationRobot.getSelectedIndex() - 1, initialisation.getROBOTACTIF());
+        AppletPrincipale.setPositionRobot(comboPositionRobot.getSelectedIndex() - 1, AppletPrincipale.getROBOTACTIF());
+        AppletPrincipale.setOrientationRobot(comboOrientationRobot.getSelectedIndex() - 1, AppletPrincipale.getROBOTACTIF());
     }// Ajouté par Sélim
 
-    public Initialisation getInitialisation() {
-        return initialisation;
-    }
+
 
     public static void selectionneRobot(int id) {
-        Initialisation.setROBOTACTIF(id);
+        AppletPrincipale.setROBOTACTIF(id);
     }//Ajouté par Sélim
 
     private void initialiseSelectionRobot()
     {
         labelSelectionDuRobot.setText("Sélection du robot");
 
-        String s[] = new String[initialisation.getNbRobots()];
+        String s[] = new String[AppletPrincipale.getNbRobots()];
 
-        for (int i = 0; i < initialisation.getNbRobots(); ++i)
+        for (int i = 0; i < AppletPrincipale.getNbRobots(); ++i)
             s[i] = "Robot " + (i + 1);
 
 
@@ -343,7 +339,7 @@ public class PanneauInitialisation extends JPanel {
     {
         labelPositionRobot.setText("Position du robot");
 
-        if (Initialisation.getNbRobots() == 1) {
+        if (AppletPrincipale.getNbRobots() == 1) {
             comboPositionRobot.setModel(new DefaultComboBoxModel(new String[]{"N'importe où", "Contre un mur", "Dans un coin", "Pas contre un mur", "Pas dans un coin", "Contre le mur nord", "Contre le mur est", "Contre le mur sud", "Contre le mur ouest", "Dans le coin nord-est", "Dans le coin sud-est", "Dans le coin sud-ouest", "Dans le coin nord-ouest"}));
         } else {
             comboPositionRobot.setModel(new DefaultComboBoxModel(new String[]{"N'importe où", "Contre un mur", "Dans un coin", "Pas contre un mur", "Pas dans un coin", "Contre le mur nord", "Contre le mur est", "Contre le mur sud", "Contre le mur ouest"}));
@@ -371,7 +367,7 @@ public class PanneauInitialisation extends JPanel {
     {
         labelPositionMinerai.setText("Position du minerai");
 
-        comboPositionMinerai.setModel(new DefaultComboBoxModel(new String[]{"N'importe où", "Contre un mur", "Dans un coin", "Pas contre un mur", "Pas dans un coin", "Contre le mur nord", "Contre le mur est", "Contre le mur sud", "Contre le mur ouest", "Dans le coin nord-est", "Dans le coin sud-est", "Dans le coin sud-ouest", "Dans le coin nord-ouest"}));
+        comboPositionMinerai.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "N'importe où", "Contre un mur", "Dans un coin", "Pas contre un mur", "Pas dans un coin", "Contre le mur nord", "Contre le mur est", "Contre le mur sud", "Contre le mur ouest", "Dans le coin nord-est", "Dans le coin sud-est", "Dans le coin sud-ouest", "Dans le coin nord-ouest" }));
         comboPositionMinerai.setEnabled(false);
         comboPositionMinerai.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent evt) {
@@ -430,28 +426,115 @@ public class PanneauInitialisation extends JPanel {
         });
     }// Modifié par Sélim
 
-    private void initialiseJauge()
-    {
-        jSliderJauge.setMajorTickSpacing(9);
-        jSliderJauge.setMinimum(1);
-        jSliderJauge.setMinorTickSpacing(1);
-        jSliderJauge.setPaintLabels(true);
-        jSliderJauge.setPaintTicks(true);
-        jSliderJauge.setSnapToTicks(true);
-        jSliderJauge.setToolTipText(jSliderJauge.getValue() + "");
-        jSliderJauge.setValue(10);
-        jSliderJauge.setBorder(BorderFactory.createTitledBorder("Jauge"));
-        jSliderJauge.setEnabled(false);
-        jSliderJauge.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent evt) {
-                jSliderJaugeStateChanged(evt);
+    private void initialiseJauge() {
+        //debut ajout
+        jSliderNombrePas.setMajorTickSpacing(5);
+        jSliderNombrePas.setMinimum(5);
+        jSliderNombrePas.setMinorTickSpacing(1);
+        jSliderNombrePas.setPaintLabels(true);
+        jSliderNombrePas.setPaintTicks(true);
+        jSliderNombrePas.setSnapToTicks(true);
+        jSliderNombrePas.setToolTipText(jSliderNombrePas.getValue() + "");
+        jSliderNombrePas.setValue(10);
+        jSliderNombrePas.setBorder(javax.swing.BorderFactory.createTitledBorder("Nombre de Pas"));
+        jSliderNombrePas.setEnabled(false);
+        jSliderNombrePas.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSliderNombrePasStateChanged(evt);
             }
         });
 
-        jaugeDefinie.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                jaugeDefinieActionPerformed(evt);
+        nombrePasDefinie.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nombrePasDefinieActionPerformed(evt);
             }
         });
+
+
+        textNombrePasExact.setColumns(1);
+        textNombrePasExact.setRows(1);
+        textNombrePasExact.setEditable(false);
+        textNombrePasExact.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
+        textNombrePasExact.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                textNombrePasExactStateChanged(e);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                textNombrePasExactStateChanged(e);
+
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                textNombrePasExactStateChanged(e);
+            }
+        });
+        //fin ajout
+    }
+
+
+
+
+    //debut ajout
+    private void jSliderNombrePasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderJaugeStateChanged
+        if (changementInterne) return;
+        if(!testChiffre) {
+            initialisation.setJauge(jSliderNombrePas.getValue());
+            textNombrePasExact.setText(jSliderNombrePas.getValue() + "");
+        }else if(testChiffre){
+            testChiffre= false;
+        }
+    }//GEN-LAST:event_jSliderJaugeStateChanged
+
+    private void nombrePasDefinieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jaugeDefinieActionPerformed
+        if (changementInterne) return;
+        jSliderNombrePas.setEnabled(nombrePasDefinie.isSelected());
+        textNombrePasExact.setEnabled(nombrePasDefinie.isSelected());
+        textNombrePasExact.setEditable(nombrePasDefinie.isSelected());
+        initialisation.setPresenceJauge(nombrePasDefinie.isSelected());
+        initialisation.setJauge(jSliderNombrePas.getValue());
+
+
+    }//GEN-LAST:event_jaugeDefinieActionPerformed
+
+
+    private void textNombrePasExactStateChanged(DocumentEvent evt) {//GEN-FIRST:event_jSliderJaugeStateChanged
+        if (changementInterne) return;
+        int nombrePas = Integer.parseInt(textNombrePasExact.getText());
+
+        if (!testChiffre) {
+
+            if (nombrePas > 0 && nombrePas <= 100) {
+                initialisation.setJauge(nombrePas);
+                initialisation.setTextArea(textNombrePasExact.getText());
+                jSliderNombrePas.setValue(nombrePas);
+
+            } else if (nombrePas > 100) {
+                initialisation.setJauge(nombrePas);
+                initialisation.setTextArea(textNombrePasExact.getText());
+                jSliderNombrePas.setValue(100);
+            }
+            testChiffre= true;
+        }else if (testChiffre){
+            testChiffre= false;
+        }
+
+    }//GEN-LAST:event_jSliderJaugeStateChanged
+
+    // fin ajout
+
+    //debut ajout
+    private JSlider jSliderNombrePas;
+    private JCheckBox nombrePasDefinie;
+    private JTextArea textNombrePasExact = new JTextArea();
+    private boolean testChiffre = false;
+
+    // End of variables declaration//GEN-END:variables
+
+    public Initialisation getInitialisation() {
+        return initialisation;
     }
 }
