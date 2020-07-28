@@ -57,7 +57,7 @@ public interface Detachable {
 
     public Robot getRobot();
 
-    public void setRobot(Robot robot);
+    public void setRobotActif(int id);
 
     public Dimension getSize();
 

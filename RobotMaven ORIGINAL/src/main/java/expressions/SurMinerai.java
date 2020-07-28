@@ -51,7 +51,7 @@ public class SurMinerai extends ExprBoolElt {
     }
     @Override
     public String toString() {
-        return "sur minerai";
+        return "Sur minerai";
     }
 
     /*@Override

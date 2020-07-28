@@ -37,6 +37,7 @@
 package robot.panneaux;
 
 import robot.*;
+import robot.Robot;
 import terrain.Terrain;
 
 import javax.swing.*;
@@ -44,6 +45,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.applet.Applet;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -72,7 +75,6 @@ public class PanneauInitialisation extends JPanel {
     private JCheckBox largeurDefinie;
 
 
-
     private JComboBox comboRobotSelectionne;
     private JLabel labelSelectionDuRobot;
     //Ajouté par Sélim
@@ -92,9 +94,9 @@ public class PanneauInitialisation extends JPanel {
         changementInterne = true;
 
         jCheckBoxMinerai.setSelected(initialisation.isPresenceMinerai());
-        comboOrientationRobot.setSelectedIndex(initialisation.getOrientationRobotActif() + 1);
+        comboOrientationRobot.setSelectedIndex(FramePrincipale.getOrientationRobotActif() + 1);
         comboPositionMinerai.setSelectedIndex(initialisation.getPositionMinerai() + 1);
-        comboPositionRobot.setSelectedIndex(initialisation.getPositionRobotActif() + 1);
+        comboPositionRobot.setSelectedIndex(FramePrincipale.getPositionRobotActif() + 1);
         largeurDefinie.setSelected(initialisation.isPresenceLargeur());
         jSliderLargeur.setEnabled(initialisation.isPresenceLargeur());
         jSliderLargeur.setValue(initialisation.getLargeur());
@@ -103,11 +105,10 @@ public class PanneauInitialisation extends JPanel {
         jSliderHauteur.setValue(initialisation.getHauteur());
 
         //debut ajout
-        nombrePasDefinie.setSelected(initialisation.isPresenceJauge());
-        jSliderNombrePas.setEnabled(initialisation.isPresenceJauge());
-        jSliderNombrePas.setValue(initialisation.getJauge());
-        textNombrePasExact.setEnabled(initialisation.isPresenceTextArea());
-
+        textNombrePasExact.setEnabled(false);
+        nombrePasDefinie.setSelected(false);
+        jSliderNombrePas.setEnabled(false);
+        jSliderNombrePas.setValue(5);
         //fin ajout
 
         changementInterne = false;
@@ -131,7 +132,7 @@ public class PanneauInitialisation extends JPanel {
         jSliderNombrePas = new JSlider();
         nombrePasDefinie = new JCheckBox();
 
-        textNombrePasExact = new JTextArea();
+        textNombrePasExact = new JTextField();
         // fin ajout
 
         labelSelectionDuRobot = new JLabel();
@@ -189,14 +190,14 @@ public class PanneauInitialisation extends JPanel {
                                                                         .addComponent(hauteurDefinie)
                                                                         //debut ajout
                                                                         .addComponent(nombrePasDefinie))
-                                                                        //fin ajout
+                                                                //fin ajout
                                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                                                         .addComponent(jSliderHauteur, GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
                                                                         .addComponent(jSliderLargeur, GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
 
-                                                                .addComponent(jSliderNombrePas, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE) //ajout Ambre
-                                                                .addComponent(textNombrePasExact, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE))
+                                                                        .addComponent(jSliderNombrePas, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE) //ajout Ambre
+                                                                        .addComponent(textNombrePasExact, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE))
                                                                 .addContainerGap()))
                                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)))
                                 )));
@@ -239,8 +240,6 @@ public class PanneauInitialisation extends JPanel {
         );
     }
 
-
-
     private void jCheckBoxMineraiStateChanged(ChangeEvent evt) {
         if (changementInterne) return;
         if (jCheckBoxMinerai.isSelected())
@@ -252,12 +251,12 @@ public class PanneauInitialisation extends JPanel {
 
     private void comboOrientationRobotItemStateChanged(ActionEvent evt) {
         if (changementInterne) return;
-        initialisation.setOrientationRobot(comboOrientationRobot.getSelectedIndex() - 1, initialisation.getROBOTACTIF());
+        FramePrincipale.setOrientationRobot(comboOrientationRobot.getSelectedIndex() - 1, FramePrincipale.getROBOTACTIF());
     }
 
     private void comboPositionRobotItemStateChanged(ActionEvent evt) {
         if (changementInterne) return;
-        initialisation.setPositionRobot(comboPositionRobot.getSelectedIndex() - 1, initialisation.getROBOTACTIF());
+        FramePrincipale.setPositionRobot(comboPositionRobot.getSelectedIndex() - 1, FramePrincipale.getROBOTACTIF());
     }
 
     private void comboPositionMineraiItemStateChanged(ItemEvent evt) {
@@ -289,27 +288,27 @@ public class PanneauInitialisation extends JPanel {
         initialisation.setLargeur(jSliderLargeur.getValue());
     }
 
-
     private void comboRobotSelectionneDefinieActionPerformed(ActionEvent evt) {
         if (changementInterne) return;
         selectionneRobot(comboRobotSelectionne.getSelectedIndex() + 1);
-        initialisation.setPositionRobot(comboPositionRobot.getSelectedIndex() - 1, initialisation.getROBOTACTIF());
-        initialisation.setOrientationRobot(comboOrientationRobot.getSelectedIndex() - 1, initialisation.getROBOTACTIF());
+        FramePrincipale.setOrientationRobot(comboOrientationRobot.getSelectedIndex()-1,comboRobotSelectionne.getSelectedIndex()+1);
+        FramePrincipale.setPositionRobot(comboPositionRobot.getSelectedIndex()-1,comboRobotSelectionne.getSelectedIndex()+1);
+        System.out.println(textNombrePasExact.getText());
+        FramePrincipale.getRobotSelectionne().setNombreDepPas(Integer.parseInt(textNombrePasExact.getText()));
+        FramePrincipale.getRobotSelectionne().setNombrePas(Integer.parseInt(textNombrePasExact.getText()));
     }// Ajouté par Sélim
 
 
-
     public static void selectionneRobot(int id) {
-        Initialisation.setROBOTACTIF(id);
+        FramePrincipale.setROBOTACTIF(id);
     }//Ajouté par Sélim
 
-    private void initialiseSelectionRobot()
-    {
+    private void initialiseSelectionRobot() {
         labelSelectionDuRobot.setText("Sélection du robot");
 
-        String s[] = new String[initialisation.getNbRobots()];
+        String s[] = new String[FramePrincipale.getNbRobots()];
 
-        for (int i = 0; i < initialisation.getNbRobots(); ++i)
+        for (int i = 0; i < FramePrincipale.getNbRobots(); ++i)
             s[i] = "Robot " + (i + 1);
 
 
@@ -322,8 +321,7 @@ public class PanneauInitialisation extends JPanel {
         });
     }// Modifié par Sélim
 
-    private void initialiseOrientationRobot()
-    {
+    private void initialiseOrientationRobot() {
         labelOrientationRobot.setText("Orientation du robot");
 
         comboOrientationRobot.setModel(new DefaultComboBoxModel(new String[]{"Quelconque", "Vers le nord", "Vers l'est", "Vers le  sud", "Vers l'ouest"}));
@@ -335,11 +333,10 @@ public class PanneauInitialisation extends JPanel {
         });
     }// Modifié par Sélim
 
-    private void initialisePositionRobot()
-    {
+    private void initialisePositionRobot() {
         labelPositionRobot.setText("Position du robot");
 
-        if (Initialisation.getNbRobots() == 1) {
+        if (FramePrincipale.getNbRobots() == 1) {
             comboPositionRobot.setModel(new DefaultComboBoxModel(new String[]{"N'importe où", "Contre un mur", "Dans un coin", "Pas contre un mur", "Pas dans un coin", "Contre le mur nord", "Contre le mur est", "Contre le mur sud", "Contre le mur ouest", "Dans le coin nord-est", "Dans le coin sud-est", "Dans le coin sud-ouest", "Dans le coin nord-ouest"}));
         } else {
             comboPositionRobot.setModel(new DefaultComboBoxModel(new String[]{"N'importe où", "Contre un mur", "Dans un coin", "Pas contre un mur", "Pas dans un coin", "Contre le mur nord", "Contre le mur est", "Contre le mur sud", "Contre le mur ouest"}));
@@ -353,8 +350,7 @@ public class PanneauInitialisation extends JPanel {
         });
     }// Modifié par Sélim
 
-    private void initialisePresenceMinerai()
-    {
+    private void initialisePresenceMinerai() {
         jCheckBoxMinerai.setText("Présence de minerai");
         jCheckBoxMinerai.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent evt) {
@@ -363,11 +359,10 @@ public class PanneauInitialisation extends JPanel {
         });
     }// Modifié par Sélim
 
-    private void initialisePositionMinerai()
-    {
+    private void initialisePositionMinerai() {
         labelPositionMinerai.setText("Position du minerai");
 
-        comboPositionMinerai.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "N'importe où", "Contre un mur", "Dans un coin", "Pas contre un mur", "Pas dans un coin", "Contre le mur nord", "Contre le mur est", "Contre le mur sud", "Contre le mur ouest", "Dans le coin nord-est", "Dans le coin sud-est", "Dans le coin sud-ouest", "Dans le coin nord-ouest" }));
+        comboPositionMinerai.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"N'importe où", "Contre un mur", "Dans un coin", "Pas contre un mur", "Pas dans un coin", "Contre le mur nord", "Contre le mur est", "Contre le mur sud", "Contre le mur ouest", "Dans le coin nord-est", "Dans le coin sud-est", "Dans le coin sud-ouest", "Dans le coin nord-ouest"}));
         comboPositionMinerai.setEnabled(false);
         comboPositionMinerai.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent evt) {
@@ -376,8 +371,7 @@ public class PanneauInitialisation extends JPanel {
         });
     }// Modifié par Sélim
 
-    private void initialiseSliderHauteur()
-    {
+    private void initialiseSliderHauteur() {
         jSliderHauteur.setMajorTickSpacing(5);
         jSliderHauteur.setMinimum(Terrain.minY);
         jSliderHauteur.setMinorTickSpacing(1);
@@ -401,8 +395,7 @@ public class PanneauInitialisation extends JPanel {
         });
     }// Modifié par Sélim
 
-    private void initialiseSliderLargeur()
-    {
+    private void initialiseSliderLargeur() {
         jSliderLargeur.setMajorTickSpacing(5);
         jSliderLargeur.setMinimum(Terrain.minX);
         jSliderLargeur.setMinorTickSpacing(1);
@@ -435,7 +428,7 @@ public class PanneauInitialisation extends JPanel {
         jSliderNombrePas.setPaintTicks(true);
         jSliderNombrePas.setSnapToTicks(true);
         jSliderNombrePas.setToolTipText(jSliderNombrePas.getValue() + "");
-        jSliderNombrePas.setValue(10);
+        jSliderNombrePas.setValue(5);
         jSliderNombrePas.setBorder(javax.swing.BorderFactory.createTitledBorder("Nombre de Pas"));
         jSliderNombrePas.setEnabled(false);
         jSliderNombrePas.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -450,10 +443,9 @@ public class PanneauInitialisation extends JPanel {
             }
         });
 
-
         textNombrePasExact.setColumns(1);
-        textNombrePasExact.setRows(1);
         textNombrePasExact.setEditable(false);
+        textNombrePasExact.setText("10");
         textNombrePasExact.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
         textNombrePasExact.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -463,8 +455,7 @@ public class PanneauInitialisation extends JPanel {
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                textNombrePasExactStateChanged(e);
-
+                //textNombrePasExactStateChanged(e);
             }
 
             @Override
@@ -475,19 +466,14 @@ public class PanneauInitialisation extends JPanel {
         //fin ajout
     }
 
-
-
-
     //debut ajout
     private void jSliderNombrePasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderJaugeStateChanged
-        if (changementInterne) return;
-
-        if(!testChiffre) {
-            initialisation.setJauge(jSliderNombrePas.getValue());
-            textNombrePasExact.setText(jSliderNombrePas.getValue() + "");
-        }else if(testChiffre){
-            testChiffre= false;
+        if (changementInterne) {
+            changementInterne = false;
+            return;
         }
+        textNombrePasExact.setText(jSliderNombrePas.getValue() + "");
+        initialisation.setTextArea(textNombrePasExact.getText());
     }//GEN-LAST:event_jSliderJaugeStateChanged
 
     private void nombrePasDefinieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jaugeDefinieActionPerformed
@@ -495,37 +481,22 @@ public class PanneauInitialisation extends JPanel {
         jSliderNombrePas.setEnabled(nombrePasDefinie.isSelected());
         textNombrePasExact.setEnabled(nombrePasDefinie.isSelected());
         textNombrePasExact.setEditable(nombrePasDefinie.isSelected());
-        initialisation.setPresenceJauge(nombrePasDefinie.isSelected());
-        initialisation.setJauge(jSliderNombrePas.getValue());
-
-
     }//GEN-LAST:event_jaugeDefinieActionPerformed
 
+    private void textNombrePasExactStateChanged(DocumentEvent evt) throws NumberFormatException {//GEN-FIRST:event_jSliderJaugeStateChanged
 
-    private void textNombrePasExactStateChanged(DocumentEvent evt) {//GEN-FIRST:event_jSliderJaugeStateChanged
-        if (changementInterne) return;
         int nombrePas;
-        if(!textNombrePasExact.getText().isEmpty()) {
-            System.out.println("Ici : "+ textNombrePasExact.getText());
-            nombrePas = Integer.parseInt(textNombrePasExact.getText());
 
+        nombrePas = Integer.parseInt(textNombrePasExact.getText());
 
-
-                if (nombrePas > 0 && nombrePas <= 100) {
-                    initialisation.setJauge(nombrePas);
-                    initialisation.setTextArea(textNombrePasExact.getText());
-                    jSliderNombrePas.setValue(nombrePas);
-
-                } else if (nombrePas > 100) {
-                    initialisation.setJauge(nombrePas);
-                    initialisation.setTextArea(textNombrePasExact.getText());
-                    jSliderNombrePas.setValue(100);
-                }
-                testChiffre = true;
-            } else if (testChiffre) {
-                testChiffre = false;
-            }
-        
+        if (nombrePas > 5 && nombrePas < 100) {
+            jSliderNombrePas.setValue(nombrePas);
+        } else if (nombrePas >= 100) {
+            jSliderNombrePas.setValue(100);
+        } else {
+            jSliderNombrePas.setValue(5);
+        }
+        changementInterne=true;
 
     }//GEN-LAST:event_jSliderJaugeStateChanged
 
@@ -533,13 +504,16 @@ public class PanneauInitialisation extends JPanel {
 
     //debut ajout
     private JSlider jSliderNombrePas;
-    private JCheckBox nombrePasDefinie;
-    private JTextArea textNombrePasExact = new JTextArea();
-    private boolean testChiffre = false;
-
+    private static JCheckBox nombrePasDefinie;
+    private JTextField textNombrePasExact = new JTextField();
     // End of variables declaration//GEN-END:variables
 
     public Initialisation getInitialisation() {
         return initialisation;
     }
+
+    public static JCheckBox getNombrePasDefinie() {
+        return nombrePasDefinie;
+    }
+
 }

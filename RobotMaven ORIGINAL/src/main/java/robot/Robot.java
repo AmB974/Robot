@@ -53,7 +53,7 @@ public class Robot implements Cellule, Runnable {
     private static Random random = new Random();
     private boolean stop = false;
     // La durée en ms pour avancer d'une case.
-    public int duréeReference = 200;
+    public int dureeReference = 200;
     private Orientation[] tOrientation = {new Orientation(0, 0, -1), new Orientation(1, 1, 0), new Orientation(2, 0, 1), new Orientation(3, -1, 0)};
     private Orientation vers = tOrientation[0];
     private Color couleur;
@@ -103,21 +103,10 @@ public class Robot implements Cellule, Runnable {
     private Image[][] robotCouleurNprem = new Image[5][4];
     //fin ajout
 
-
     private static Integer cpt = 0;
-    private Robot[] robots = new Robot[NBROBOTS + 1];
+    private static Robot[] robots = new Robot[FramePrincipale.getNbRobots() + 1];
     private final int ID;
-    private static int NBROBOTS = Initialisation.getNbRobots();//--------------------------------- A mettre en place
-    //Ajouté par Sélim
-
-
-    public int getID() {
-        return this.ID;
-    }
-
-    public void setRobots(Robot[] r) {
-        this.robots = r;
-    }
+    private static int NBROBOTS = FramePrincipale.getNbRobots();//--------------------------------- A mettre en place
     //Ajouté par Sélim
 
     public Cellule quoiDessous() {
@@ -791,7 +780,7 @@ public class Robot implements Cellule, Runnable {
 
         try {
 
-            Thread.sleep(duréeReference);
+            Thread.sleep(dureeReference);
         } catch (InterruptedException ex) {
             enMarche = false;
 
@@ -819,7 +808,7 @@ public class Robot implements Cellule, Runnable {
 
         terrain.repaint(x * terrain.getTailleCelluleX(), y * terrain.getTailleCelluleY(), terrain.getTailleCelluleX(), terrain.getTailleCelluleY());
 
-        Thread.sleep(duréeReference);
+        Thread.sleep(dureeReference);
 
 
 
@@ -974,18 +963,23 @@ public class Robot implements Cellule, Runnable {
         }
     }
 
-    private int getIdSuivant() {
-        if (getID() < NBROBOTS)
-            return getID() + 1;
-        else
-            return 1;
-    } //Ajouté par Sélim
+    public static void setRobot(int i, Robot r)
+    {
+        robots[i] = r;
+    }
 
-    public Robot getRobotSuivant() {
-        return robots[getIdSuivant()];
-    } //Ajouté par Sélim
+    public static Robot[] getRobots()
+    {
+        return robots;
+    }
 
-    public int getNbRobots() {
-        return NBROBOTS;
-    } //Ajouté par Sélim
+    public static void setRobots(Robot[] r)
+    {
+        robots = r;
+    }
+
+    public int getID()
+    {
+        return ID;
+    }
 }

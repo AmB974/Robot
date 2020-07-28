@@ -54,10 +54,8 @@ import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
-import robot.FramePrincipale;
-import robot.Initialisation;
-import robot.NoeudProgramme;
-import robot.Programme;
+
+import robot.*;
 
 class JMenuItemNiveau extends JMenuItem {
 
@@ -83,36 +81,36 @@ public class PanneauPrincipal extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
-    private final JButton boutonInitialise = new JButton("initialisation");
-    private final JButton boutonAvance = new JButton("avance");
-    private final JButton boutonTourne = new JButton("tourne");
-    private final JButton boutonMarque = new JButton("marque");
-    private final JButton boutonEfface = new JButton("efface");
-    private final JButton boutonSi = new JButton("si");
-    private final JButton boutonTantQue = new JButton("tant que");
-    private final JButton boutonPour = new JButton("pour");
-    private final JLabel de = new JLabel("de", JLabel.CENTER);
+    private final JButton boutonInitialise = new JButton("Initialisation");
+    private final JButton boutonAvance = new JButton("Avance");
+    private final JButton boutonTourne = new JButton("Tourne");
+    private final JButton boutonMarque = new JButton("Marque");
+    private final JButton boutonEfface = new JButton("Efface");
+    private final JButton boutonSi = new JButton("Si");
+    private final JButton boutonTantQue = new JButton("Tant que");
+    private final JButton boutonPour = new JButton("Pour");
+    private final JLabel de = new JLabel("De", JLabel.CENTER);
     private final JTextField texteDebutPour = new JTextField("1");
-    private final JLabel à = new JLabel("à", JLabel.CENTER);
+    private final JLabel à = new JLabel("À", JLabel.CENTER);
     private final JTextField texteFinPour = new JTextField("10");
-    private final JLabel pas = new JLabel("pas", JLabel.CENTER);
+    private final JLabel pas = new JLabel("Pas", JLabel.CENTER);
     private final JTextField textePasPour = new JTextField("1");
-    private final JButton boutonBloc = new JButton("bloc");
+    private final JButton boutonBloc = new JButton("Bloc");
     private final JTextField texteBloc = new JTextField();
     private final JTextArea texteExprBool = new JTextArea(3, 5);
     private ExprBool exprBoolComplexe = null;
     private ParseurExprBool parseur;
-    private final JButton boutonAjoutProcedure = new JButton("nouvelle procédure");
-    private final JButton boutonAppelProcedure = new JButton("appel de procédure");
+    private final JButton boutonAjoutProcedure = new JButton("Nouvelle procédure");
+    private final JButton boutonAppelProcedure = new JButton("Appel de procédure");
     private final JComboBox<NoeudProgramme> comboAppelProcedure = new JComboBox<>();
     private final JTextField texteNouvelleProcedure = new JTextField();
-    private final JButton boutonEcrire = new JButton("écrire");
+    private final JButton boutonEcrire = new JButton("Écrire");
     private final JButton boutonLire = new JButton("Lire");
     private final JTextField texteLireEcrire = new JTextField();
-    private final JButton boutonSupprime = new JButton("supprimer");
-    private final JButton boutonCopie = new JButton("copier");
-    private final JButton boutonColle = new JButton("coller");
-    private final JButton boutonCoupe = new JButton("couper");
+    private final JButton boutonSupprime = new JButton("Supprimer");
+    private final JButton boutonCopie = new JButton("Copier");
+    private final JButton boutonColle = new JButton("Coller");
+    private final JButton boutonCoupe = new JButton("Couper");
     private final JButton boutonExecutionProgramme = new JButton("Exécution du programme");
     private final JButton boutonExecutionSelection = new JButton("Exécution de la sélection");
     private ByteArrayOutputStream brancheCopiee[] = null;
@@ -205,7 +203,7 @@ public class PanneauPrincipal extends JPanel {
         placementComposant(boutonEcrire, pl, 1, 1);
         placementComposant(texteLireEcrire, pl++, 2, 2);
 
-        placementComposant(new JLabel("Edition", JLabel.CENTER), pl++, 0, 4);
+        placementComposant(new JLabel("Édition", JLabel.CENTER), pl++, 0, 4);
         placementComposant(boutonSupprime, pl, 0);
         placementComposant(boutonCoupe, pl, 1);
         placementComposant(boutonCopie, pl, 2);
@@ -295,13 +293,13 @@ public class PanneauPrincipal extends JPanel {
 
         ArrayList<JMenuItemNiveau> itemNiveau = new ArrayList<>();
         int i = 1;
-        itemNiveau.add(new JMenuItemNiveau(i++, "Niveau 1 : instructions élémentaires seules"));
-        itemNiveau.add(new JMenuItemNiveau(i++, "Niveau 2 : instruction alternative"));
-        itemNiveau.add(new JMenuItemNiveau(i++, "Niveau 3 : instruction itérative"));
-        itemNiveau.add(new JMenuItemNiveau(i++, "Niveau 4 : expressions booleennes complexes"));
-        itemNiveau.add(new JMenuItemNiveau(i++, "Niveau 5 : procédures"));
-        itemNiveau.add(new JMenuItemNiveau(i++, "Niveau 6 : instruction itérative (pour)"));
-        itemNiveau.add(new JMenuItemNiveau(i++, "Niveau 7 : lecture et écriture"));
+        itemNiveau.add(new JMenuItemNiveau(i++, "Niveau 1 : Instructions élémentaires seules"));
+        itemNiveau.add(new JMenuItemNiveau(i++, "Niveau 2 : Instruction alternative"));
+        itemNiveau.add(new JMenuItemNiveau(i++, "Niveau 3 : Instruction itérative"));
+        itemNiveau.add(new JMenuItemNiveau(i++, "Niveau 4 : Expressions booléennes complexes"));
+        itemNiveau.add(new JMenuItemNiveau(i++, "Niveau 5 : Procédures"));
+        itemNiveau.add(new JMenuItemNiveau(i++, "Niveau 6 : Instruction itérative (pour)"));
+        itemNiveau.add(new JMenuItemNiveau(i++, "Niveau 7 : Lecture et écriture"));
 
         ActionListener actionMenuNiveau = new ActionListener() {
 
@@ -320,7 +318,7 @@ public class PanneauPrincipal extends JPanel {
         JMenu menuAide = new JMenu("Aide");
         JMenuItem aide = new JMenuItem("Aide...");
         JMenuItem exo = new JMenuItem("Exercices...");
-        JMenuItem aPropos = new JMenuItem("A propos...");
+        JMenuItem aPropos = new JMenuItem("À propos...");
 
         frameParente.getJMenuBar().add(menuNiveau);
 
@@ -607,7 +605,7 @@ public class PanneauPrincipal extends JPanel {
             //}
         };
 
-        boutonAvance.setText("avance");
+        boutonAvance.setText("Avance");
 
         comboExpression.addItem(new DevantMur());
         comboExpression.addItem(new PasDevantMur());
@@ -687,7 +685,7 @@ public class PanneauPrincipal extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 PanneauPrincipal.this.frameParente.montreDialInit();
-                Initialisation.setROBOTACTIF(1);
+                FramePrincipale.setROBOTACTIF(1);
             }
         });
 

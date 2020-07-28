@@ -53,8 +53,8 @@ public class Programme implements Serializable {
         initialisation = new Initialisation();
         arbreProgramme = new DefaultTreeModel(new Racine());
         procedure  = new HashMap<String, Instruction>();
-        Bloc principal = new Bloc("procédure principale");
-        procedure.put("procédure principale", principal);
+        Bloc principal = new Bloc("Procédure principale");
+        procedure.put("Procédure principale", principal);
         arbreProgramme.insertNodeInto(principal, (Instruction)arbreProgramme.getRoot(), 0);
         
     }
@@ -79,7 +79,7 @@ public class Programme implements Serializable {
     }
 
     public Instruction getProcedurePrincipal() {
-        return procedure.get("procédure principale");
+        return procedure.get("Procédure principale");
     }
     public Instruction getProcedure(String nom) {
         return procedure.get(nom);

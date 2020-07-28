@@ -51,7 +51,7 @@ public class PasDevantMur extends ExprBoolElt {
     }
     @Override
     public String toString() {
-        return "pas devant mur";
+        return "Pas devant mur";
     }
 
     /*@Override

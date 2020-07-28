@@ -50,7 +50,7 @@ public class PasDevantMarque extends ExprBoolElt {
     }
     @Override
     public String toString() {
-        return "pas devant marque";
+        return "Pas devant marque";
     }
 
     /*@Override

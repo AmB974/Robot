@@ -1,31 +1,3 @@
-/*
- * Creative commons CC BY-NC-SA 2020 Yvan Maillot <yvan.maillot@uha.fr>
- *
- *     Share - You can copy and redistribute the material in any medium or format
- *
- *     Adapt - You can remix, transform, and build upon the material
- *
- * Under the following terms :
- *
- *     Attribution - You must give appropriate credit, provide a link to the license,
- *     and indicate if changes were made. You may do so in any reasonable manner,
- *     but not in any way that suggests the licensor endorses you or your use.
- *
- *     NonCommercial — You may not use the material for commercial purposes.
- *
- *     ShareAlike — If you remix, transform, or build upon the material,
- *     you must distribute your contributions under the same license as the original.
- *
- * Notices:    You do not have to comply with the license for elements of
- *             the material in the public domain or where your use is permitted
- *             by an applicable exception or limitation.
- *
- * No warranties are given. The license may not give you all of the permissions
- * necessary for your intended use. For example, other rights such as publicity,
- * privacy, or moral rights may limit how you use the material.
- *
- * See <https://creativecommons.org/licenses/by-nc-sa/4.0/>.
- */
 package robot;
 
 import com.thoughtworks.xstream.XStream;
@@ -53,7 +25,8 @@ import terrain.Terrain;
  */
 public class FramePrincipale extends JFrame implements Detachable {
 
-    private static Robot robot=null;
+    private static Robot robot = null;
+    private static int NBROBOTS = 4;
 
     //Ajouté par Sélim
 
@@ -64,14 +37,19 @@ public class FramePrincipale extends JFrame implements Detachable {
     private PanneauTerrain panneauTerrain = new PanneauTerrain();
     private Terrain terrain;
 
-    private PanneauCommande panneauCommande;
-    private Programme programme;
+    private static PanneauCommande panneauCommande;
+    private Programme[] programme = new Programme[NBROBOTS+1];
     private JSplitPane splitPane;
-    private JTreeRobot arbre;
+    private JTreeRobot[] arbre = new JTreeRobot[NBROBOTS+1];
     private JFileChooser chooser;
     private BoiteDeDialogueInit dialogueInitialisation;
     //private File oldDir;
     private PanneauDExecution panneauDExecution;
+    private static int ROBOTACTIF = 1;
+    private static int VIDE = -2;
+    private static int QUELCONQUE = -1;
+    private static int[] orientationsRobots = {VIDE, QUELCONQUE, QUELCONQUE, QUELCONQUE, QUELCONQUE};
+    private static int[] positionsRobots = {VIDE, QUELCONQUE, QUELCONQUE, QUELCONQUE, QUELCONQUE};
 
 
     @Override
@@ -97,12 +75,12 @@ public class FramePrincipale extends JFrame implements Detachable {
 
     @Override
     public JTree getArbre() {
-        return arbre;
+        return arbre[ROBOTACTIF];
     }
 
     @Override
     public Programme getProgramme() {
-        return programme;
+        return programme[ROBOTACTIF];
     }
 
     @Override
@@ -119,7 +97,7 @@ public class FramePrincipale extends JFrame implements Detachable {
     public void montreDialInit() {
         dialogueInitialisation.setVisible(true);
         if (dialogueInitialisation.getOk()) {
-            programme.setInitialisation(dialogueInitialisation.getInitialisation());
+            programme[ROBOTACTIF].setInitialisation(dialogueInitialisation.getInitialisation());
             Initialisation.initialiser(dialogueInitialisation.getInitialisation(), this, true);
         }
     }
@@ -145,8 +123,11 @@ public class FramePrincipale extends JFrame implements Detachable {
 
         dialogueInitialisation = new BoiteDeDialogueInit(this);
 
-        programme = new Programme();
-        arbre = new JTreeRobot(programme.getArbreProgramme());
+        for(int i=0; i<NBROBOTS; ++i)
+        {
+            programme[i] = new Programme();
+            arbre[i] = new JTreeRobot(programme[i].getArbreProgramme());
+        }
 
         miseEnPlaceDesMenus();
 
@@ -155,8 +136,8 @@ public class FramePrincipale extends JFrame implements Detachable {
         Dimension tailleMini = new Dimension(0, 0);
 
         // TEST SPLIT PANE
-        //JScrollPane scropane1 = new JScrollPane(panneauPrincipal);
-        //scropane1.setMinimumSize(tailleMini);
+        JScrollPane scropane1 = new JScrollPane(panneauPrincipal);
+        scropane1.setMinimumSize(tailleMini);
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
                 panneauPrincipal, panneauTerrain);
 
@@ -182,7 +163,6 @@ public class FramePrincipale extends JFrame implements Detachable {
         chooser.setFileFilter(filtre);
 
         pack();
-
     }
 
     private void miseEnPlaceDesMenus() {
@@ -250,8 +230,9 @@ public class FramePrincipale extends JFrame implements Detachable {
     }
 
     @Override
-    public void setRobot(Robot robot) {
-        this.robot = robot;
+    public void setRobotActif(int id) {
+        robot = Robot.getRobots()[id];
+        ROBOTACTIF = id;
     }
 
     @Override
@@ -292,5 +273,64 @@ public class FramePrincipale extends JFrame implements Detachable {
     @Override
     public void executeSelection() {
         panneauDExecution.executeSelection();
+    }
+
+    public static int getNbRobots() {
+        return NBROBOTS;
+    }
+
+    public static int[] getOrientationsRobots() {
+        return orientationsRobots;
+    }
+
+    public static int getOrientationRobotActif() {
+        return orientationsRobots[ROBOTACTIF];
+    }
+
+    public static int[] getPositionsRobots() {
+        return orientationsRobots;
+    }
+
+    public static int getPositionRobotActif() {
+        return positionsRobots[ROBOTACTIF];
+    }
+
+    public static void setOrientationRobot(int orientation, int id) {
+        orientationsRobots[id] = orientation;
+    }
+
+    public static void setPositionRobot(int position, int id) {
+        positionsRobots[id] = position;
+    }
+
+    public static int getROBOTACTIF() {
+        return ROBOTACTIF;
+    }
+
+    public static void setROBOTACTIF(int id) {
+        ROBOTACTIF = id;
+    }
+
+    public static int getOrientationRobot(int i) {
+        return orientationsRobots[i];
+    }
+
+    public static int getPositionRobot(int i) {
+        return positionsRobots[i];
+    }
+
+    public static void setRobot(int i, Robot r) {
+        Robot.getRobots()[i] = r;
+    }
+
+    public static void resetComboBoxEtROBOTACTIF()
+    {
+        ROBOTACTIF = 1;
+        panneauCommande.getComboRobotSelectionne().setSelectedIndex(FramePrincipale.getROBOTACTIF()-1);
+    }
+
+    public static Robot getRobotSelectionne()
+    {
+        return robot;
     }
 }
