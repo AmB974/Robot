@@ -90,17 +90,17 @@ public class Robot implements Cellule, Runnable {
     public int getNombrePas(){ return this.nombrePas;}
     public void setNombrePas(int nombrePas){ this.nombrePas=nombrePas;}
     public void setNombreDepPas(int nombreDepPas){ this.nombreDepPas = nombreDepPas;}
-    private Image[] robotCouleurE = new Image[5];
-    private Image[] robotCouleurEprem = new Image[5];
+    private Image[][] robotCouleurE = new Image[5][4];
+    private Image[][] robotCouleurEprem = new Image[5][4];
 
-    private Image[] robotCouleurS = new Image[5];
-    private Image[] robotCouleurSprem = new Image[5];
+    private Image[][] robotCouleurS = new Image[5][4];
+    private Image[][] robotCouleurSprem = new Image[5][4];
 
-    private Image[] robotCouleurO = new Image[5];
-    private Image[] robotCouleurOprem = new Image[5];
+    private Image[][] robotCouleurO = new Image[5][4];
+    private Image[][] robotCouleurOprem = new Image[5][4];
 
-    private Image[] robotCouleurN = new Image[5];
-    private Image[] robotCouleurNprem = new Image[5];
+    private Image[][] robotCouleurN = new Image[5][4];
+    private Image[][] robotCouleurNprem = new Image[5][4];
     //fin ajout
 
     private static AtomicInteger cpt = new AtomicInteger(0);
@@ -184,29 +184,61 @@ public class Robot implements Cellule, Runnable {
         robotCasse[2] = robotCasseprem[2].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
         robotCasse[3] = robotCasseprem[3].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
 
-        robotCouleurE[0] = robotCouleurEprem[0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
-        robotCouleurE[1] = robotCouleurEprem[1].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
-        robotCouleurE[2] = robotCouleurEprem[2].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
-        robotCouleurE[3] = robotCouleurEprem[3].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
-        robotCouleurE[4] = robotCouleurEprem[4].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
 
-        robotCouleurS[0] = robotCouleurSprem[0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
-        robotCouleurS[1] = robotCouleurSprem[1].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
-        robotCouleurS[2] = robotCouleurSprem[2].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
-        robotCouleurS[3] = robotCouleurSprem[3].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
-        robotCouleurS[4] = robotCouleurSprem[4].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
 
-        robotCouleurO[0] = robotCouleurOprem[0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
-        robotCouleurO[1] = robotCouleurOprem[1].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
-        robotCouleurO[2] = robotCouleurOprem[2].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
-        robotCouleurO[3] = robotCouleurOprem[3].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
-        robotCouleurO[4] = robotCouleurOprem[4].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
 
-        robotCouleurN[0] = robotCouleurNprem[0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
-        robotCouleurN[1] = robotCouleurNprem[1].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
-        robotCouleurN[2] = robotCouleurNprem[2].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
-        robotCouleurN[3] = robotCouleurNprem[3].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
-        robotCouleurN[4] = robotCouleurNprem[4].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+
+
+
+        robotCouleurE[0][0] = robotCouleurEprem[0][0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotCouleurE[1][0] = robotCouleurEprem[1][0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotCouleurE[2][0] = robotCouleurEprem[2][0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotCouleurE[3][0] = robotCouleurEprem[3][0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotCouleurE[4][0] = robotCouleurEprem[4][0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+
+        robotCouleurE[0][1] = robotCouleurEprem[0][1].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotCouleurE[1][1] = robotCouleurEprem[1][1].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotCouleurE[2][1] = robotCouleurEprem[2][1].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotCouleurE[3][1] = robotCouleurEprem[3][1].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotCouleurE[4][1] = robotCouleurEprem[4][1].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+
+        robotCouleurE[0][2] = robotCouleurEprem[0][2].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotCouleurE[1][2] = robotCouleurEprem[1][2].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotCouleurE[2][2] = robotCouleurEprem[2][2].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotCouleurE[3][2] = robotCouleurEprem[3][2].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotCouleurE[4][2] = robotCouleurEprem[4][2].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+
+        robotCouleurE[0][3] = robotCouleurEprem[0][3].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotCouleurE[1][3] = robotCouleurEprem[1][3].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotCouleurE[2][3] = robotCouleurEprem[2][3].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotCouleurE[3][3] = robotCouleurEprem[3][3].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotCouleurE[4][3] = robotCouleurEprem[4][3].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+
+
+
+
+
+
+
+
+
+        robotCouleurS[0][0] = robotCouleurSprem[0][0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotCouleurS[1][0] = robotCouleurSprem[1][0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotCouleurS[2][0] = robotCouleurSprem[2][0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotCouleurS[3][0] = robotCouleurSprem[3][0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotCouleurS[4][0] = robotCouleurSprem[4][0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+
+        robotCouleurO[0][0] = robotCouleurOprem[0][0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotCouleurO[1][0] = robotCouleurOprem[1][0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotCouleurO[2][0] = robotCouleurOprem[2][0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotCouleurO[3][0] = robotCouleurOprem[3][0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotCouleurO[4][0] = robotCouleurOprem[4][0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+
+        robotCouleurN[0][0] = robotCouleurNprem[0][0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotCouleurN[1][0] = robotCouleurNprem[1][0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotCouleurN[2][0] = robotCouleurNprem[2][0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotCouleurN[3][0] = robotCouleurNprem[3][0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotCouleurN[4][0] = robotCouleurNprem[4][0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
     }
 
     private class Orientation {
@@ -322,53 +354,98 @@ public class Robot implements Cellule, Runnable {
             robotCasse[2] = robotCasseprem[2].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
             robotCasse[3] = robotCasseprem[3].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
 
-            robotCouleurEprem[0] = ImageIO.read(Robot.class.getResource("/images/robotVertEst.png"));
-            robotCouleurEprem[1] = ImageIO.read(Robot.class.getResource("/images/robotVertClaireEst.png"));
-            robotCouleurEprem[2] = ImageIO.read(Robot.class.getResource("/images/robotJauneEst.png"));
-            robotCouleurEprem[3] = ImageIO.read(Robot.class.getResource("/images/robotOrangeEst.png"));
-            robotCouleurEprem[4] = ImageIO.read(Robot.class.getResource("/images/robotRougeEst.png"));
 
-            robotCouleurE[0] = robotCouleurEprem[0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
-            robotCouleurE[1] = robotCouleurEprem[1].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
-            robotCouleurE[2] = robotCouleurEprem[2].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
-            robotCouleurE[3] = robotCouleurEprem[3].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
-            robotCouleurE[4] = robotCouleurEprem[4].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
 
-            robotCouleurSprem[0] = ImageIO.read(Robot.class.getResource("/images/robotVertSud.png"));
-            robotCouleurSprem[1] = ImageIO.read(Robot.class.getResource("/images/robotVertClaireSud.png"));
-            robotCouleurSprem[2] = ImageIO.read(Robot.class.getResource("/images/robotJauneSud.png"));
-            robotCouleurSprem[3] = ImageIO.read(Robot.class.getResource("/images/robotOrangeSud.png"));
-            robotCouleurSprem[4] = ImageIO.read(Robot.class.getResource("/images/robotRougeSud.png"));
 
-            robotCouleurS[0] = robotCouleurSprem[0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
-            robotCouleurS[1] = robotCouleurSprem[1].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
-            robotCouleurS[2] = robotCouleurSprem[2].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
-            robotCouleurS[3] = robotCouleurSprem[3].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
-            robotCouleurS[4] = robotCouleurSprem[4].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
 
-            robotCouleurOprem[0] = ImageIO.read(Robot.class.getResource("/images/robotVertOuest.png"));
-            robotCouleurOprem[1] = ImageIO.read(Robot.class.getResource("/images/robotVertClaireOuest.png"));
-            robotCouleurOprem[2] = ImageIO.read(Robot.class.getResource("/images/robotJauneOuest.png"));
-            robotCouleurOprem[3] = ImageIO.read(Robot.class.getResource("/images/robotOrangeOuest.png"));
-            robotCouleurOprem[4] = ImageIO.read(Robot.class.getResource("/images/robotRougeOuest.png"));
+            robotCouleurEprem[0][0] = ImageIO.read(Robot.class.getResource("/images/robotVertEstUn.png"));
+            robotCouleurEprem[1][0] = ImageIO.read(Robot.class.getResource("/images/robotVertClaireEst.png"));
+            robotCouleurEprem[2][0] = ImageIO.read(Robot.class.getResource("/images/robotJauneEst.png"));
+            robotCouleurEprem[3][0] = ImageIO.read(Robot.class.getResource("/images/robotOrangeEst.png"));
+            robotCouleurEprem[4][0] = ImageIO.read(Robot.class.getResource("/images/robotRougeEst.png"));
 
-            robotCouleurO[0] = robotCouleurOprem[0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
-            robotCouleurO[1] = robotCouleurOprem[1].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
-            robotCouleurO[2] = robotCouleurOprem[2].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
-            robotCouleurO[3] = robotCouleurOprem[3].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
-            robotCouleurO[4] = robotCouleurOprem[4].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotCouleurEprem[0][1] = ImageIO.read(Robot.class.getResource("/images/robotVertEstDeux.png"));
+            robotCouleurEprem[1][1] = ImageIO.read(Robot.class.getResource("/images/robotVertClaireEst.png"));
+            robotCouleurEprem[2][1] = ImageIO.read(Robot.class.getResource("/images/robotJauneEst.png"));
+            robotCouleurEprem[3][1] = ImageIO.read(Robot.class.getResource("/images/robotOrangeEst.png"));
+            robotCouleurEprem[4][1] = ImageIO.read(Robot.class.getResource("/images/robotRougeEst.png"));
 
-            robotCouleurNprem[0] = ImageIO.read(Robot.class.getResource("/images/robotVertNord.png"));
-            robotCouleurNprem[1] = ImageIO.read(Robot.class.getResource("/images/robotVertClaireNord.png"));
-            robotCouleurNprem[2] = ImageIO.read(Robot.class.getResource("/images/robotJauneNord.png"));
-            robotCouleurNprem[3] = ImageIO.read(Robot.class.getResource("/images/robotOrangeNord.png"));
-            robotCouleurNprem[4] = ImageIO.read(Robot.class.getResource("/images/robotRougeNord.png"));
+            robotCouleurEprem[0][0] = ImageIO.read(Robot.class.getResource("/images/robotVertEst.png"));
+            robotCouleurEprem[1][0] = ImageIO.read(Robot.class.getResource("/images/robotVertClaireEst.png"));
+            robotCouleurEprem[2][0] = ImageIO.read(Robot.class.getResource("/images/robotJauneEst.png"));
+            robotCouleurEprem[3][0] = ImageIO.read(Robot.class.getResource("/images/robotOrangeEst.png"));
+            robotCouleurEprem[4][0] = ImageIO.read(Robot.class.getResource("/images/robotRougeEst.png"));
 
-            robotCouleurN[0] = robotCouleurNprem[0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
-            robotCouleurN[1] = robotCouleurNprem[1].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
-            robotCouleurN[2] = robotCouleurNprem[2].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
-            robotCouleurN[3] = robotCouleurNprem[3].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
-            robotCouleurN[4] = robotCouleurNprem[4].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotCouleurEprem[0][0] = ImageIO.read(Robot.class.getResource("/images/robotVertEst.png"));
+            robotCouleurEprem[1][0] = ImageIO.read(Robot.class.getResource("/images/robotVertClaireEst.png"));
+            robotCouleurEprem[2][0] = ImageIO.read(Robot.class.getResource("/images/robotJauneEst.png"));
+            robotCouleurEprem[3][0] = ImageIO.read(Robot.class.getResource("/images/robotOrangeEst.png"));
+            robotCouleurEprem[4][0] = ImageIO.read(Robot.class.getResource("/images/robotRougeEst.png"));
+
+            robotCouleurE[0][0] = robotCouleurEprem[0][0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotCouleurE[1][0] = robotCouleurEprem[1][0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotCouleurE[2][0] = robotCouleurEprem[2][0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotCouleurE[3][0] = robotCouleurEprem[3][0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotCouleurE[4][0] = robotCouleurEprem[4][0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+
+            robotCouleurE[0][1] = robotCouleurEprem[0][1].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotCouleurE[1][1] = robotCouleurEprem[1][1].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotCouleurE[2][1] = robotCouleurEprem[2][1].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotCouleurE[3][1] = robotCouleurEprem[3][1].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotCouleurE[4][1] = robotCouleurEprem[4][1].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+
+            robotCouleurE[0][2] = robotCouleurEprem[0][2].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotCouleurE[1][2] = robotCouleurEprem[1][2].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotCouleurE[2][2] = robotCouleurEprem[2][2].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotCouleurE[3][2] = robotCouleurEprem[3][2].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotCouleurE[4][2] = robotCouleurEprem[4][2].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+
+            robotCouleurE[0][3] = robotCouleurEprem[0][3].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotCouleurE[1][3] = robotCouleurEprem[1][3].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotCouleurE[2][3] = robotCouleurEprem[2][3].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotCouleurE[3][3] = robotCouleurEprem[3][3].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotCouleurE[4][3] = robotCouleurEprem[4][3].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+
+
+
+
+
+
+            robotCouleurSprem[0][0] = ImageIO.read(Robot.class.getResource("/images/robotVertSud.png"));
+            robotCouleurSprem[1][0] = ImageIO.read(Robot.class.getResource("/images/robotVertClaireSud.png"));
+            robotCouleurSprem[2][0] = ImageIO.read(Robot.class.getResource("/images/robotJauneSud.png"));
+            robotCouleurSprem[3][0] = ImageIO.read(Robot.class.getResource("/images/robotOrangeSud.png"));
+            robotCouleurSprem[4][0] = ImageIO.read(Robot.class.getResource("/images/robotRougeSud.png"));
+
+            robotCouleurS[0][0] = robotCouleurSprem[0][0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotCouleurS[1][0] = robotCouleurSprem[1][0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotCouleurS[2][0] = robotCouleurSprem[2][0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotCouleurS[3][0] = robotCouleurSprem[3][0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotCouleurS[4][0] = robotCouleurSprem[4][0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+
+            robotCouleurOprem[0][0] = ImageIO.read(Robot.class.getResource("/images/robotVertOuest.png"));
+            robotCouleurOprem[1][0] = ImageIO.read(Robot.class.getResource("/images/robotVertClaireOuest.png"));
+            robotCouleurOprem[2][0] = ImageIO.read(Robot.class.getResource("/images/robotJauneOuest.png"));
+            robotCouleurOprem[3][0] = ImageIO.read(Robot.class.getResource("/images/robotOrangeOuest.png"));
+            robotCouleurOprem[4][0] = ImageIO.read(Robot.class.getResource("/images/robotRougeOuest.png"));
+
+            robotCouleurO[0][0] = robotCouleurOprem[0][0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotCouleurO[1][0] = robotCouleurOprem[1][0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotCouleurO[2][0] = robotCouleurOprem[2][0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotCouleurO[3][0] = robotCouleurOprem[3][0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotCouleurO[4][0] = robotCouleurOprem[4][0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+
+            robotCouleurNprem[0][0] = ImageIO.read(Robot.class.getResource("/images/robotVertNord.png"));
+            robotCouleurNprem[1][0] = ImageIO.read(Robot.class.getResource("/images/robotVertClaireNord.png"));
+            robotCouleurNprem[2][0] = ImageIO.read(Robot.class.getResource("/images/robotJauneNord.png"));
+            robotCouleurNprem[3][0] = ImageIO.read(Robot.class.getResource("/images/robotOrangeNord.png"));
+            robotCouleurNprem[4][0] = ImageIO.read(Robot.class.getResource("/images/robotRougeNord.png"));
+
+            robotCouleurN[0][0] = robotCouleurNprem[0][0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotCouleurN[1][0] = robotCouleurNprem[1][0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotCouleurN[2][0] = robotCouleurNprem[2][0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotCouleurN[3][0] = robotCouleurNprem[3][0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotCouleurN[4][0] = robotCouleurNprem[4][0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
 
         } catch (IOException ex) {
             Logger.getLogger(Robot.class.getName()).log(Level.SEVERE, null, ex);
@@ -579,19 +656,19 @@ public class Robot implements Cellule, Runnable {
 
         if(orientation.direction == Terrain.NORD ){
             //image Nord
-            couleurEnvoyer[0] = this.robotCouleurN[numero];
+            couleurEnvoyer[0] = this.robotCouleurN[numero][this.ID];
             this.image= couleurEnvoyer;
         } else if(orientation.direction == Terrain.EST){
             //image Est
-            couleurEnvoyer[0] = this.robotCouleurE[numero];
+            couleurEnvoyer[0] = this.robotCouleurE[numero][this.ID];
             this.image= couleurEnvoyer;
         }else if(orientation.direction == Terrain.SUD){
             //image Sud
-            couleurEnvoyer[0] = this.robotCouleurS[numero];
+            couleurEnvoyer[0] = this.robotCouleurS[numero][this.ID];
             this.image= couleurEnvoyer;
         }else{
             //image Ouest
-            couleurEnvoyer[0] = this.robotCouleurO[numero];
+            couleurEnvoyer[0] = this.robotCouleurO[numero][this.ID];
             this.image= couleurEnvoyer;
         }
 
