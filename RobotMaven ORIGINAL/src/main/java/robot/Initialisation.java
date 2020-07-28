@@ -80,7 +80,7 @@ public class Initialisation implements Serializable {
 
     // debut Ajout
     private String textArea[] = new String[FramePrincipale.getNbRobots()+1];
-    {
+        {
         for(int i=0; i<FramePrincipale.getNbRobots()+1;++i)
         {
             textArea[i]=null;
