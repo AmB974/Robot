@@ -29,6 +29,8 @@
 package robot;
 
 import interfaces.Detachable;
+
+import java.applet.Applet;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Random;
@@ -36,6 +38,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import jdk.management.resource.internal.inst.AbstractPlainDatagramSocketImplRMHooks;
 import robot.panneaux.PanneauInitialisation;
 import terrain.Cellule;
 import terrain.Minerai;
@@ -50,7 +53,6 @@ public class Initialisation implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public static final int VIDE = -2;
-
     public static final int QUELCONQUE = -1;
     public static final int CONTRE_UN_MUR = 0;
     public static final int DANS_UN_COIN = 1;
@@ -65,14 +67,7 @@ public class Initialisation implements Serializable {
     public static final int DANS_LE_COIN_SO = 10;
     public static final int DANS_LE_COIN_NO = 11;
 
-    private int[] positionsRobots = {VIDE, QUELCONQUE, QUELCONQUE, QUELCONQUE, QUELCONQUE};
-    private static int NBMAXROBOTS = 4;
-    private static int NBROBOTS = 4;//--------------------------------- A mettre en place
-    private static int ROBOTACTIF = 1;
-    private static Robot[] robots = new Robot[NBMAXROBOTS+1];
     //Ajouté par Sélim
-
-    private int[] orientationsRobots = {VIDE, QUELCONQUE, QUELCONQUE, QUELCONQUE, QUELCONQUE};
     private boolean presenceMinerai = false;
     private int positionMinerai = QUELCONQUE;
     private boolean presenceHauteur = false;
@@ -175,11 +170,6 @@ public class Initialisation implements Serializable {
     public void setPresenceTextArea(boolean presenceTextArea){this.presenceTextArea = presenceTextArea;}
     //fin ajout
 
-    public static int getNbRobots()
-    {
-        return NBROBOTS;
-    }//Ajouté par Sélim
-
     public int getHauteur() {
         return hauteur;
     }
@@ -212,42 +202,16 @@ public class Initialisation implements Serializable {
         this.presenceLargeur = presenceLargeur;
     }
 
-    public int[] getOrientationsRobots() {
-        return orientationsRobots;
-    }
-
-    public int getOrientationRobotActif(){
-        return orientationsRobots[ROBOTACTIF];
-    }
-
     public int getPositionMinerai() {
         return positionMinerai;
-    }
-
-    public int[] getPositionsRobots() {
-        return positionsRobots;
-    }
-
-    public int getPositionRobotActif()
-    {
-        return this.positionsRobots[ROBOTACTIF];
     }
 
     public boolean isPresenceMinerai() {
         return presenceMinerai;
     }
 
-    public void setOrientationRobot(int orientationRobot, int robot)
-    {
-        this.orientationsRobots[robot] = orientationRobot;
-    }
-
     public void setPositionMinerai(int positionMinerai) {
         this.positionMinerai = positionMinerai;
-    }
-
-    public void setPositionRobot(int positionRobot, int robot) {
-        this.positionsRobots[robot] = positionRobot;
     }
 
     public void setPrésenceMinerai(boolean presenceMinerai) {
@@ -259,11 +223,11 @@ public class Initialisation implements Serializable {
         String s="";
         String s2="";
 
-        for(int i=1; i<=NBROBOTS; ++i)
-            s+=i + " " + positionsRobots[i] + " ";
+        for(int i=1; i<=AppletPrincipale.getNbRobots(); ++i)
+            s+=i + " " + AppletPrincipale.getPositionRobot(i) + " ";
 
-        for(int i=1; i<=NBROBOTS; ++i)
-            s2+=i + " " + orientationsRobots[i] + " ";
+        for(int i=1; i<=AppletPrincipale.getNbRobots(); ++i)
+            s2+=i + " " + AppletPrincipale.getOrientationRobot(i) + " ";
 
         return "{Position des robots : " + s
                 + ",\\nOrientations des robots : " + s2
@@ -390,36 +354,19 @@ public class Initialisation implements Serializable {
 
         Robot r = new Robot(frameParente.getTerrain(), p.x, p.y, orientationRobot);
         frameParente.setRobot(r);
-        robots[i] = r;
-
-
+        AppletPrincipale.setRobot(i,r);
     }//Ajouté par Sélim
-
-    public Robot[] getRobots()
-    {
-        return this.robots;
-    }
 
     private static void placementDesRobots(Detachable frameParente)
     {
-        for (int i = 1; i <= NBROBOTS; ++i) {
-            placementDuRobot(frameParente.getProgramme().getInitialisation().getOrientationsRobots()[i],
-                    frameParente.getProgramme().getInitialisation().getPositionsRobots()[i],
+        for (int i = 1; i < AppletPrincipale.getNbRobots() + 1; ++i) {
+            placementDuRobot(AppletPrincipale.getOrientationRobot(i),
+                    AppletPrincipale.getPositionRobot(i),
                     frameParente,
                     i);
         }
-        robots[0]=null;
-        for (int i = 1; i < 5; ++i)
-            robots[i].setRobots(robots);
-    }
-
-    public static void setROBOTACTIF(int id)
-    {
-        ROBOTACTIF = id;
-    }
-
-    public int getROBOTACTIF()
-    {
-        return ROBOTACTIF;
+        Robot.setRobot(0,null);
+        AppletPrincipale.setROBOTACTIF(AppletPrincipale.getROBOTACTIF());
+        frameParente.setRobot(Robot.getRobots()[AppletPrincipale.getROBOTACTIF()]);
     }
 }

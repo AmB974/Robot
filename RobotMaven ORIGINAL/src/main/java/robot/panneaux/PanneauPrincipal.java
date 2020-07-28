@@ -54,10 +54,8 @@ import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
-import robot.FramePrincipale;
-import robot.Initialisation;
-import robot.NoeudProgramme;
-import robot.Programme;
+
+import robot.*;
 
 class JMenuItemNiveau extends JMenuItem {
 
@@ -687,7 +685,7 @@ public class PanneauPrincipal extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 PanneauPrincipal.this.frameParente.montreDialInit();
-                Initialisation.setROBOTACTIF(1);
+                AppletPrincipale.setROBOTACTIF(1);
             }
         });
 

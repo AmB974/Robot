@@ -103,21 +103,10 @@ public class Robot implements Cellule, Runnable {
     private Image[] robotCouleurNprem = new Image[5];
     //fin ajout
 
-
     private static Integer cpt = 0;
-    private Robot[] robots = new Robot[NBROBOTS + 1];
+    private static Robot[] robots = new Robot[AppletPrincipale.getNbRobots() + 1];
     private final int ID;
-    private static int NBROBOTS = Initialisation.getNbRobots();//--------------------------------- A mettre en place
-    //Ajouté par Sélim
-
-
-    public int getID() {
-        return this.ID;
-    }
-
-    public void setRobots(Robot[] r) {
-        this.robots = r;
-    }
+    private static int NBROBOTS = AppletPrincipale.getNbRobots();//--------------------------------- A mettre en place
     //Ajouté par Sélim
 
     public Cellule quoiDessous() {
@@ -719,18 +708,23 @@ public class Robot implements Cellule, Runnable {
         }
     }
 
-    private int getIdSuivant() {
-        if (getID() < NBROBOTS)
-            return getID() + 1;
-        else
-            return 1;
-    } //Ajouté par Sélim
+    public static void setRobot(int i, Robot r)
+    {
+        robots[i] = r;
+    }
 
-    public Robot getRobotSuivant() {
-        return robots[getIdSuivant()];
-    } //Ajouté par Sélim
+    public static Robot[] getRobots()
+    {
+        return robots;
+    }
 
-    public int getNbRobots() {
-        return NBROBOTS;
-    } //Ajouté par Sélim
+    public static void setRobots(Robot[] r)
+    {
+        robots = r;
+    }
+
+    public int getID()
+    {
+        return ID;
+    }
 }

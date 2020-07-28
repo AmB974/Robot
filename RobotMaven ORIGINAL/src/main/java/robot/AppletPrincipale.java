@@ -44,12 +44,22 @@ public class AppletPrincipale extends JApplet implements Detachable {
 
     private static final long serialVersionUID = 1L;
 
+    public static final int VIDE = -2;
+    public static final int QUELCONQUE = -1;
+    public static final int CONTRE_UN_MUR = 0;
+    public static final int DANS_UN_COIN = 1;
+    public static final int PAS_CONTRE_UN_MUR = 2;
+    private static int NBROBOTS = 4;
+    private static int[] positionsRobots = {VIDE, QUELCONQUE, QUELCONQUE, QUELCONQUE, QUELCONQUE};
+    private static int[] orientationsRobots = {VIDE, QUELCONQUE, QUELCONQUE, QUELCONQUE, QUELCONQUE};
+    private static int ROBOTACTIF = 1;
+
     private static Random random = new Random();
 
     private PanneauPrincipal panneauPrincipal;
     private PanneauTerrain panneauTerrain = new PanneauTerrain();
     private Terrain terrain;
-    private Robot robot;
+    private static Robot robot = null;
     private PanneauCommande panneauCommande;
     private Programme programme;
     private JSplitPane splitPane;
@@ -215,9 +225,53 @@ public class AppletPrincipale extends JApplet implements Detachable {
         
     }
 
-    public static void setRobot()
+    public static int getNbRobots()
     {
+        return NBROBOTS;
+    }
 
+    public static int getPositionRobotActif()
+    {
+        return positionsRobots[ROBOTACTIF];
+    }
+
+    public static int getPositionRobot(int i)
+    {
+        return positionsRobots[i];
+    }
+
+    public static void setPositionRobot(int positionRobot, int robot) {
+        positionsRobots[robot] = positionRobot;
+    }
+
+    public static void setOrientationRobot(int orientationRobot, int robot)
+    {
+        orientationsRobots[robot] = orientationRobot;
+    }
+
+    public static int getOrientationRobotActif(){
+        return orientationsRobots[AppletPrincipale.getROBOTACTIF()];
+    }
+
+    public static int getOrientationRobot(int i)
+    {
+        return orientationsRobots[i];
+    }
+
+    public static void setRobot(int i, Robot r)
+    {
+        robot.getRobots()[i] = r;
+    }
+
+    public static void setROBOTACTIF(int id)
+    {
+        ROBOTACTIF = id;
+        robot = Robot.getRobots()[ROBOTACTIF];
+    }
+
+    public static int getROBOTACTIF()
+    {
+        return ROBOTACTIF;
     }
 }
 
