@@ -293,7 +293,6 @@ public class PanneauInitialisation extends JPanel {
         selectionneRobot(comboRobotSelectionne.getSelectedIndex() + 1);
         FramePrincipale.setOrientationRobot(comboOrientationRobot.getSelectedIndex()-1,comboRobotSelectionne.getSelectedIndex()+1);
         FramePrincipale.setPositionRobot(comboPositionRobot.getSelectedIndex()-1,comboRobotSelectionne.getSelectedIndex()+1);
-        System.out.println(textNombrePasExact.getText());
         FramePrincipale.getRobotSelectionne().setNombreDepPas(Integer.parseInt(textNombrePasExact.getText()));
         FramePrincipale.getRobotSelectionne().setNombrePas(Integer.parseInt(textNombrePasExact.getText()));
     }// Ajouté par Sélim
@@ -403,7 +402,7 @@ public class PanneauInitialisation extends JPanel {
         jSliderLargeur.setPaintTicks(true);
         jSliderLargeur.setSnapToTicks(true);
         jSliderLargeur.setToolTipText(jSliderLargeur.getValue() + "");
-        jSliderLargeur.setValue(10);
+        jSliderLargeur.setValue(-1);
         jSliderLargeur.setBorder(BorderFactory.createTitledBorder("Largeur"));
         jSliderLargeur.setEnabled(false);
         jSliderLargeur.addChangeListener(new ChangeListener() {
@@ -445,7 +444,7 @@ public class PanneauInitialisation extends JPanel {
 
         textNombrePasExact.setColumns(1);
         textNombrePasExact.setEditable(false);
-        textNombrePasExact.setText("10");
+        textNombrePasExact.setText("");
         textNombrePasExact.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
         textNombrePasExact.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -468,12 +467,12 @@ public class PanneauInitialisation extends JPanel {
 
     //debut ajout
     private void jSliderNombrePasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderJaugeStateChanged
+
         if (changementInterne) {
             changementInterne = false;
             return;
         }
         textNombrePasExact.setText(jSliderNombrePas.getValue() + "");
-        initialisation.setTextArea(textNombrePasExact.getText());
     }//GEN-LAST:event_jSliderJaugeStateChanged
 
     private void nombrePasDefinieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jaugeDefinieActionPerformed

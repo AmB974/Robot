@@ -79,13 +79,6 @@ public class Initialisation implements Serializable {
     private int largeur;
 
     // debut Ajout
-    private String textArea[] = new String[FramePrincipale.getNbRobots()+1];
-    {
-        for(int i=0; i<FramePrincipale.getNbRobots()+1;++i)
-        {
-            textArea[i]=null;
-        }
-    }
     // fin Ajout
 
     private static Random random = new Random();
@@ -166,9 +159,6 @@ public class Initialisation implements Serializable {
     }
 
     //debut ajout
-    public void setTextArea(String textArea){this.textArea[FramePrincipale.getROBOTACTIF()] = textArea;}
-    public String getTextArea(){ return this.textArea[FramePrincipale.getROBOTACTIF()]; }
-
     //fin ajout
 
     public int getHauteur() {
@@ -320,21 +310,6 @@ public class Initialisation implements Serializable {
         frameParente.getPanneauTerrain().add(frameParente.getTerrain(), "Center");
 
         //debut ajout Ambre
-        if(PanneauInitialisation.getNombrePasDefinie().isSelected()){
-            for(int i=1; i<FramePrincipale.getNbRobots()+1; ++i)
-            {
-                int nbPas;
-                try{
-                    nbPas = Integer.parseInt(initialisation.textArea[i]);
-                    Robot.getRobots()[i].setNombrePas(nbPas);
-                    Robot.getRobots()[i].setNombreDepPas(nbPas);
-                }
-                catch(NullPointerException e){
-
-                }
-            }
-
-        }
         //fin ajout
 
 
