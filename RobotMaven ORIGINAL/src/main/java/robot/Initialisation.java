@@ -31,6 +31,7 @@ package robot;
 import interfaces.Detachable;
 
 import java.applet.Applet;
+import java.awt.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Random;
@@ -152,7 +153,7 @@ public class Initialisation implements Serializable {
                 try {
                     throw new Exception("position : " + position + " Ne devrait pas arriver");
                 } catch (Exception ex) {
-                    Logger.getLogger(AppletPrincipale.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(FramePrincipale.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 return null;
         }
@@ -223,11 +224,11 @@ public class Initialisation implements Serializable {
         String s="";
         String s2="";
 
-        for(int i=1; i<=AppletPrincipale.getNbRobots(); ++i)
-            s+=i + " " + AppletPrincipale.getPositionRobot(i) + " ";
+        for(int i=1; i<=FramePrincipale.getNbRobots(); ++i)
+            s+=i + " " + FramePrincipale.getPositionRobot(i) + " ";
 
-        for(int i=1; i<=AppletPrincipale.getNbRobots(); ++i)
-            s2+=i + " " + AppletPrincipale.getOrientationRobot(i) + " ";
+        for(int i=1; i<=FramePrincipale.getNbRobots(); ++i)
+            s2+=i + " " + FramePrincipale.getOrientationRobot(i) + " ";
 
         return "{Position des robots : " + s
                 + ",\\nOrientations des robots : " + s2
@@ -329,7 +330,7 @@ public class Initialisation implements Serializable {
         //fin ajout
 
 
-        frameParente.getRobot().duréeReference = frameParente.getPanneauCommande().getDuree();
+        //frameParente.getRobot().dureeReference = frameParente.getPanneauCommande().getDuree();
         //Programme.changerDeRobot((Instruction) frameParente.getProgramme().getArbreProgramme().getRoot(), frameParente.getRobot());
     }
 
@@ -351,22 +352,20 @@ public class Initialisation implements Serializable {
         }
         while(frameParente.getTerrain().get(p.x,p.y) != null);
 
-
-        Robot r = new Robot(frameParente.getTerrain(), p.x, p.y, orientationRobot);
-        frameParente.setRobot(r);
-        AppletPrincipale.setRobot(i,r);
+        FramePrincipale.setRobot(i,new Robot(frameParente.getTerrain(), p.x, p.y, orientationRobot));
     }//Ajouté par Sélim
 
     private static void placementDesRobots(Detachable frameParente)
     {
-        for (int i = 1; i < AppletPrincipale.getNbRobots() + 1; ++i) {
-            placementDuRobot(AppletPrincipale.getOrientationRobot(i),
-                    AppletPrincipale.getPositionRobot(i),
+        Robot.setRobot(0,null);
+
+        for (int i = 1; i < FramePrincipale.getNbRobots() + 1; ++i) {
+            placementDuRobot(FramePrincipale.getOrientationRobot(i),
+                    FramePrincipale.getPositionRobot(i),
                     frameParente,
                     i);
         }
-        Robot.setRobot(0,null);
-        AppletPrincipale.setROBOTACTIF(AppletPrincipale.getROBOTACTIF());
-        frameParente.setRobot(Robot.getRobots()[AppletPrincipale.getROBOTACTIF()]);
+
+        frameParente.setRobotActif(FramePrincipale.getROBOTACTIF());
     }
 }

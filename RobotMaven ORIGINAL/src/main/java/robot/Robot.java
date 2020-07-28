@@ -53,7 +53,7 @@ public class Robot implements Cellule, Runnable {
     private static Random random = new Random();
     private boolean stop = false;
     // La durée en ms pour avancer d'une case.
-    public int duréeReference = 200;
+    public int dureeReference = 200;
     private Orientation[] tOrientation = {new Orientation(0, 0, -1), new Orientation(1, 1, 0), new Orientation(2, 0, 1), new Orientation(3, -1, 0)};
     private Orientation vers = tOrientation[0];
     private Color couleur;
@@ -104,9 +104,9 @@ public class Robot implements Cellule, Runnable {
     //fin ajout
 
     private static Integer cpt = 0;
-    private static Robot[] robots = new Robot[AppletPrincipale.getNbRobots() + 1];
+    private static Robot[] robots = new Robot[FramePrincipale.getNbRobots() + 1];
     private final int ID;
-    private static int NBROBOTS = AppletPrincipale.getNbRobots();//--------------------------------- A mettre en place
+    private static int NBROBOTS = FramePrincipale.getNbRobots();//--------------------------------- A mettre en place
     //Ajouté par Sélim
 
     public Cellule quoiDessous() {
@@ -780,7 +780,7 @@ public class Robot implements Cellule, Runnable {
 
         try {
 
-            Thread.sleep(duréeReference);
+            Thread.sleep(dureeReference);
         } catch (InterruptedException ex) {
             enMarche = false;
 
@@ -808,7 +808,7 @@ public class Robot implements Cellule, Runnable {
 
         terrain.repaint(x * terrain.getTailleCelluleX(), y * terrain.getTailleCelluleY(), terrain.getTailleCelluleX(), terrain.getTailleCelluleY());
 
-        Thread.sleep(duréeReference);
+        Thread.sleep(dureeReference);
 
 
 
