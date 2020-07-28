@@ -2,35 +2,35 @@
  * Creative commons CC BY-NC-SA 2020 Yvan Maillot <yvan.maillot@uha.fr>
  *
  *     Share - You can copy and redistribute the material in any medium or format
- * 
- *     Adapt - You can remix, transform, and build upon the material 
- * 
+ *
+ *     Adapt - You can remix, transform, and build upon the material
+ *
  * Under the following terms :
- * 
- *     Attribution - You must give appropriate credit, provide a link to the license, 
- *     and indicate if changes were made. You may do so in any reasonable manner, 
- *     but not in any way that suggests the licensor endorses you or your use. 
- * 
- *     NonCommercial — You may not use the material for commercial purposes. 
- * 
- *     ShareAlike — If you remix, transform, or build upon the material, 
- *     you must distribute your contributions under the same license as the original. 
- * 
- * Notices:    You do not have to comply with the license for elements of 
- *             the material in the public domain or where your use is permitted 
- *             by an applicable exception or limitation. 
- * 
- * No warranties are given. The license may not give you all of the permissions 
- * necessary for your intended use. For example, other rights such as publicity, 
- * privacy, or moral rights may limit how you use the material. 
- * 
+ *
+ *     Attribution - You must give appropriate credit, provide a link to the license,
+ *     and indicate if changes were made. You may do so in any reasonable manner,
+ *     but not in any way that suggests the licensor endorses you or your use.
+ *
+ *     NonCommercial — You may not use the material for commercial purposes.
+ *
+ *     ShareAlike — If you remix, transform, or build upon the material,
+ *     you must distribute your contributions under the same license as the original.
+ *
+ * Notices:    You do not have to comply with the license for elements of
+ *             the material in the public domain or where your use is permitted
+ *             by an applicable exception or limitation.
+ *
+ * No warranties are given. The license may not give you all of the permissions
+ * necessary for your intended use. For example, other rights such as publicity,
+ * privacy, or moral rights may limit how you use the material.
+ *
  * See <https://creativecommons.org/licenses/by-nc-sa/4.0/>.
  */
 package robot;
 
 import instruction.Instruction;
-import java.awt.Color;
-import java.awt.Image;
+
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
@@ -85,7 +85,7 @@ public class Robot implements Cellule, Runnable {
     private int numeroImage = 0;
 
     //debut ajout
-    private int nombrePas=-1;
+    private int nombrePas = -1;
     private int nombreDepPas;
     public int getNombrePas(){ return this.nombrePas;}
     public void setNombrePas(int nombrePas){ this.nombrePas=nombrePas;}
@@ -103,15 +103,22 @@ public class Robot implements Cellule, Runnable {
     private Image[][] robotCouleurNprem = new Image[5][4];
     //fin ajout
 
-    private static AtomicInteger cpt = new AtomicInteger(0);
-    private final int ID;
 
-    public int getID()
-    {
+    private static Integer cpt = 0;
+    private Robot[] robots = new Robot[NBROBOTS + 1];
+    private final int ID;
+    private static int NBROBOTS = Initialisation.getNbRobots();//--------------------------------- A mettre en place
+    //Ajouté par Sélim
+
+
+    public int getID() {
         return this.ID;
     }
 
-
+    public void setRobots(Robot[] r) {
+        this.robots = r;
+    }
+    //Ajouté par Sélim
 
     public Cellule quoiDessous() {
         return passage;
@@ -250,7 +257,9 @@ public class Robot implements Cellule, Runnable {
             pasy = py;
             direction = ix;
         }
-    };
+    }
+
+    ;
 
 
     /*
@@ -293,7 +302,7 @@ public class Robot implements Cellule, Runnable {
         terrain.set(x, y, this);
 
         try {
-            
+
             robotEprem[0] = ImageIO.read(Robot.class.getResource("/images/robotVersEst.png"));
             robotSprem[0] = ImageIO.read(Robot.class.getResource("/images/robotVersSud.png"));
             robotOprem[0] = ImageIO.read(Robot.class.getResource("/images/robotVersOuest.png"));
@@ -464,32 +473,57 @@ public class Robot implements Cellule, Runnable {
     public Robot(Terrain terrain) {
         init(terrain, random.nextInt(terrain.getNx()), random.nextInt(terrain.getNy()), random.nextInt(4), new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256)));
         lancementAnimation();
-        ID = cpt.incrementAndGet(); //Ajouté par Sélim
+        if (cpt < NBROBOTS)
+            ID = ++cpt;
+        else {
+            cpt = 1;
+            ID = cpt;
+        } //Ajouté par Sélim
 
     }
 
     public Robot(Terrain terrain, int x, int y) {
         init(terrain, x, y, random.nextInt(4), new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256)));
         lancementAnimation();
-        ID = cpt.incrementAndGet(); //Ajouté par Sélim
+        if (cpt < NBROBOTS)
+            ID = ++cpt;
+        else {
+            cpt = 1;
+            ID = cpt;
+        } //Ajouté par Sélim
     }
 
     public Robot(Terrain terrain, int x, int y, Color couleur) {
         init(terrain, x, y, random.nextInt(4), new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256)));
         lancementAnimation();
-        ID = cpt.incrementAndGet(); //Ajouté par Sélim
+        if (cpt < NBROBOTS)
+            ID = ++cpt;
+        else {
+            cpt = 1;
+            ID = cpt;
+        } //Ajouté par Sélim
     }
 
     public Robot(Terrain terrain, Color couleur) {
         init(terrain, random.nextInt(terrain.getNx()), random.nextInt(terrain.getNy()), random.nextInt(4), couleur);
         lancementAnimation();
-        ID = cpt.incrementAndGet(); //Ajouté par Sélim
+        if (cpt < NBROBOTS)
+            ID = ++cpt;
+        else {
+            cpt = 1;
+            ID = cpt;
+        } //Ajouté par Sélim
     }
 
     public Robot(Terrain terrain, int x, int y, int dir) {
         init(terrain, x, y, dir, new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256)));
         lancementAnimation();
-        ID = cpt.incrementAndGet(); //Ajouté par Sélim
+        if (cpt < NBROBOTS)
+            ID = ++cpt;
+        else {
+            cpt = 1;
+            ID = cpt;
+        } //Ajouté par Sélim
     }
 
     /**
@@ -637,7 +671,7 @@ public class Robot implements Cellule, Runnable {
             }
 
             this.nombrePas--;
-        System.out.println(nombrePas);
+
             if (this.nombrePas == 0) {
                 nombrePas=-1;
                 imageOrientation(vers, 4);
@@ -654,7 +688,7 @@ public class Robot implements Cellule, Runnable {
     public void imageOrientation(Orientation orientation, int numero){
         Image[] couleurEnvoyer = new Image[1];
 
-        if(orientation.direction == Terrain.NORD ){
+        if (orientation.direction == Terrain.NORD) {
             //image Nord
             couleurEnvoyer[0] = this.robotCouleurN[numero][this.ID];
             this.image= couleurEnvoyer;
@@ -671,7 +705,6 @@ public class Robot implements Cellule, Runnable {
             couleurEnvoyer[0] = this.robotCouleurO[numero][this.ID];
             this.image= couleurEnvoyer;
         }
-
     }
     //fin ajout
 
@@ -682,7 +715,6 @@ public class Robot implements Cellule, Runnable {
 
         //processus.setDaemon(true);
         processus.start();
-
     }
 
     public void stop() {
@@ -692,6 +724,10 @@ public class Robot implements Cellule, Runnable {
                 processus.interrupt();
             }
         }
+
+    }
+
+    public void change() {
 
     }
 
@@ -722,7 +758,7 @@ public class Robot implements Cellule, Runnable {
         } catch (InterruptedException ex) {
             //Logger.getLogger(Robot.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "<html><p>Arrêt du robot</p>"
-                    + "<p>Sans doute s'agit-il d'une erreur de programmation</p></html>",
+                            + "<p>Sans doute s'agit-il d'une erreur de programmation</p></html>",
                     "Arrêt du robot",
                     JOptionPane.ERROR_MESSAGE);
             stop();
@@ -759,4 +795,19 @@ public class Robot implements Cellule, Runnable {
             passage = null;
         }
     }
+
+    private int getIdSuivant() {
+        if (getID() < NBROBOTS)
+            return getID() + 1;
+        else
+            return 1;
+    } //Ajouté par Sélim
+
+    public Robot getRobotSuivant() {
+        return robots[getIdSuivant()];
+    } //Ajouté par Sélim
+
+    public int getNbRobots() {
+        return NBROBOTS;
+    } //Ajouté par Sélim
 }
