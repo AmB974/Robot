@@ -483,7 +483,7 @@ public class PanneauInitialisation extends JPanel {
     private void textNombrePasExactStateChanged(DocumentEvent evt) throws NumberFormatException {//GEN-FIRST:event_jSliderJaugeStateChanged
         if (changementInterne) return;
 
-        int nombrePas = -1;
+        int nombrePas;
 
         try {
             nombrePas = Integer.parseInt(textNombrePasExact.getText());
