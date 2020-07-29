@@ -769,7 +769,7 @@ public class Robot implements Cellule, Runnable {
             }
         }
         //debut ajout
-
+        System.out.println("Nombre pas Depart : "+nombreDepPas);
         if(nombrePas>0) {
             decrementerPas();
         }
@@ -816,6 +816,7 @@ public class Robot implements Cellule, Runnable {
 
     //debut ajout
     public void decrementerPas() throws TropDePas{
+
 
 
 
