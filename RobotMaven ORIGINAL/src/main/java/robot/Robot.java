@@ -332,7 +332,7 @@ public class Robot implements Cellule, Runnable {
      */
     public Image[] imageSelonOrientation() {
 
-        if(!this.actif) {
+        if(this.ID!= FramePrincipale.getROBOTACTIF()) {
             if (vers.direction == Terrain.EST) {
                 return robotE;
 
@@ -743,9 +743,7 @@ public class Robot implements Cellule, Runnable {
         } catch (IOException ex) {
             Logger.getLogger(Robot.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if(this.ID==1){
-            setActif(true);
-        }
+
         System.out.println("ID : "+ID);
         image[0] = imageSelonOrientation()[this.ID -1];
         terrain.repaint();
@@ -1006,14 +1004,10 @@ public class Robot implements Cellule, Runnable {
     }
 
 
-    public boolean isActif(){ return this.actif;}
 
-    public void setActif(boolean actif){
-        this.actif=actif;
-    }
 
     public void setImage(Image[] image){
-        this.image=image;
+        this.image[0]=image[this.ID-1];
         terrain.repaint(x * terrain.getTailleCelluleX(), y * terrain.getTailleCelluleY(), terrain.getTailleCelluleX(), terrain.getTailleCelluleY());
     }
     //fin ajout
