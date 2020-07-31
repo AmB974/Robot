@@ -31,17 +31,13 @@ package robot;
 import instruction.Instruction;
 
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.xml.bind.SchemaOutputResolver;
 
 import terrain.Cellule;
 import terrain.Marque;
@@ -115,6 +111,10 @@ public class Robot implements Cellule, Runnable {
     private Image[][] robotCouleurNprem = new Image[5][4];
 
     private boolean actif= false;
+    private boolean casser= false;
+
+    public boolean isCasser(){return this.casser;}
+    public void setCasser(boolean casser){this.casser=casser;}
     //fin ajout
 
     private static Integer cpt = 0;
@@ -331,36 +331,34 @@ public class Robot implements Cellule, Runnable {
     }
      */
     public Image[] imageSelonOrientation() {
-        Image[] sauvegardeImage =  new Image[1];
+
         if(!this.actif) {
             if (vers.direction == Terrain.EST) {
-                sauvegardeImage[0] = robotE[this.ID - 1];
+                return robotE;
 
             } else if (vers.direction == Terrain.OUEST) {
-                sauvegardeImage[0] = robotO[this.ID - 1];
+                return robotO;
             } else if (vers.direction == Terrain.SUD) {
-                sauvegardeImage[0] = robotS[this.ID - 1];
+                return robotS;
             } else {
-                sauvegardeImage[0] = robotN[this.ID - 1];
+                return robotN;
             }
         }else{
             if (vers.direction == Terrain.EST) {
-                sauvegardeImage[0] = robotEActif[this.ID - 1];
+                return robotEActif;
 
             } else if (vers.direction == Terrain.OUEST) {
-                sauvegardeImage[0] = robotOActif[this.ID - 1];
+                return robotOActif;
             } else if (vers.direction == Terrain.SUD) {
-                sauvegardeImage[0] = robotSActif[this.ID - 1];
+                return robotSActif;
             } else {
-                sauvegardeImage[0] = robotNActif[this.ID - 1];
+                return robotNActif;
             }
 
 
         }
-        terrain.repaint();
 
 
-        return sauvegardeImage;
         /*if (!enMarche) {
             if (vers.direction == Terrain.EST) {
                 return robotE;
@@ -749,7 +747,7 @@ public class Robot implements Cellule, Runnable {
             setActif(true);
         }
         System.out.println("ID : "+ID);
-        image = imageSelonOrientation();
+        image[0] = imageSelonOrientation()[this.ID -1];
         terrain.repaint();
 
 
@@ -892,6 +890,7 @@ public class Robot implements Cellule, Runnable {
                 image = robotCasse;
                 terrain.repaint();
                 enMarche = false;
+                casser=true;
                 throw new DansLeMur();
             } else {
                 terrain.set(xa, ya, passage);
@@ -928,7 +927,7 @@ public class Robot implements Cellule, Runnable {
     //@Override
     public void tourne() throws InterruptedException, TropDePas {
         vers = tOrientation[(vers.direction + 1) % 4];
-        image = imageSelonOrientation();
+        image[0] = imageSelonOrientation()[this.ID-1];
 
         //debut ajout
 
@@ -952,19 +951,19 @@ public class Robot implements Cellule, Runnable {
 
 
             if(this.nombrePas*1.0 > this.nombreDepPas * 0.75 ){
-                imageOrientation(vers,0);
+                image[0]=imageSelonCouleur(0)[this.ID-1];
 
 
             } else if(this.nombrePas*1.0 <= this.nombreDepPas * 0.75 && this.nombrePas*1.0 > this.nombreDepPas * 0.50 ){
-                imageOrientation(vers, 1);
+                image[0]=imageSelonCouleur(1)[this.ID-1];
 
 
             } else if(this.nombrePas*1.0 <= this.nombreDepPas * 0.50 && this.nombrePas*1.0 > this.nombreDepPas * 0.25 ){
-                imageOrientation(vers, 2);
+                image[0]=imageSelonCouleur(2)[this.ID-1];
 
 
             } else if (nombrePas>0){
-                imageOrientation(vers,3);
+                image[0]=imageSelonCouleur(3)[this.ID-1];
 
 
             }
@@ -973,7 +972,7 @@ public class Robot implements Cellule, Runnable {
 
             if (this.nombrePas == 0) {
                 nombrePas=-1;
-                imageOrientation(vers, 4);
+                image[0]=imageSelonCouleur(4)[this.ID-1];
                 enMarche=false;
                 terrain.repaint();
 
@@ -984,25 +983,25 @@ public class Robot implements Cellule, Runnable {
 
     }
 
-    public void imageOrientation(Orientation orientation, int numero){
-        Image[] couleurEnvoyer = new Image[1];
+    public Image[]imageSelonCouleur(int numero){
 
-        if (orientation.direction == Terrain.NORD) {
+
+        if (vers.direction == Terrain.NORD) {
             //image Nord
-            couleurEnvoyer[0] = this.robotCouleurN[numero][this.ID-1];
-            this.image= couleurEnvoyer;
-        } else if(orientation.direction == Terrain.EST){
+            return this.robotCouleurN[numero];
+
+        } else if(vers.direction == Terrain.EST){
             //image Est
-            couleurEnvoyer[0] = this.robotCouleurE[numero][this.ID-1];
-            this.image= couleurEnvoyer;
-        }else if(orientation.direction == Terrain.SUD){
+            return this.robotCouleurE[numero];
+
+        }else if(vers.direction == Terrain.SUD){
             //image Sud
-            couleurEnvoyer[0] = this.robotCouleurS[numero][this.ID-1];
-            this.image= couleurEnvoyer;
+            return this.robotCouleurS[numero];
+
         }else{
             //image Ouest
-            couleurEnvoyer[0] = this.robotCouleurO[numero][this.ID-1];
-            this.image= couleurEnvoyer;
+            return this.robotCouleurO[numero];
+
         }
     }
 
@@ -1011,6 +1010,11 @@ public class Robot implements Cellule, Runnable {
 
     public void setActif(boolean actif){
         this.actif=actif;
+    }
+
+    public void setImage(Image[] image){
+        this.image=image;
+        terrain.repaint(x * terrain.getTailleCelluleX(), y * terrain.getTailleCelluleY(), terrain.getTailleCelluleX(), terrain.getTailleCelluleY());
     }
     //fin ajout
 

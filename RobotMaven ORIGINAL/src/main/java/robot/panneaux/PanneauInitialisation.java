@@ -524,6 +524,8 @@ public class PanneauInitialisation extends JPanel {
         FramePrincipale.getRobotSelectionne().setNombreDepPas(nombrePas);
         FramePrincipale.getRobotSelectionne().setNombrePas(nombrePas);
 
+        System.out.println("Nombre pas : "+ FramePrincipale.getRobotSelectionne().getNombrePas());
+
         if (nombrePas > 5 && nombrePas < 100) {
             jSliderNombrePas.setValue(nombrePas);
         } else if (nombrePas >= 100) {
