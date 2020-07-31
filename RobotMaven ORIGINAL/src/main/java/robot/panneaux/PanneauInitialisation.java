@@ -74,6 +74,12 @@ public class PanneauInitialisation extends JPanel {
     private JLabel labelPositionRobot;
     private JCheckBox largeurDefinie;
 
+    //debut ajout
+    private JSlider jSliderNombrePas;
+    private static JCheckBox nombrePasDefinie;
+    private JTextField textNombrePasExact = new JTextField();
+    private boolean synchroJaugeTexte = false;
+    // fin ajout
 
     private JComboBox comboRobotSelectionne;
     private JLabel labelSelectionDuRobot;
@@ -291,12 +297,13 @@ public class PanneauInitialisation extends JPanel {
     private void comboRobotSelectionneDefinieActionPerformed(ActionEvent evt) {
         if (changementInterne) return;
         selectionneRobot(comboRobotSelectionne.getSelectedIndex() + 1);
-        FramePrincipale.setOrientationRobot(comboOrientationRobot.getSelectedIndex()-1,comboRobotSelectionne.getSelectedIndex()+1);
-        FramePrincipale.setPositionRobot(comboPositionRobot.getSelectedIndex()-1,comboRobotSelectionne.getSelectedIndex()+1);
-        FramePrincipale.getRobotSelectionne().setNombreDepPas(Integer.parseInt(textNombrePasExact.getText()));
-        FramePrincipale.getRobotSelectionne().setNombrePas(Integer.parseInt(textNombrePasExact.getText()));
+        FramePrincipale.setOrientationRobot(comboOrientationRobot.getSelectedIndex() - 1, comboRobotSelectionne.getSelectedIndex() + 1);
+        FramePrincipale.setPositionRobot(comboPositionRobot.getSelectedIndex() - 1, comboRobotSelectionne.getSelectedIndex() + 1);
+        System.out.println(FramePrincipale.getROBOTACTIF());
+        if (nombrePasDefinie.isSelected())
+            FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), Integer.parseInt(textNombrePasExact.getText()));
+        else FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), -2);
     }// Ajouté par Sélim
-
 
     public static void selectionneRobot(int id) {
         FramePrincipale.setROBOTACTIF(id);
@@ -467,12 +474,13 @@ public class PanneauInitialisation extends JPanel {
 
     //debut ajout
     private void jSliderNombrePasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderJaugeStateChanged
+        if (changementInterne) return;
+        if (synchroJaugeTexte) {
+            synchroJaugeTexte = false;
 
-        if (changementInterne) {
-            changementInterne = false;
-            return;
         }
         textNombrePasExact.setText(jSliderNombrePas.getValue() + "");
+        FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), Integer.parseInt(textNombrePasExact.getText()));
     }//GEN-LAST:event_jSliderJaugeStateChanged
 
     private void nombrePasDefinieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jaugeDefinieActionPerformed
@@ -480,6 +488,7 @@ public class PanneauInitialisation extends JPanel {
         jSliderNombrePas.setEnabled(nombrePasDefinie.isSelected());
         textNombrePasExact.setEnabled(nombrePasDefinie.isSelected());
         textNombrePasExact.setEditable(nombrePasDefinie.isSelected());
+        synchroJaugeTexte = nombrePasDefinie.isSelected();
     }//GEN-LAST:event_jaugeDefinieActionPerformed
 
     private void textNombrePasExactStateChanged(DocumentEvent evt) throws NumberFormatException {//GEN-FIRST:event_jSliderJaugeStateChanged
@@ -495,24 +504,13 @@ public class PanneauInitialisation extends JPanel {
         } else {
             jSliderNombrePas.setValue(5);
         }
-        changementInterne=true;
 
+        FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), Integer.parseInt(textNombrePasExact.getText()));
     }//GEN-LAST:event_jSliderJaugeStateChanged
 
     // fin ajout
 
-    //debut ajout
-    private JSlider jSliderNombrePas;
-    private static JCheckBox nombrePasDefinie;
-    private JTextField textNombrePasExact = new JTextField();
-    // End of variables declaration//GEN-END:variables
-
     public Initialisation getInitialisation() {
         return initialisation;
     }
-
-    public static JCheckBox getNombrePasDefinie() {
-        return nombrePasDefinie;
-    }
-
 }
