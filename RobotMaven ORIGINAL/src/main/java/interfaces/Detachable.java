@@ -57,8 +57,6 @@ public interface Detachable {
 
     public Robot getRobot();
 
-    public void setRobotActif(int id);
-
     public Dimension getSize();
 
     public JTree getArbre();

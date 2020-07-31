@@ -214,7 +214,7 @@ public class PanneauCommande extends JPanel {
         if(!frameParente.getRobot().isCasser()) {
             frameParente.getRobot().setImage(frameParente.getRobot().imageSelonOrientation());
         }
-        frameParente.setRobotActif(comboRobotSelectionne.getSelectedIndex() + 1);
+        FramePrincipale.setRobotActif(comboRobotSelectionne.getSelectedIndex() + 1);
         frameParente.getRobot().setActif(true);
         frameParente.getRobot().setImage(frameParente.getRobot().imageSelonOrientation());
         frameParente.getRobot().setCasser(false);

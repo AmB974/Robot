@@ -74,6 +74,7 @@ public class PanneauInitialisation extends JPanel {
     private static JCheckBox nombrePasDefinie;
     private JTextField textNombrePasExact = new JTextField();
     private boolean synchroJaugeTexte = false;
+    private JLabel textErreur = new JLabel();
     // fin ajout
 
     private JComboBox comboRobotSelectionne;
@@ -299,14 +300,13 @@ public class PanneauInitialisation extends JPanel {
         selectionneRobot(comboRobotSelectionne.getSelectedIndex() + 1);
         FramePrincipale.setOrientationRobot(comboOrientationRobot.getSelectedIndex() - 1, comboRobotSelectionne.getSelectedIndex() + 1);
         FramePrincipale.setPositionRobot(comboPositionRobot.getSelectedIndex() - 1, comboRobotSelectionne.getSelectedIndex() + 1);
-        System.out.println(FramePrincipale.getROBOTACTIF());
         if (nombrePasDefinie.isSelected())
             FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), Integer.parseInt(textNombrePasExact.getText()));
         else FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), -2);
     }// Ajouté par Sélim
 
     public static void selectionneRobot(int id) {
-        FramePrincipale.setROBOTACTIF(id);
+        FramePrincipale.setRobotActif(id);
     }//Ajouté par Sélim
 
     private void initialiseSelectionRobot() {
@@ -515,6 +515,9 @@ public class PanneauInitialisation extends JPanel {
         textNombrePasExact.setEnabled(nombrePasDefinie.isSelected());
         textNombrePasExact.setEditable(nombrePasDefinie.isSelected());
         synchroJaugeTexte = nombrePasDefinie.isSelected();
+        if(!synchroJaugeTexte)
+            FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), -2);
+
     }//GEN-LAST:event_jaugeDefinieActionPerformed
 
     private void textNombrePasStateChanged(DocumentEvent evt) throws SaisieChiffreTropGrand {//GEN-FIRST:event_jSliderJaugeStateChanged

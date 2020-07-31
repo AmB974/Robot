@@ -230,8 +230,7 @@ public class FramePrincipale extends JFrame implements Detachable {
 
     }
 
-    @Override
-    public void setRobotActif(int id) {
+    public static void setRobotActif(int id) {
         robot = Robot.getRobots()[id];
         ROBOTACTIF = id;
     }
@@ -280,16 +279,8 @@ public class FramePrincipale extends JFrame implements Detachable {
         return NBROBOTS;
     }
 
-    public static int[] getOrientationsRobots() {
-        return orientationsRobots;
-    }
-
     public static int getOrientationRobotActif() {
         return orientationsRobots[ROBOTACTIF];
-    }
-
-    public static int[] getPositionsRobots() {
-        return orientationsRobots;
     }
 
     public static int getPositionRobotActif() {
@@ -306,10 +297,6 @@ public class FramePrincipale extends JFrame implements Detachable {
 
     public static int getROBOTACTIF() {
         return ROBOTACTIF;
-    }
-
-    public static void setROBOTACTIF(int id) {
-        ROBOTACTIF = id;
     }
 
     public static int getOrientationRobot(int i) {

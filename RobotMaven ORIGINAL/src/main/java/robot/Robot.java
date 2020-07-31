@@ -320,9 +320,7 @@ public class Robot implements Cellule, Runnable {
             pasy = py;
             direction = ix;
         }
-    }
-
-    ;
+    };
 
 
     /*
