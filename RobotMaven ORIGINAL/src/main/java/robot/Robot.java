@@ -883,7 +883,7 @@ public class Robot implements Cellule, Runnable {
             if (cellule instanceof Robot || cellule instanceof Mur) {
                 x = xa;
                 y = ya;
-                image = robotCasse;
+                image[0] = robotCasse[0];
                 terrain.repaint();
                 enMarche = false;
                 casser=true;
@@ -895,13 +895,18 @@ public class Robot implements Cellule, Runnable {
             }
         }
         //debut ajout
-        System.out.println("Nombre pas Depart : "+nombreDepPas);
         if(nombrePas>0) {
             decrementerPas();
         }
         //fin ajout
-
+        /*
+        emplacement du robot actuelle
+         */
         terrain.repaint(x * terrain.getTailleCelluleX(), y * terrain.getTailleCelluleY(), terrain.getTailleCelluleX(), terrain.getTailleCelluleY());
+
+        /*
+        emplacement du robot avant d'avancer
+         */
         terrain.repaint(xa * terrain.getTailleCelluleX(), ya * terrain.getTailleCelluleY(), terrain.getTailleCelluleX(), terrain.getTailleCelluleY());
 
         try {
