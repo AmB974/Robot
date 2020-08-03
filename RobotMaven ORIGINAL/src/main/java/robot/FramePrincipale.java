@@ -50,6 +50,7 @@ public class FramePrincipale extends JFrame implements Detachable {
     private static int QUELCONQUE = -1;
     private static int[] orientationsRobots = {VIDE, QUELCONQUE, QUELCONQUE, QUELCONQUE, QUELCONQUE};
     private static int[] positionsRobots = {VIDE, QUELCONQUE, QUELCONQUE, QUELCONQUE, QUELCONQUE};
+    private static int[] nombrePas = {VIDE,VIDE,VIDE,VIDE,VIDE};
 
 
     @Override
@@ -123,7 +124,7 @@ public class FramePrincipale extends JFrame implements Detachable {
 
         dialogueInitialisation = new BoiteDeDialogueInit(this);
 
-        for(int i=0; i<NBROBOTS; ++i)
+        for(int i=0; i<NBROBOTS+1; ++i)
         {
             programme[i] = new Programme();
             arbre[i] = new JTreeRobot(programme[i].getArbreProgramme());
@@ -229,8 +230,7 @@ public class FramePrincipale extends JFrame implements Detachable {
 
     }
 
-    @Override
-    public void setRobotActif(int id) {
+    public static void setRobotActif(int id) {
         robot = Robot.getRobots()[id];
         ROBOTACTIF = id;
     }
@@ -279,16 +279,8 @@ public class FramePrincipale extends JFrame implements Detachable {
         return NBROBOTS;
     }
 
-    public static int[] getOrientationsRobots() {
-        return orientationsRobots;
-    }
-
     public static int getOrientationRobotActif() {
         return orientationsRobots[ROBOTACTIF];
-    }
-
-    public static int[] getPositionsRobots() {
-        return orientationsRobots;
     }
 
     public static int getPositionRobotActif() {
@@ -305,10 +297,6 @@ public class FramePrincipale extends JFrame implements Detachable {
 
     public static int getROBOTACTIF() {
         return ROBOTACTIF;
-    }
-
-    public static void setROBOTACTIF(int id) {
-        ROBOTACTIF = id;
     }
 
     public static int getOrientationRobot(int i) {
@@ -329,8 +317,13 @@ public class FramePrincipale extends JFrame implements Detachable {
         panneauCommande.getComboRobotSelectionne().setSelectedIndex(FramePrincipale.getROBOTACTIF()-1);
     }
 
-    public static Robot getRobotSelectionne()
+    public static void setNombreDePas(int i, int nbPas)
     {
-        return robot;
+        nombrePas[i] = nbPas;
+    }
+
+    public static int getNombreDePas(int i)
+    {
+        return nombrePas[i];
     }
 }
