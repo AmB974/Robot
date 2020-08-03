@@ -616,6 +616,9 @@ public class PanneauPrincipal extends JPanel {
         comboExpression.addItem(new SurMinerai());
         comboExpression.addItem(new PasSurMinerai());
         comboExpression.addItem(new PasDevantMurOuRobot());
+        comboExpression.addItem(new PasDevantRobot());
+        comboExpression.addItem(new DevantRobot());
+        comboExpression.addItem(new DevantRobotOuMur());
 
         parseur = new ParseurExprBool(frameParente.getRobot(), getListeTests());
 
