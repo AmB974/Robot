@@ -900,53 +900,48 @@ public class Robot implements Cellule, Runnable {
 
     @Override
     public synchronized void run() {
-        System.out.println("là");
-        if(getID() == FramePrincipale.getROBOTACTIF())
-        {
-            try {
+        try {
 
-                terrain.repaint();
-                Thread.sleep(500);
-                enMarche = true;
-                image = imageSelonOrientation();
-                terrain.repaint();
-                Thread.sleep(500);
+            terrain.repaint();
+            Thread.sleep(500);
+            enMarche = true;
+            image = imageSelonOrientation();
+            terrain.repaint();
+            Thread.sleep(500);
 
-                programme.go(this);
-                enMarche = false;
-                Thread.sleep(500);
-                image = imageSelonOrientation();
-                terrain.repaint();
-            } catch (DansLeMur ex) {
-                //Logger.getLogger(Robot.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(null, "<html><p>Erreur de programmation</p></html>",
-                        "Bouuuum !!! Dans le mur",
-                        JOptionPane.ERROR_MESSAGE,
-                        new ImageIcon(Robot.class.getResource("resources/images/RobotCasse.png")));
-                stop();
+            programme.go(this);
+            enMarche = false;
+            Thread.sleep(500);
+            image = imageSelonOrientation();
+            terrain.repaint();
+        } catch (DansLeMur ex) {
+            //Logger.getLogger(Robot.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "<html><p>Erreur de programmation</p></html>",
+                    "Bouuuum !!! Dans le mur",
+                    JOptionPane.ERROR_MESSAGE,
+                    new ImageIcon(Robot.class.getResource("resources/images/RobotCasse.png")));
+            stop();
 
-            } catch (InterruptedException ex) {
-                //Logger.getLogger(Robot.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(null, "<html><p>Arrêt du robot</p>"
-                                + "<p>Sans doute s'agit-il d'une erreur de programmation</p></html>",
-                        "Arrêt du robot",
-                        JOptionPane.ERROR_MESSAGE);
-                stop();
-            } catch (NullPointerException ex) {
-                Logger.getLogger(Robot.class.getName()).log(Level.SEVERE, null, ex);
-                //JOptionPane.showMessageDialog(null, "<html><p>Arrêt du robot</p>" +
-                //        "<p>Sans doute s'agit-il d'une erreur de programmation (null)</p></html>",
-                //        "Arrêt du robot",
-                //        JOptionPane.ERROR_MESSAGE);
-                //processus.interrupt();
+        } catch (InterruptedException ex) {
+            //Logger.getLogger(Robot.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "<html><p>Arrêt du robot</p>"
+                            + "<p>Sans doute s'agit-il d'une erreur de programmation</p></html>",
+                    "Arrêt du robot",
+                    JOptionPane.ERROR_MESSAGE);
+            stop();
+        } catch (NullPointerException ex) {
+            Logger.getLogger(Robot.class.getName()).log(Level.SEVERE, null, ex);
+            //JOptionPane.showMessageDialog(null, "<html><p>Arrêt du robot</p>" +
+            //        "<p>Sans doute s'agit-il d'une erreur de programmation (null)</p></html>",
+            //        "Arrêt du robot",
+            //        JOptionPane.ERROR_MESSAGE);
+            //processus.interrupt();
 
-            } catch (TropDePas tropDePas) {
-                tropDePas.printStackTrace();
+        } catch (TropDePas tropDePas) {
+            tropDePas.printStackTrace();
 
 
-            }
         }
-        else robots[FramePrincipale.getROBOTACTIF()].run();
     }
 
     @Override

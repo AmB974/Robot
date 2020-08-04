@@ -130,7 +130,6 @@ public class FramePrincipale extends JFrame implements Detachable {
             arbre[i] = new JTreeRobot(programme[i].getArbreProgramme());
             setRobotActif(i);
         }
-        setRobotActif(1);
 
         miseEnPlaceDesMenus();
 
