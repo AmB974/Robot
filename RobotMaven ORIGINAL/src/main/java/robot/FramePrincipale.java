@@ -124,10 +124,11 @@ public class FramePrincipale extends JFrame implements Detachable {
 
         dialogueInitialisation = new BoiteDeDialogueInit(this);
 
-        for(int i=0; i<NBROBOTS+1; ++i)
+        for(int i=1; i<NBROBOTS+1; ++i)
         {
             programme[i] = new Programme();
             arbre[i] = new JTreeRobot(programme[i].getArbreProgramme());
+            setRobotActif(i);
         }
 
         miseEnPlaceDesMenus();
