@@ -451,7 +451,7 @@ public class PanneauInitialisation extends JPanel {
 
         textNombrePasExact.setColumns(1);
         textNombrePasExact.setEditable(false);
-        //textNombrePasExact.setText("10");
+        //textNombrePasExact.setText("5");
         //textNombrePasExact.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
         textNombrePasExact.setBorder(javax.swing.BorderFactory.createBevelBorder(2,Color.BLUE,Color.DARK_GRAY));
         textErreur.setForeground(Color.RED);
@@ -459,7 +459,7 @@ public class PanneauInitialisation extends JPanel {
             @Override
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
-                if(Character.isLetter(c)){
+                if(Character.isAlphabetic(c)){
                     textNombrePasExact.setEditable(false);
                     textErreur.setText("Veuillez rentrer que des chiffres !");
 
@@ -504,9 +504,11 @@ public class PanneauInitialisation extends JPanel {
         if (synchroJaugeTexte) {
             synchroJaugeTexte = false;
 
+        }else {
+            textNombrePasExact.setText(jSliderNombrePas.getValue() + "");
+            FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), Integer.parseInt(textNombrePasExact.getText()));
+            synchroJaugeTexte=true;
         }
-        textNombrePasExact.setText(jSliderNombrePas.getValue() + "");
-        FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), Integer.parseInt(textNombrePasExact.getText()));
     }//GEN-LAST:event_jSliderJaugeStateChanged
 
     private void nombrePasDefinieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jaugeDefinieActionPerformed
@@ -523,19 +525,28 @@ public class PanneauInitialisation extends JPanel {
     private void textNombrePasStateChanged(DocumentEvent evt) throws SaisieChiffreTropGrand {//GEN-FIRST:event_jSliderJaugeStateChanged
 
         if (changementInterne) return;
-        int nombrePas;
+        Runnable doTextNombrePas = new Runnable() {
+            @Override
+            public void run() {
+                int nombrePas;
 
-        nombrePas = Integer.parseInt(textNombrePasExact.getText());
+                nombrePas = Integer.parseInt(textNombrePasExact.getText());
 
-        if (nombrePas > 5 && nombrePas < 100) {
-            jSliderNombrePas.setValue(nombrePas);
-        } else if (nombrePas >= 100) {
-            jSliderNombrePas.setValue(100);
-        } else {
-            jSliderNombrePas.setValue(5);
-        }
+                if (nombrePas > 5 && nombrePas < 100) {
+                    jSliderNombrePas.setValue(nombrePas);
+                } else if (nombrePas >= 100) {
+                    jSliderNombrePas.setValue(100);
+                } else {
+                    jSliderNombrePas.setValue(5);
+                }
 
-        FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), Integer.parseInt(textNombrePasExact.getText()));
+                FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), Integer.parseInt(textNombrePasExact.getText()));
+            }
+        };
+       SwingUtilities.invokeLater(doTextNombrePas);
+
+
+
     }//GEN-LAST:event_jSliderJaugeStateChanged
 
     private void jTextFieldKeyPressed(KeyEvent evt){
