@@ -239,7 +239,13 @@ public class Initialisation implements Serializable {
     }
 
     public static void initialiser(Initialisation initialisation, Detachable frameParente, boolean marque) {
-        frameParente.getProgramme().setInitialisation(initialisation);
+        for(int i=1; i<FramePrincipale.getNbRobots()+1;++i)
+        {
+            frameParente.getProgramme().setInitialisation(initialisation);
+            FramePrincipale.setROBOTACTIF(i);
+        }//-----------------------------------------
+        FramePrincipale.setROBOTACTIF(1);
+
         frameParente.getDialogueInitialisation().setInitialisation(initialisation);
         int hauteur = -1;
         int largeur = -1;
