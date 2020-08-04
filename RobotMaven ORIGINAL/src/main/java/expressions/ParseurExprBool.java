@@ -96,6 +96,12 @@ public class ParseurExprBool {
             return new PasDevantMarque(/*robot*/);
         else if (abr.equals("pdmor") || abr.equals("Pas devant mur ou robot"))
             return new PasDevantMurOuRobot(/*robot*/);//Ajouté par Sélim
+        else if (abr.equals("pdr") || abr.equals("Pas devant robot"))
+            return new PasDevantRobot(/*robot*/);//Ajouté par Ambre
+        else if (abr.equals("drt") || abr.equals("Devant robot"))
+            return new DevantRobot(/*robot*/);//Ajouté par Ambre
+        else if (abr.equals("drom") || abr.equals("Devant robot"))
+            return new DevantRobotOuMur(/*robot*/);//Ajouté par Ambre
         else 
             throw new Exception("Nom incorrect pour une expression élémentaire");
         
