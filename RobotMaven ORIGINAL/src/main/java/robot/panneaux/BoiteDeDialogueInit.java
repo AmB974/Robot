@@ -106,7 +106,7 @@ public class BoiteDeDialogueInit extends JDialog {
 
     private void resetRobotActif()
     {
-        FramePrincipale.setROBOTACTIF(1);
+        FramePrincipale.setRobotActif(1);
     }
 
     public Initialisation getInitialisation() {

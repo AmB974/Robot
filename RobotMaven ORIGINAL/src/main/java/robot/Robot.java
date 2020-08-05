@@ -31,14 +31,11 @@ package robot;
 import instruction.Instruction;
 
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -60,21 +57,32 @@ public class Robot implements Cellule, Runnable {
     private Terrain terrain;
     private int x, y;
     private Instruction programme;
-    private Image[] image;
-    private Image[] robotN = new Image[1];
-    private Image[] robotS = new Image[1];
-    private Image[] robotE = new Image[1];
-    private Image[] robotO = new Image[1];
+    private Image[] image =new Image[1];
+    private Image[] robotN = new Image[4];
+    private Image[] robotS = new Image[4];
+    private Image[] robotE = new Image[4];
+    private Image[] robotO = new Image[4];
+
+    private Image[] robotNActif = new Image[4];
+    private Image[] robotSActif = new Image[4];
+    private Image[] robotEActif = new Image[4];
+    private Image[] robotOActif = new Image[4];
 
     private Image[] robotCasse = new Image[4];
     private Image[] robotNeM = new Image[4];
     private Image[] robotSeM = new Image[4];
     private Image[] robotEeM = new Image[4];
     private Image[] robotOeM = new Image[4];
-    private Image[] robotNprem = new Image[1];
-    private Image[] robotSprem = new Image[1];
-    private Image[] robotEprem = new Image[1];
-    private Image[] robotOprem = new Image[1];
+    private Image[] robotNprem = new Image[4];
+    private Image[] robotSprem = new Image[4];
+    private Image[] robotEprem = new Image[4];
+    private Image[] robotOprem = new Image[4];
+
+    private Image[] robotNpremActif = new Image[4];
+    private Image[] robotSpremActif = new Image[4];
+    private Image[] robotEpremActif = new Image[4];
+    private Image[] robotOpremActif = new Image[4];
+
     private Image[] robotCasseprem = new Image[4];
     private Image[] robotNeMprem = new Image[4];
     private Image[] robotSeMprem = new Image[4];
@@ -101,6 +109,12 @@ public class Robot implements Cellule, Runnable {
 
     private Image[][] robotCouleurN = new Image[5][4];
     private Image[][] robotCouleurNprem = new Image[5][4];
+
+    private boolean actif= false;
+    private boolean casser= false;
+
+    public boolean isCasser(){return this.casser;}
+    public void setCasser(boolean casser){this.casser=casser;}
     //fin ajout
 
     private static Integer cpt = 0;
@@ -306,9 +320,7 @@ public class Robot implements Cellule, Runnable {
             pasy = py;
             direction = ix;
         }
-    }
-
-    ;
+    };
 
 
     /*
@@ -316,9 +328,36 @@ public class Robot implements Cellule, Runnable {
      * passage.prend(c);
     }
      */
-    private Image[] imageSelonOrientation() {
+    public Image[] imageSelonOrientation() {
 
-        if (!enMarche) {
+        if(this.ID!= FramePrincipale.getROBOTACTIF()) {
+            if (vers.direction == Terrain.EST) {
+                return robotE;
+
+            } else if (vers.direction == Terrain.OUEST) {
+                return robotO;
+            } else if (vers.direction == Terrain.SUD) {
+                return robotS;
+            } else {
+                return robotN;
+            }
+        }else{
+            if (vers.direction == Terrain.EST) {
+                return robotEActif;
+
+            } else if (vers.direction == Terrain.OUEST) {
+                return robotOActif;
+            } else if (vers.direction == Terrain.SUD) {
+                return robotSActif;
+            } else {
+                return robotNActif;
+            }
+
+
+        }
+
+
+        /*if (!enMarche) {
             if (vers.direction == Terrain.EST) {
                 return robotE;
             } else if (vers.direction == Terrain.OUEST) {
@@ -338,7 +377,7 @@ public class Robot implements Cellule, Runnable {
             } else {
                 return robotNeM;
             }
-        }
+        }*/
     }
 
     private void init(Terrain terrain, int x, int y, int direction, Color couleur) {
@@ -352,15 +391,48 @@ public class Robot implements Cellule, Runnable {
 
         try {
 
-            robotEprem[0] = ImageIO.read(Robot.class.getResource("/images/robotVersEst.png"));
-            robotSprem[0] = ImageIO.read(Robot.class.getResource("/images/robotVersSud.png"));
-            robotOprem[0] = ImageIO.read(Robot.class.getResource("/images/robotVersOuest.png"));
-            robotNprem[0] = ImageIO.read(Robot.class.getResource("/images/robotVersNord.png"));
+            robotEprem[0] = ImageIO.read(Robot.class.getResource("/images/robotBlancEstUn.png"));
+            robotEprem[1] = ImageIO.read(Robot.class.getResource("/images/robotBlancEstDeux.png"));
+            robotEprem[2] = ImageIO.read(Robot.class.getResource("/images/robotBlancEstTrois.png"));
+            robotEprem[3] = ImageIO.read(Robot.class.getResource("/images/robotBlancEstQuatre.png"));
 
             robotE[0] = robotEprem[0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotE[1] = robotEprem[1].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotE[2] = robotEprem[2].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotE[3] = robotEprem[3].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+
+
+            robotSprem[0] = ImageIO.read(Robot.class.getResource("/images/robotBlancSudUn.png"));
+            robotSprem[1] = ImageIO.read(Robot.class.getResource("/images/robotBlancSudDeux.png"));
+            robotSprem[2] = ImageIO.read(Robot.class.getResource("/images/robotBlancSudTrois.png"));
+            robotSprem[3] = ImageIO.read(Robot.class.getResource("/images/robotBlancSudQuatre.png"));
+
             robotS[0] = robotSprem[0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotS[1] = robotSprem[1].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotS[2] = robotSprem[2].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotS[3] = robotSprem[3].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+
+            robotOprem[0] = ImageIO.read(Robot.class.getResource("/images/robotBlancOuestUn.png"));
+            robotOprem[1] = ImageIO.read(Robot.class.getResource("/images/robotBlancOuestDeux.png"));
+            robotOprem[2] = ImageIO.read(Robot.class.getResource("/images/robotBlancOuestTrois.png"));
+            robotOprem[3] = ImageIO.read(Robot.class.getResource("/images/robotBlancOuestQuatre.png"));
+
             robotO[0] = robotOprem[0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotO[1] = robotOprem[1].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotO[2] = robotOprem[2].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotO[3] = robotOprem[3].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+
+
+            robotNprem[0] = ImageIO.read(Robot.class.getResource("/images/robotBlancNordUn.png"));
+            robotNprem[1] = ImageIO.read(Robot.class.getResource("/images/robotBlancNordDeux.png"));
+            robotNprem[2] = ImageIO.read(Robot.class.getResource("/images/robotBlancNordTrois.png"));
+            robotNprem[3] = ImageIO.read(Robot.class.getResource("/images/robotBlancNordQuatre.png"));
+
             robotN[0] = robotNprem[0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotN[1] = robotNprem[1].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotN[2] = robotNprem[2].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotN[3] = robotNprem[3].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+
 
             robotEeMprem[0] = ImageIO.read(Robot.class.getResource("/images/robotVersEst1.png"));
             robotEeMprem[1] = ImageIO.read(Robot.class.getResource("/images/robotVersEst2.png"));
@@ -413,6 +485,49 @@ public class Robot implements Cellule, Runnable {
             robotCasse[3] = robotCasseprem[3].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
 
 
+
+
+            robotEpremActif[0] = ImageIO.read(Robot.class.getResource("/images/robotBlancEstUnActif.png"));
+            robotEpremActif[1] = ImageIO.read(Robot.class.getResource("/images/robotBlancEstDeuxActif.png"));
+            robotEpremActif[2] = ImageIO.read(Robot.class.getResource("/images/robotBlancEstTroisActif.png"));
+            robotEpremActif[3] = ImageIO.read(Robot.class.getResource("/images/robotBlancEstQuatreActif.png"));
+
+            robotEActif[0] = robotEpremActif[0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotEActif[1] = robotEpremActif[1].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotEActif[2] = robotEpremActif[2].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotEActif[3] = robotEpremActif[3].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+
+
+            robotSpremActif[0] = ImageIO.read(Robot.class.getResource("/images/robotBlancSudUnActif.png"));
+            robotSpremActif[1] = ImageIO.read(Robot.class.getResource("/images/robotBlancSudDeuxActif.png"));
+            robotSpremActif[2] = ImageIO.read(Robot.class.getResource("/images/robotBlancSudTroisActif.png"));
+            robotSpremActif[3] = ImageIO.read(Robot.class.getResource("/images/robotBlancSudQuatreActif.png"));
+
+            robotSActif[0] = robotSpremActif[0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotSActif[1] = robotSpremActif[1].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotSActif[2] = robotSpremActif[2].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotSActif[3] = robotSpremActif[3].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+
+            robotOpremActif[0] = ImageIO.read(Robot.class.getResource("/images/robotBlancOuestUnActif.png"));
+            robotOpremActif[1] = ImageIO.read(Robot.class.getResource("/images/robotBlancOuestDeuxActif.png"));
+            robotOpremActif[2] = ImageIO.read(Robot.class.getResource("/images/robotBlancOuestTroisActif.png"));
+            robotOpremActif[3] = ImageIO.read(Robot.class.getResource("/images/robotBlancOuestQuatreActif.png"));
+
+            robotOActif[0] = robotOpremActif[0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotOActif[1] = robotOpremActif[1].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotOActif[2] = robotOpremActif[2].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotOActif[3] = robotOpremActif[3].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+
+
+            robotNpremActif[0] = ImageIO.read(Robot.class.getResource("/images/robotBlancNordUnActif.png"));
+            robotNpremActif[1] = ImageIO.read(Robot.class.getResource("/images/robotBlancNordDeuxActif.png"));
+            robotNpremActif[2] = ImageIO.read(Robot.class.getResource("/images/robotBlancNordTroisActif.png"));
+            robotNpremActif[3] = ImageIO.read(Robot.class.getResource("/images/robotBlancNordQuatreActif.png"));
+
+            robotNActif[0] = robotNpremActif[0].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotNActif[1] = robotNpremActif[1].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotNActif[2] = robotNpremActif[2].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
+            robotNActif[3] = robotNpremActif[3].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
 
 
 
@@ -626,8 +741,13 @@ public class Robot implements Cellule, Runnable {
         } catch (IOException ex) {
             Logger.getLogger(Robot.class.getName()).log(Level.SEVERE, null, ex);
         }
-        image = imageSelonOrientation();
+
+        System.out.println("ID : "+ID);
+        image[0] = imageSelonOrientation()[this.ID -1];
         terrain.repaint();
+
+
+
 
     }
 
@@ -638,59 +758,64 @@ public class Robot implements Cellule, Runnable {
      * @see public Robot(Terrain terrain, int x, int y)
      */
     public Robot(Terrain terrain) {
-        init(terrain, random.nextInt(terrain.getNx()), random.nextInt(terrain.getNy()), random.nextInt(4), new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256)));
-        lancementAnimation();
+
         if (cpt < NBROBOTS)
             ID = ++cpt;
         else {
             cpt = 1;
             ID = cpt;
         } //Ajouté par Sélim
+        init(terrain, random.nextInt(terrain.getNx()), random.nextInt(terrain.getNy()), random.nextInt(4), new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256)));
+        lancementAnimation();
 
     }
 
     public Robot(Terrain terrain, int x, int y) {
-        init(terrain, x, y, random.nextInt(4), new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256)));
-        lancementAnimation();
+
         if (cpt < NBROBOTS)
             ID = ++cpt;
         else {
             cpt = 1;
             ID = cpt;
         } //Ajouté par Sélim
+        init(terrain, x, y, random.nextInt(4), new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256)));
+        lancementAnimation();
     }
 
     public Robot(Terrain terrain, int x, int y, Color couleur) {
-        init(terrain, x, y, random.nextInt(4), new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256)));
-        lancementAnimation();
+
         if (cpt < NBROBOTS)
             ID = ++cpt;
         else {
             cpt = 1;
             ID = cpt;
         } //Ajouté par Sélim
+        init(terrain, x, y, random.nextInt(4), new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256)));
+        lancementAnimation();
     }
 
     public Robot(Terrain terrain, Color couleur) {
-        init(terrain, random.nextInt(terrain.getNx()), random.nextInt(terrain.getNy()), random.nextInt(4), couleur);
-        lancementAnimation();
+
         if (cpt < NBROBOTS)
             ID = ++cpt;
         else {
             cpt = 1;
             ID = cpt;
+            init(terrain, random.nextInt(terrain.getNx()), random.nextInt(terrain.getNy()), random.nextInt(4), couleur);
+            lancementAnimation();
         } //Ajouté par Sélim
     }
 
     public Robot(Terrain terrain, int x, int y, int dir) {
-        init(terrain, x, y, dir, new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256)));
-        lancementAnimation();
+
         if (cpt < NBROBOTS)
             ID = ++cpt;
         else {
             cpt = 1;
             ID = cpt;
         } //Ajouté par Sélim
+        init(terrain, x, y, dir, new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256)));
+        lancementAnimation();
     }
 
     /**
@@ -758,9 +883,10 @@ public class Robot implements Cellule, Runnable {
             if (cellule instanceof Robot || cellule instanceof Mur) {
                 x = xa;
                 y = ya;
-                image = robotCasse;
+                image[0] = robotCasse[0];
                 terrain.repaint();
                 enMarche = false;
+                casser=true;
                 throw new DansLeMur();
             } else {
                 terrain.set(xa, ya, passage);
@@ -769,13 +895,18 @@ public class Robot implements Cellule, Runnable {
             }
         }
         //debut ajout
-
         if(nombrePas>0) {
             decrementerPas();
         }
         //fin ajout
-
+        /*
+        emplacement du robot actuelle
+         */
         terrain.repaint(x * terrain.getTailleCelluleX(), y * terrain.getTailleCelluleY(), terrain.getTailleCelluleX(), terrain.getTailleCelluleY());
+
+        /*
+        emplacement du robot avant d'avancer
+         */
         terrain.repaint(xa * terrain.getTailleCelluleX(), ya * terrain.getTailleCelluleY(), terrain.getTailleCelluleX(), terrain.getTailleCelluleY());
 
         try {
@@ -797,7 +928,7 @@ public class Robot implements Cellule, Runnable {
     //@Override
     public void tourne() throws InterruptedException, TropDePas {
         vers = tOrientation[(vers.direction + 1) % 4];
-        image = imageSelonOrientation();
+        image[0] = imageSelonOrientation()[this.ID-1];
 
         //debut ajout
 
@@ -819,20 +950,21 @@ public class Robot implements Cellule, Runnable {
 
 
 
+
             if(this.nombrePas*1.0 > this.nombreDepPas * 0.75 ){
-                imageOrientation(vers,0);
+                image[0]=imageSelonCouleur(0)[this.ID-1];
 
 
             } else if(this.nombrePas*1.0 <= this.nombreDepPas * 0.75 && this.nombrePas*1.0 > this.nombreDepPas * 0.50 ){
-                imageOrientation(vers, 1);
+                image[0]=imageSelonCouleur(1)[this.ID-1];
 
 
             } else if(this.nombrePas*1.0 <= this.nombreDepPas * 0.50 && this.nombrePas*1.0 > this.nombreDepPas * 0.25 ){
-                imageOrientation(vers, 2);
+                image[0]=imageSelonCouleur(2)[this.ID-1];
 
 
             } else if (nombrePas>0){
-                imageOrientation(vers,3);
+                image[0]=imageSelonCouleur(3)[this.ID-1];
 
 
             }
@@ -841,7 +973,7 @@ public class Robot implements Cellule, Runnable {
 
             if (this.nombrePas == 0) {
                 nombrePas=-1;
-                imageOrientation(vers, 4);
+                image[0]=imageSelonCouleur(4)[this.ID-1];
                 enMarche=false;
                 terrain.repaint();
 
@@ -852,26 +984,34 @@ public class Robot implements Cellule, Runnable {
 
     }
 
-    public void imageOrientation(Orientation orientation, int numero){
-        Image[] couleurEnvoyer = new Image[1];
+    public Image[]imageSelonCouleur(int numero){
 
-        if (orientation.direction == Terrain.NORD) {
+
+        if (vers.direction == Terrain.NORD) {
             //image Nord
-            couleurEnvoyer[0] = this.robotCouleurN[numero][this.ID-1];
-            this.image= couleurEnvoyer;
-        } else if(orientation.direction == Terrain.EST){
+            return this.robotCouleurN[numero];
+
+        } else if(vers.direction == Terrain.EST){
             //image Est
-            couleurEnvoyer[0] = this.robotCouleurE[numero][this.ID-1];
-            this.image= couleurEnvoyer;
-        }else if(orientation.direction == Terrain.SUD){
+            return this.robotCouleurE[numero];
+
+        }else if(vers.direction == Terrain.SUD){
             //image Sud
-            couleurEnvoyer[0] = this.robotCouleurS[numero][this.ID-1];
-            this.image= couleurEnvoyer;
+            return this.robotCouleurS[numero];
+
         }else{
             //image Ouest
-            couleurEnvoyer[0] = this.robotCouleurO[numero][this.ID-1];
-            this.image= couleurEnvoyer;
+            return this.robotCouleurO[numero];
+
         }
+    }
+
+
+
+
+    public void setImage(Image[] image){
+        this.image[0]=image[this.ID-1];
+        terrain.repaint(x * terrain.getTailleCelluleX(), y * terrain.getTailleCelluleY(), terrain.getTailleCelluleX(), terrain.getTailleCelluleY());
     }
     //fin ajout
 

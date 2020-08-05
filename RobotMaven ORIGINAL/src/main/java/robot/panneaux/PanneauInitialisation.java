@@ -37,7 +37,6 @@
 package robot.panneaux;
 
 import robot.*;
-import robot.Robot;
 import terrain.Terrain;
 
 import javax.swing.*;
@@ -45,12 +44,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.applet.Applet;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 
 /**
  * @author Yvan
@@ -79,6 +74,7 @@ public class PanneauInitialisation extends JPanel {
     private static JCheckBox nombrePasDefinie;
     private JTextField textNombrePasExact = new JTextField();
     private boolean synchroJaugeTexte = false;
+    private JLabel textErreur = new JLabel();
     // fin ajout
 
     private JComboBox comboRobotSelectionne;
@@ -162,7 +158,7 @@ public class PanneauInitialisation extends JPanel {
         initialiseSliderLargeur();
 
         //debut ajout
-        initialiseJauge();
+        initialiseNombrePas();
         //fin ajout
 
         GroupLayout layout = new GroupLayout(this);
@@ -203,7 +199,8 @@ public class PanneauInitialisation extends JPanel {
                                                                         .addComponent(jSliderLargeur, GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
 
                                                                         .addComponent(jSliderNombrePas, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE) //ajout Ambre
-                                                                        .addComponent(textNombrePasExact, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE))
+                                                                        .addComponent(textNombrePasExact, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)//ajout Ambre
+                                                                        .addComponent(textErreur))//ajout Ambre
                                                                 .addContainerGap()))
                                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)))
                                 )));
@@ -241,6 +238,10 @@ public class PanneauInitialisation extends JPanel {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(textNombrePasExact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 )
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(textErreur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                )
+
                                 //fin ajout
                                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -299,14 +300,13 @@ public class PanneauInitialisation extends JPanel {
         selectionneRobot(comboRobotSelectionne.getSelectedIndex() + 1);
         FramePrincipale.setOrientationRobot(comboOrientationRobot.getSelectedIndex() - 1, comboRobotSelectionne.getSelectedIndex() + 1);
         FramePrincipale.setPositionRobot(comboPositionRobot.getSelectedIndex() - 1, comboRobotSelectionne.getSelectedIndex() + 1);
-        System.out.println(FramePrincipale.getROBOTACTIF());
         if (nombrePasDefinie.isSelected())
             FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), Integer.parseInt(textNombrePasExact.getText()));
         else FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), -2);
     }// Ajouté par Sélim
 
     public static void selectionneRobot(int id) {
-        FramePrincipale.setROBOTACTIF(id);
+        FramePrincipale.setRobotActif(id);
     }//Ajouté par Sélim
 
     private void initialiseSelectionRobot() {
@@ -425,7 +425,7 @@ public class PanneauInitialisation extends JPanel {
         });
     }// Modifié par Sélim
 
-    private void initialiseJauge() {
+    private void initialiseNombrePas() {
         //debut ajout
         jSliderNombrePas.setMajorTickSpacing(5);
         jSliderNombrePas.setMinimum(5);
@@ -451,12 +451,34 @@ public class PanneauInitialisation extends JPanel {
 
         textNombrePasExact.setColumns(1);
         textNombrePasExact.setEditable(false);
-        textNombrePasExact.setText("");
-        textNombrePasExact.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
+        //textNombrePasExact.setText("5");
+        //textNombrePasExact.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
+        textNombrePasExact.setBorder(javax.swing.BorderFactory.createBevelBorder(2,Color.BLUE,Color.DARK_GRAY));
+        textErreur.setForeground(Color.RED);
+        textNombrePasExact.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if(Character.isAlphabetic(c)){
+                    textNombrePasExact.setEditable(false);
+                    textErreur.setText("Veuillez rentrer que des chiffres !");
+
+                }else{
+                    textNombrePasExact.setEditable(true);
+                    textErreur.setText("");
+                }
+            }
+        });
         textNombrePasExact.getDocument().addDocumentListener(new DocumentListener() {
+
             @Override
             public void insertUpdate(DocumentEvent e) {
-                textNombrePasExactStateChanged(e);
+
+                try {
+                    textNombrePasStateChanged(e);
+                } catch (SaisieChiffreTropGrand saisieChiffreTropGrand) {
+                    saisieChiffreTropGrand.printStackTrace();
+                }
             }
 
             @Override
@@ -466,7 +488,11 @@ public class PanneauInitialisation extends JPanel {
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                textNombrePasExactStateChanged(e);
+                try {
+                    textNombrePasStateChanged(e);
+                } catch (SaisieChiffreTropGrand saisieChiffreTropGrand) {
+                    saisieChiffreTropGrand.printStackTrace();
+                }
             }
         });
         //fin ajout
@@ -478,9 +504,11 @@ public class PanneauInitialisation extends JPanel {
         if (synchroJaugeTexte) {
             synchroJaugeTexte = false;
 
+        }else {
+            textNombrePasExact.setText(jSliderNombrePas.getValue() + "");
+            FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), Integer.parseInt(textNombrePasExact.getText()));
+            synchroJaugeTexte=true;
         }
-        textNombrePasExact.setText(jSliderNombrePas.getValue() + "");
-        FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), Integer.parseInt(textNombrePasExact.getText()));
     }//GEN-LAST:event_jSliderJaugeStateChanged
 
     private void nombrePasDefinieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jaugeDefinieActionPerformed
@@ -489,25 +517,47 @@ public class PanneauInitialisation extends JPanel {
         textNombrePasExact.setEnabled(nombrePasDefinie.isSelected());
         textNombrePasExact.setEditable(nombrePasDefinie.isSelected());
         synchroJaugeTexte = nombrePasDefinie.isSelected();
+        if(!synchroJaugeTexte)
+            FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), -2);
+
     }//GEN-LAST:event_jaugeDefinieActionPerformed
 
-    private void textNombrePasExactStateChanged(DocumentEvent evt) throws NumberFormatException {//GEN-FIRST:event_jSliderJaugeStateChanged
+    private void textNombrePasStateChanged(DocumentEvent evt) throws SaisieChiffreTropGrand {//GEN-FIRST:event_jSliderJaugeStateChanged
 
-        int nombrePas;
+        if (changementInterne) return;
+        Runnable doTextNombrePas = new Runnable() {
+            @Override
+            public void run() {
+                int nombrePas;
 
-        nombrePas = Integer.parseInt(textNombrePasExact.getText());
+                nombrePas = Integer.parseInt(textNombrePasExact.getText());
 
-        if (nombrePas > 5 && nombrePas < 100) {
-            jSliderNombrePas.setValue(nombrePas);
-        } else if (nombrePas >= 100) {
-            jSliderNombrePas.setValue(100);
-        } else {
-            jSliderNombrePas.setValue(5);
-        }
+                if (nombrePas > 5 && nombrePas < 100) {
+                    jSliderNombrePas.setValue(nombrePas);
+                } else if (nombrePas >= 100) {
+                    jSliderNombrePas.setValue(100);
+                } else {
+                    jSliderNombrePas.setValue(5);
+                }
 
-        FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), Integer.parseInt(textNombrePasExact.getText()));
+                FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), Integer.parseInt(textNombrePasExact.getText()));
+            }
+        };
+       SwingUtilities.invokeLater(doTextNombrePas);
+
+
+
     }//GEN-LAST:event_jSliderJaugeStateChanged
 
+    private void jTextFieldKeyPressed(KeyEvent evt){
+        char c = evt.getKeyChar();
+        if(Character.isLetter(c)){
+            textNombrePasExact.setEditable(false);
+
+        }else{
+            textNombrePasExact.setEditable(true);
+        }
+    }
     // fin ajout
 
     public Initialisation getInitialisation() {

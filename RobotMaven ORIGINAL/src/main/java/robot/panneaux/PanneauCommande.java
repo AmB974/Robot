@@ -210,7 +210,22 @@ public class PanneauCommande extends JPanel {
     }//GEN-LAST:event_avanceActionPerformed
 
     private void comboRobotSelectionneDefinieActionPerformed(ActionEvent evt) {
-        frameParente.setRobotActif(comboRobotSelectionne.getSelectedIndex() + 1);
+        Robot robot = frameParente.getRobot();
+
+        FramePrincipale.setRobotActif(comboRobotSelectionne.getSelectedIndex() + 1);
+        if(!robot.isCasser()) {
+            robot.setImage(robot.imageSelonOrientation());
+
+        }else{
+            robot.setCasser(false);
+        }
+
+
+        frameParente.getRobot().setImage(frameParente.getRobot().imageSelonOrientation());
+
+
+
+
     }// Ajouté par Sélim
 
     private void initialiseSelectionRobot()

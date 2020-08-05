@@ -616,6 +616,9 @@ public class PanneauPrincipal extends JPanel {
         comboExpression.addItem(new SurMinerai());
         comboExpression.addItem(new PasSurMinerai());
         comboExpression.addItem(new PasDevantMurOuRobot());
+        comboExpression.addItem(new PasDevantRobot());
+        comboExpression.addItem(new DevantRobot());
+        comboExpression.addItem(new DevantRobotOuMur());
 
         parseur = new ParseurExprBool(frameParente.getRobot(), getListeTests());
 
@@ -685,7 +688,7 @@ public class PanneauPrincipal extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 PanneauPrincipal.this.frameParente.montreDialInit();
-                FramePrincipale.setROBOTACTIF(1);
+                FramePrincipale.setRobotActif(1);
             }
         });
 

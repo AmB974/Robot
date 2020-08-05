@@ -350,14 +350,13 @@ public class Initialisation implements Serializable {
                     i);
         }
 
-        frameParente.setRobotActif(FramePrincipale.getROBOTACTIF());
+        FramePrincipale.setRobotActif(FramePrincipale.getROBOTACTIF());
     }
 
     private static void setNombrePasRobots()
     {
         for(int i=1; i<FramePrincipale.getNbRobots()+1; ++i)
         {
-            System.out.println(FramePrincipale.getNombreDePas(i));
             Robot.getRobots()[i].setNombreDepPas(FramePrincipale.getNombreDePas(i));
             Robot.getRobots()[i].setNombrePas(FramePrincipale.getNombreDePas(i));
         }
