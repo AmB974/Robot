@@ -167,9 +167,47 @@ public class Robot implements Cellule, Runnable {
     public void setTaille(int lx, int ly) {
 
         robotE[0] = robotEprem[0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotE[1] = robotEprem[1].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotE[2] = robotEprem[2].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotE[3] = robotEprem[3].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+
+
         robotS[0] = robotSprem[0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotS[1] = robotSprem[1].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotS[2] = robotSprem[2].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotS[3] = robotSprem[3].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+
         robotO[0] = robotOprem[0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotO[1] = robotOprem[1].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotO[2] = robotOprem[2].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotO[3] = robotOprem[3].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+
         robotN[0] = robotNprem[0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotN[1] = robotNprem[1].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotN[2] = robotNprem[2].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotN[3] = robotNprem[3].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+
+
+        robotEActif[0] = robotEpremActif[0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotEActif[1] = robotEpremActif[1].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotEActif[2] = robotEpremActif[2].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotEActif[3] = robotEpremActif[3].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+
+
+        robotSActif[0] = robotSpremActif[0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotSActif[1] = robotSpremActif[1].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotSActif[2] = robotSpremActif[2].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotSActif[3] = robotSpremActif[3].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+
+        robotOActif[0] = robotOpremActif[0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotOActif[1] = robotOpremActif[1].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotOActif[2] = robotOpremActif[2].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotOActif[3] = robotOpremActif[3].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+
+        robotNActif[0] = robotNpremActif[0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotNActif[1] = robotNpremActif[1].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotNActif[2] = robotNpremActif[2].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
+        robotNActif[3] = robotNpremActif[3].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
 
         robotEeM[0] = robotEeMprem[0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
         robotEeM[1] = robotEeMprem[1].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);

@@ -26,7 +26,7 @@ import terrain.Terrain;
 public class FramePrincipale extends JFrame implements Detachable {
 
     private static Robot robot = null;
-    private static int NBROBOTS = 1;
+    private static int NBROBOTS = 4;
 
     //Ajouté par Sélim
 
