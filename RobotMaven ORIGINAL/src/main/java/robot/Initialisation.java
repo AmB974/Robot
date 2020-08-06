@@ -359,6 +359,13 @@ public class Initialisation implements Serializable {
         {
             Robot.getRobots()[i].setNombreDepPas(FramePrincipale.getNombreDePas(i));
             Robot.getRobots()[i].setNombrePas(FramePrincipale.getNombreDePas(i));
+            if(FramePrincipale.getNombreDePas(i)==-2){
+                Robot.getRobots()[i].setPasInitialise(false);
+            }else{
+                Robot.getRobots()[i].setPasInitialise(true);
+            }
         }
+
     }
+
 }

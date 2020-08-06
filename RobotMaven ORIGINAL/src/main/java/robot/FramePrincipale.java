@@ -26,7 +26,7 @@ import terrain.Terrain;
 public class FramePrincipale extends JFrame implements Detachable {
 
     private static Robot robot = null;
-    private static int NBROBOTS = 4;
+    private static int NBROBOTS = 1;
 
     //Ajouté par Sélim
 
@@ -317,11 +317,9 @@ public class FramePrincipale extends JFrame implements Detachable {
         panneauCommande.getComboRobotSelectionne().setSelectedIndex(FramePrincipale.getROBOTACTIF()-1);
     }
 
-    public static void setNombreDePas(int i, int nbPas)
-    {
+    public static void setNombreDePas(int i, int nbPas) {
         nombrePas[i] = nbPas;
     }
-
     public static int getNombreDePas(int i)
     {
         return nombrePas[i];

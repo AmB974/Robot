@@ -37,6 +37,7 @@
 package robot.panneaux;
 
 import robot.*;
+import robot.Robot;
 import terrain.Terrain;
 
 import javax.swing.*;
@@ -517,8 +518,11 @@ public class PanneauInitialisation extends JPanel {
         textNombrePasExact.setEnabled(nombrePasDefinie.isSelected());
         textNombrePasExact.setEditable(nombrePasDefinie.isSelected());
         synchroJaugeTexte = nombrePasDefinie.isSelected();
-        if(!synchroJaugeTexte)
+
+
+        if(!synchroJaugeTexte) {
             FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), -2);
+        }
 
     }//GEN-LAST:event_jaugeDefinieActionPerformed
 

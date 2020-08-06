@@ -110,11 +110,13 @@ public class Robot implements Cellule, Runnable {
     private Image[][] robotCouleurN = new Image[5][4];
     private Image[][] robotCouleurNprem = new Image[5][4];
 
-    private boolean actif= false;
+    private boolean pasInitialise= false;
     private boolean casser= false;
 
     public boolean isCasser(){return this.casser;}
     public void setCasser(boolean casser){this.casser=casser;}
+    public boolean isPasInitialise(){return this.pasInitialise;}
+    public void setPasInitialise(boolean pasInitialise){this.pasInitialise=pasInitialise;}
     //fin ajout
 
     private static Integer cpt = 0;
@@ -895,7 +897,9 @@ public class Robot implements Cellule, Runnable {
             }
         }
         //debut ajout
-        if(nombrePas>0) {
+        System.out.println("pasInitialiser avance : "+pasInitialise);
+
+        if(pasInitialise) {
             decrementerPas();
         }
         //fin ajout
@@ -931,8 +935,8 @@ public class Robot implements Cellule, Runnable {
         image[0] = imageSelonOrientation()[this.ID-1];
 
         //debut ajout
-
-        if(nombrePas>0) {
+        System.out.println("pasInitialiser tourne : "+pasInitialise);
+        if(pasInitialise) {
             decrementerPas();
         }
         //fin ajout
@@ -947,6 +951,7 @@ public class Robot implements Cellule, Runnable {
 
     //debut ajout
     public void decrementerPas() throws TropDePas{
+
 
 
 
@@ -976,6 +981,7 @@ public class Robot implements Cellule, Runnable {
                 image[0]=imageSelonCouleur(4)[this.ID-1];
                 enMarche=false;
                 terrain.repaint();
+                pasInitialise = false;
 
                 throw new TropDePas();
 
