@@ -84,6 +84,11 @@ public class FramePrincipale extends JFrame implements Detachable {
         return programme[ROBOTACTIF];
     }
 
+    public Programme getProgramme(int i)
+    {
+        return programme[i];
+    }
+
     @Override
     public Robot getRobot() {
         return robot;
@@ -128,7 +133,6 @@ public class FramePrincipale extends JFrame implements Detachable {
         {
             programme[i] = new Programme();
             arbre[i] = new JTreeRobot(programme[i].getArbreProgramme());
-            setRobotActif(i);
         }
 
         miseEnPlaceDesMenus();

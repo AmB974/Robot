@@ -46,7 +46,7 @@ public class Racine extends InstructionComposee {
     }
     
     public Racine() {
-        this("programme");
+        this("Programme");
     }
 
     @Override

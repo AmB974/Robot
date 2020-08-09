@@ -409,7 +409,7 @@ public class PanneauInitialisation extends JPanel {
         jSliderLargeur.setPaintTicks(true);
         jSliderLargeur.setSnapToTicks(true);
         jSliderLargeur.setToolTipText(jSliderLargeur.getValue() + "");
-        jSliderLargeur.setValue(-1);
+        jSliderLargeur.setValue(5);
         jSliderLargeur.setBorder(BorderFactory.createTitledBorder("Largeur"));
         jSliderLargeur.setEnabled(false);
         jSliderLargeur.addChangeListener(new ChangeListener() {
@@ -451,19 +451,18 @@ public class PanneauInitialisation extends JPanel {
 
         textNombrePasExact.setColumns(1);
         textNombrePasExact.setEditable(false);
-        //textNombrePasExact.setText("5");
         //textNombrePasExact.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
-        textNombrePasExact.setBorder(javax.swing.BorderFactory.createBevelBorder(2,Color.BLUE,Color.DARK_GRAY));
+        textNombrePasExact.setBorder(javax.swing.BorderFactory.createBevelBorder(2, Color.BLUE, Color.DARK_GRAY));
         textErreur.setForeground(Color.RED);
         textNombrePasExact.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
-                if(Character.isAlphabetic(c)){
+                if (Character.isAlphabetic(c)) {
                     textNombrePasExact.setEditable(false);
                     textErreur.setText("Veuillez rentrer que des chiffres !");
 
-                }else{
+                } else {
                     textNombrePasExact.setEditable(true);
                     textErreur.setText("");
                 }
@@ -503,11 +502,10 @@ public class PanneauInitialisation extends JPanel {
         if (changementInterne) return;
         if (synchroJaugeTexte) {
             synchroJaugeTexte = false;
-
-        }else {
+        } else {
             textNombrePasExact.setText(jSliderNombrePas.getValue() + "");
             FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), Integer.parseInt(textNombrePasExact.getText()));
-            synchroJaugeTexte=true;
+            synchroJaugeTexte = true;
         }
     }//GEN-LAST:event_jSliderJaugeStateChanged
 
@@ -517,8 +515,13 @@ public class PanneauInitialisation extends JPanel {
         textNombrePasExact.setEnabled(nombrePasDefinie.isSelected());
         textNombrePasExact.setEditable(nombrePasDefinie.isSelected());
         synchroJaugeTexte = nombrePasDefinie.isSelected();
-        if(!synchroJaugeTexte)
+        if (!synchroJaugeTexte) {
+            textNombrePasExact.setText("");
             FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), -2);
+        } else {
+            textNombrePasExact.setText("5");
+            FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), 5);
+        }
 
     }//GEN-LAST:event_jaugeDefinieActionPerformed
 
@@ -543,18 +546,17 @@ public class PanneauInitialisation extends JPanel {
                 FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), Integer.parseInt(textNombrePasExact.getText()));
             }
         };
-       SwingUtilities.invokeLater(doTextNombrePas);
-
+        SwingUtilities.invokeLater(doTextNombrePas);
 
 
     }//GEN-LAST:event_jSliderJaugeStateChanged
 
-    private void jTextFieldKeyPressed(KeyEvent evt){
+    private void jTextFieldKeyPressed(KeyEvent evt) {
         char c = evt.getKeyChar();
-        if(Character.isLetter(c)){
+        if (Character.isLetter(c)) {
             textNombrePasExact.setEditable(false);
 
-        }else{
+        } else {
             textNombrePasExact.setEditable(true);
         }
     }

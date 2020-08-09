@@ -48,6 +48,8 @@ public interface Detachable {
     public Programme getProgramme();
     
     public Terrain getTerrain();
+
+    public Programme getProgramme(int i);
     
     public void setTerrain(Terrain terrain);
     

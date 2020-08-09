@@ -36,7 +36,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
+import robot.FramePrincipale;
 import robot.Initialisation;
+import robot.Robot;
 import terrain.Terrain;
 
 /**
@@ -110,7 +113,11 @@ public class PanneauDExecution extends JPanel {
                         } else {
                             PanneauDExecution.this.fenetreRobot.getTerrain().revalidate();
                         }
-                        PanneauDExecution.this.fenetreRobot.getRobot().execute(instruction);
+
+                        for(int i=1; i<FramePrincipale.getNbRobots()+1; ++i)
+                        {
+                            Robot.getRobots()[i].execute(instruction);
+                        }
 
                         try {
 
