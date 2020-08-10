@@ -102,10 +102,8 @@ public class PanneauDExecution extends JPanel {
                         Instruction instruction[] = new Instruction[FramePrincipale.getNbRobots()+1];
                         for(int i=1; i<FramePrincipale.getNbRobots()+1; ++i)
                         {
-                            FramePrincipale.setRobotActif(i);
-                            instruction[i] = PanneauDExecution.this.fenetreRobot.getProgramme().getProcedurePrincipal();
+                            instruction[i] = fenetreRobot.getProgramme(i).getProcedurePrincipal();
                         }
-                        FramePrincipale.setRobotActif(1);
                         Initialisation.initialiser(fenetreRobot.getProgrammes(), PanneauDExecution.this.fenetreRobot, true);
 
                         try {
@@ -124,10 +122,8 @@ public class PanneauDExecution extends JPanel {
 
                         for(int i=1; i<FramePrincipale.getNbRobots()+1; ++i)
                         {
-                            FramePrincipale.setRobotActif(i);
                             Robot.getRobots()[i].execute(instruction[i]);
                         }
-                        FramePrincipale.setRobotActif(1);
 
                         try {
                             Thread.sleep(1000);

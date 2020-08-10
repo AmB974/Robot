@@ -685,8 +685,8 @@ public class PanneauPrincipal extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                PanneauPrincipal.this.frameParente.montreDialInit();
                 FramePrincipale.setRobotActif(1);
+                PanneauPrincipal.this.frameParente.montreDialInit();
             }
         });
 

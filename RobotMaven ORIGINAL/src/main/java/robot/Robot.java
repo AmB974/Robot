@@ -120,7 +120,6 @@ public class Robot implements Cellule, Runnable {
     private static Integer cpt = 0;
     private static Robot[] robots = new Robot[FramePrincipale.getNbRobots() + 1];
     private final int ID;
-    private static int NBROBOTS = FramePrincipale.getNbRobots();//--------------------------------- A mettre en place
     //Ajouté par Sélim
 
     public Cellule quoiDessous() {
@@ -759,7 +758,7 @@ public class Robot implements Cellule, Runnable {
      */
     public Robot(Terrain terrain) {
 
-        if (cpt < NBROBOTS)
+        if (cpt < FramePrincipale.getNbRobots())
             ID = ++cpt;
         else {
             cpt = 1;
@@ -772,7 +771,7 @@ public class Robot implements Cellule, Runnable {
 
     public Robot(Terrain terrain, int x, int y) {
 
-        if (cpt < NBROBOTS)
+        if (cpt < FramePrincipale.getNbRobots())
             ID = ++cpt;
         else {
             cpt = 1;
@@ -784,7 +783,7 @@ public class Robot implements Cellule, Runnable {
 
     public Robot(Terrain terrain, int x, int y, Color couleur) {
 
-        if (cpt < NBROBOTS)
+        if (cpt < FramePrincipale.getNbRobots())
             ID = ++cpt;
         else {
             cpt = 1;
@@ -796,7 +795,7 @@ public class Robot implements Cellule, Runnable {
 
     public Robot(Terrain terrain, Color couleur) {
 
-        if (cpt < NBROBOTS)
+        if (cpt < FramePrincipale.getNbRobots())
             ID = ++cpt;
         else {
             cpt = 1;
@@ -808,7 +807,7 @@ public class Robot implements Cellule, Runnable {
 
     public Robot(Terrain terrain, int x, int y, int dir) {
 
-        if (cpt < NBROBOTS)
+        if (cpt < FramePrincipale.getNbRobots())
             ID = ++cpt;
         else {
             cpt = 1;

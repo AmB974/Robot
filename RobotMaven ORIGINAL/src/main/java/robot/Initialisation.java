@@ -242,10 +242,8 @@ public class Initialisation implements Serializable {
 
         for(int i=1; i<FramePrincipale.getNbRobots()+1;++i)
         {
-            FramePrincipale.setRobotActif(i);
             frameParente.getProgramme(i).setInitialisation(programmes[i].getInitialisation());
         }
-        FramePrincipale.setRobotActif(1);
 
         frameParente.getDialogueInitialisation().setInitialisation(programmes[FramePrincipale.getROBOTACTIF()].getInitialisation());
 

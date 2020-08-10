@@ -50,6 +50,7 @@ public class PanneauCommande extends JPanel {
 
     private Detachable frameParente;
 
+
     /**
      * Creates new form panneauCommande
      */
