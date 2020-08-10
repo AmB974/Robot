@@ -1102,8 +1102,8 @@ public class Robot implements Cellule, Runnable {
             //Logger.getLogger(Robot.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "<html><p>Erreur de programmation</p></html>",
                     "Bouuuum !!! Dans le mur",
-                    JOptionPane.ERROR_MESSAGE,
-                    new ImageIcon(Robot.class.getResource("resources/images/RobotCasse.png")));
+                    JOptionPane.ERROR_MESSAGE
+                    );
             stop();
 
         } catch (InterruptedException ex) {
@@ -1166,4 +1166,8 @@ public class Robot implements Cellule, Runnable {
     {
         return ID;
     }
+
+    public int getX(){return this.x;}
+
+    public int getY(){return this.y;}
 }

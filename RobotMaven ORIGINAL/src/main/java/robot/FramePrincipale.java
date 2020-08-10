@@ -27,6 +27,7 @@ public class FramePrincipale extends JFrame implements Detachable {
 
     private static Robot robot = null;
     private static int NBROBOTS = 4;
+    private static int nbRobotSurTerrain = 1;
 
     //Ajouté par Sélim
 
@@ -324,4 +325,6 @@ public class FramePrincipale extends JFrame implements Detachable {
     {
         return nombrePas[i];
     }
+    public static void setNbRobotSurTerrain(int nbRobot){nbRobotSurTerrain=nbRobot;}
+    public static int getNbRobotSurTerrain(){return nbRobotSurTerrain;}
 }

@@ -313,9 +313,9 @@ public class PanneauInitialisation extends JPanel {
     private void initialiseSelectionRobot() {
         labelSelectionDuRobot.setText("Sélection du robot");
 
-        String s[] = new String[FramePrincipale.getNbRobots()];
+        String s[] = new String[FramePrincipale.getNbRobotSurTerrain()];
 
-        for (int i = 0; i < FramePrincipale.getNbRobots(); ++i)
+        for (int i = 0; i < FramePrincipale.getNbRobotSurTerrain(); ++i)
             s[i] = "Robot " + (i + 1);
 
 
@@ -475,11 +475,9 @@ public class PanneauInitialisation extends JPanel {
             @Override
             public void insertUpdate(DocumentEvent e) {
 
-                try {
+
                     textNombrePasStateChanged(e);
-                } catch (SaisieChiffreTropGrand saisieChiffreTropGrand) {
-                    saisieChiffreTropGrand.printStackTrace();
-                }
+
             }
 
             @Override
@@ -489,11 +487,9 @@ public class PanneauInitialisation extends JPanel {
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                try {
+
                     textNombrePasStateChanged(e);
-                } catch (SaisieChiffreTropGrand saisieChiffreTropGrand) {
-                    saisieChiffreTropGrand.printStackTrace();
-                }
+
             }
         });
         //fin ajout
@@ -526,7 +522,7 @@ public class PanneauInitialisation extends JPanel {
 
     }//GEN-LAST:event_jaugeDefinieActionPerformed
 
-    private void textNombrePasStateChanged(DocumentEvent evt) throws SaisieChiffreTropGrand {//GEN-FIRST:event_jSliderJaugeStateChanged
+    private void textNombrePasStateChanged(DocumentEvent evt) {//GEN-FIRST:event_jSliderJaugeStateChanged
 
         if (changementInterne) return;
         Runnable doTextNombrePas = new Runnable() {

@@ -337,6 +337,13 @@ public class Initialisation implements Serializable {
         while(frameParente.getTerrain().get(p.x,p.y) != null);
 
         FramePrincipale.setRobot(i,new Robot(frameParente.getTerrain(), p.x, p.y, orientationRobot));
+        if(i !=1 && FramePrincipale.getNbRobotSurTerrain()==1) {
+            frameParente.getTerrain().set(p.x, p.y, null);
+        }else if(i>2 && FramePrincipale.getNbRobotSurTerrain()==2){
+            frameParente.getTerrain().set(p.x, p.y, null);
+        }else if(i>3 && FramePrincipale.getNbRobotSurTerrain()==3) {
+            frameParente.getTerrain().set(p.x, p.y, null);
+        }
     }//Ajouté par Sélim
 
     private static void placementDesRobots(Detachable frameParente)
