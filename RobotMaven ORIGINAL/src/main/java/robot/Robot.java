@@ -1125,4 +1125,9 @@ public class Robot implements Cellule, Runnable {
     {
         return programme;
     }
+
+    public static int getCpt()
+    {
+        return cpt;
+    }
 }

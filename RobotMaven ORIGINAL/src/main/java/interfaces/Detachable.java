@@ -34,10 +34,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTree;
 import robot.Programme;
 import robot.Robot;
-import robot.panneaux.BoiteDeDialogueInit;
-import robot.panneaux.PanneauCommande;
-import robot.panneaux.PanneauPrincipal;
-import robot.panneaux.PanneauTerrain;
+import robot.panneaux.*;
 import terrain.Terrain;
 
 /**
@@ -47,10 +44,10 @@ import terrain.Terrain;
 public interface Detachable {
 
     public Programme getProgramme();
-    
-    public Terrain getTerrain();
 
     public PanneauPrincipal getPanneauPrincipal();
+
+    public Terrain getTerrain();
 
     public Programme[] getProgrammes();
 

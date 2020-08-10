@@ -81,6 +81,9 @@ public class PanneauPrincipal extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
+    private JScrollPane vueDArbre = null;
+    private JPanel panneauArbre = null;
+
     private final JButton boutonInitialise = new JButton("Initialisation");
     private final JButton boutonAvance = new JButton("Avance");
     private final JButton boutonTourne = new JButton("Tourne");
@@ -637,10 +640,11 @@ public class PanneauPrincipal extends JPanel {
             }
         });
 
-        JScrollPane vueDArbre = new JScrollPane(frameParente.getArbre());
-        JPanel panneauArbre = new JPanel(new BorderLayout());
+        vueDArbre = new JScrollPane(frameParente.getArbre());//Vue programme !!!! ________________________
+        panneauArbre = new JPanel(new BorderLayout());
         panneauArbre.setPreferredSize(new Dimension(300, 400));
         panneauArbre.add(vueDArbre, "Center");
+
 
         JPanel panneauCommande = new JPanel();
 
@@ -903,6 +907,14 @@ public class PanneauPrincipal extends JPanel {
 
         demo.add(getMenuItem(nom));
 
+    }
+
+    public void majVueProgramme()
+    {
+        vueDArbre = new JScrollPane(frameParente.getArbre());
+        panneauArbre.removeAll();
+        panneauArbre.add(vueDArbre, "Center");
+        panneauArbre.updateUI();
     }
 
     //}

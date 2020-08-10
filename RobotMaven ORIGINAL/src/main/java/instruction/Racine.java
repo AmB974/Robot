@@ -47,7 +47,7 @@ public class Racine extends InstructionComposee {
     }
     
     public Racine() {
-        this("Programme robot numéro " + FramePrincipale.getROBOTACTIF());
+        this("Programme robot");
     }
 
     @Override

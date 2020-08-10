@@ -95,12 +95,6 @@ public class FramePrincipale extends JFrame implements Detachable {
     }
 
     @Override
-    public PanneauPrincipal getPanneauPrincipal()
-    {
-        return panneauPrincipal;
-    }
-
-    @Override
     public JSplitPane getSplitPane() {
         return splitPane;
     }
@@ -342,5 +336,11 @@ public class FramePrincipale extends JFrame implements Detachable {
     public Programme[] getProgrammes()
     {
         return programme;
+    }
+
+    @Override
+    public PanneauPrincipal getPanneauPrincipal()
+    {
+        return panneauPrincipal;
     }
 }
