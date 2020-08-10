@@ -30,6 +30,8 @@ package robot.panneaux;
 
 import instruction.Instruction;
 import interfaces.Detachable;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
@@ -97,9 +99,15 @@ public class PanneauDExecution extends JPanel {
                     @Override
                     public void run() {
                         //arret_reprise.setEnabled(true);
-                        Instruction instruction = PanneauDExecution.this.fenetreRobot.getProgramme().getProcedurePrincipal();
-                        Initialisation.initialiser(PanneauDExecution.this.fenetreRobot.getProgramme().getInitialisation(), PanneauDExecution.this.fenetreRobot, true);
-                        
+                        Instruction instruction[] = new Instruction[FramePrincipale.getNbRobots()+1];
+                        for(int i=1; i<FramePrincipale.getNbRobots()+1; ++i)
+                        {
+                            FramePrincipale.setRobotActif(i);
+                            instruction[i] = PanneauDExecution.this.fenetreRobot.getProgramme().getProcedurePrincipal();
+                        }
+                        FramePrincipale.setRobotActif(1);
+                        Initialisation.initialiser(fenetreRobot.getProgrammes(), PanneauDExecution.this.fenetreRobot, true);
+
                         try {
                             Thread.sleep(100);
                         } catch (InterruptedException ex) {
@@ -116,15 +124,15 @@ public class PanneauDExecution extends JPanel {
 
                         for(int i=1; i<FramePrincipale.getNbRobots()+1; ++i)
                         {
-                            Robot.getRobots()[i].execute(instruction);
+                            FramePrincipale.setRobotActif(i);
+                            Robot.getRobots()[i].execute(instruction[i]);
                         }
+                        FramePrincipale.setRobotActif(1);
 
                         try {
-
                             Thread.sleep(1000);
 
                             PanneauDExecution.this.fenetreRobot.getRobot().getProcessus().join();
-
 
                         } catch (InterruptedException ex) {
                         }

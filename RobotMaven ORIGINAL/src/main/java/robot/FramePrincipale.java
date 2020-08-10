@@ -95,6 +95,12 @@ public class FramePrincipale extends JFrame implements Detachable {
     }
 
     @Override
+    public PanneauPrincipal getPanneauPrincipal()
+    {
+        return panneauPrincipal;
+    }
+
+    @Override
     public JSplitPane getSplitPane() {
         return splitPane;
     }
@@ -104,7 +110,7 @@ public class FramePrincipale extends JFrame implements Detachable {
         dialogueInitialisation.setVisible(true);
         if (dialogueInitialisation.getOk()) {
             programme[ROBOTACTIF].setInitialisation(dialogueInitialisation.getInitialisation());
-            Initialisation.initialiser(dialogueInitialisation.getInitialisation(), this, true);
+            Initialisation.initialiser(getProgrammes(), this, true);
         }
     }
 
@@ -330,5 +336,11 @@ public class FramePrincipale extends JFrame implements Detachable {
     public static int getNombreDePas(int i)
     {
         return nombrePas[i];
+    }
+
+    @Override
+    public Programme[] getProgrammes()
+    {
+        return programme;
     }
 }

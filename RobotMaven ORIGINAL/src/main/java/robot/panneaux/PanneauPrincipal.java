@@ -2,28 +2,28 @@
  * Creative commons CC BY-NC-SA 2020 Yvan Maillot <yvan.maillot@uha.fr>
  *
  *     Share - You can copy and redistribute the material in any medium or format
- * 
- *     Adapt - You can remix, transform, and build upon the material 
- * 
+ *
+ *     Adapt - You can remix, transform, and build upon the material
+ *
  * Under the following terms :
- * 
- *     Attribution - You must give appropriate credit, provide a link to the license, 
- *     and indicate if changes were made. You may do so in any reasonable manner, 
- *     but not in any way that suggests the licensor endorses you or your use. 
- * 
- *     NonCommercial — You may not use the material for commercial purposes. 
- * 
- *     ShareAlike — If you remix, transform, or build upon the material, 
- *     you must distribute your contributions under the same license as the original. 
- * 
- * Notices:    You do not have to comply with the license for elements of 
- *             the material in the public domain or where your use is permitted 
- *             by an applicable exception or limitation. 
- * 
- * No warranties are given. The license may not give you all of the permissions 
- * necessary for your intended use. For example, other rights such as publicity, 
- * privacy, or moral rights may limit how you use the material. 
- * 
+ *
+ *     Attribution - You must give appropriate credit, provide a link to the license,
+ *     and indicate if changes were made. You may do so in any reasonable manner,
+ *     but not in any way that suggests the licensor endorses you or your use.
+ *
+ *     NonCommercial — You may not use the material for commercial purposes.
+ *
+ *     ShareAlike — If you remix, transform, or build upon the material,
+ *     you must distribute your contributions under the same license as the original.
+ *
+ * Notices:    You do not have to comply with the license for elements of
+ *             the material in the public domain or where your use is permitted
+ *             by an applicable exception or limitation.
+ *
+ * No warranties are given. The license may not give you all of the permissions
+ * necessary for your intended use. For example, other rights such as publicity,
+ * privacy, or moral rights may limit how you use the material.
+ *
  * See <https://creativecommons.org/licenses/by-nc-sa/4.0/>.
  */
 package robot.panneaux;
@@ -34,6 +34,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 import expressions.*;
 import instruction.*;
 import interfaces.Detachable;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -74,7 +75,6 @@ class JMenuItemNiveau extends JMenuItem {
 }
 
 /**
- *
  * @author Maillot
  */
 public class PanneauPrincipal extends JPanel {
@@ -127,28 +127,28 @@ public class PanneauPrincipal extends JPanel {
     private final BoiteDeDialHTML aProposDialog;
     private JMenu menuNiveau;
     private static final String[] nomsFichiersDemo = {
-        "Se dérouiller les roulettes sans risque",
-        "S'orienter",
-        "Avancer jusqu'au mur d'en face",
-        "Faire le tour du terrain",
-        "S'orienter avec un tant que",
-        "Au milieu d'un bord",
-        "Il y a du minerai sur un bord; se placer devant",
-        /*"Il y a peut-être du minerai sur un bord; se placer devant s'il existe (coince)",
-         "Il y a peut-être du minerai sur un bord; se placer devant s'il existe (coince pas mais PB)",*/
-        "Il y a peut-être du minerai sur un bord; se placer devant s'il existe",
-        "Au milieu d'un bord avec procédures",
-        "Au milieu d'un bord avec procédures (fausse bonne idée)",
-        "Trouver la plus grande colonne de marques",
-        /*"Dessiner un rectangle de x par y",
-         "Dessiner un triangle",*/
-        "Dessiner un carré de 10 x 10",
-        "Dessiner un carré de 10 x 10 en faisant 5 allers et retours",
-        "Dessiner un triangle isocèle",
-        "Compter",
-        "Compter LSB à droite",
-        "Tri à bulle",
-        "Additionner"
+            "Se dérouiller les roulettes sans risque",
+            "S'orienter",
+            "Avancer jusqu'au mur d'en face",
+            "Faire le tour du terrain",
+            "S'orienter avec un tant que",
+            "Au milieu d'un bord",
+            "Il y a du minerai sur un bord; se placer devant",
+            /*"Il y a peut-être du minerai sur un bord; se placer devant s'il existe (coince)",
+             "Il y a peut-être du minerai sur un bord; se placer devant s'il existe (coince pas mais PB)",*/
+            "Il y a peut-être du minerai sur un bord; se placer devant s'il existe",
+            "Au milieu d'un bord avec procédures",
+            "Au milieu d'un bord avec procédures (fausse bonne idée)",
+            "Trouver la plus grande colonne de marques",
+            /*"Dessiner un rectangle de x par y",
+             "Dessiner un triangle",*/
+            "Dessiner un carré de 10 x 10",
+            "Dessiner un carré de 10 x 10 en faisant 5 allers et retours",
+            "Dessiner un triangle isocèle",
+            "Compter",
+            "Compter LSB à droite",
+            "Tri à bulle",
+            "Additionner"
     };
 
     public PanneauPrincipal(Detachable frameParente) {
@@ -425,22 +425,21 @@ public class PanneauPrincipal extends JPanel {
 
         XStream xstream = new XStream(new DomDriver());
 
-        Programme nouveauProgramme = null;
+        Programme nouveauProgramme[] = null;
 
         try {
-            nouveauProgramme = (Programme) xstream.fromXML(fichier.openStream());
+            nouveauProgramme = (Programme[]) xstream.fromXML(fichier.openStream());
 
             frameParente.setTitle(fichier.getFile());
 
-            setAppelProcedure(nouveauProgramme.getProcedures());
+            setAppelProcedure(nouveauProgramme[FramePrincipale.getROBOTACTIF()].getProcedures());
             Programme programme = frameParente.getProgramme();
             Instruction racine = (Instruction) frameParente.getProgramme().getArbreProgramme().getRoot();
 
-            while (racine.getChildCount()
-                    > 0) {
+            while (racine.getChildCount() > 0) {
                 programme.getArbreProgramme().removeNodeFromParent((MutableTreeNode) racine.getFirstChild());
             }
-            Instruction nouvelleRacine = (Instruction) nouveauProgramme.getArbreProgramme().getRoot();
+            Instruction nouvelleRacine = (Instruction) nouveauProgramme[FramePrincipale.getROBOTACTIF()].getArbreProgramme().getRoot();
 
             programme.supprimerProcedure();
 
@@ -452,9 +451,9 @@ public class PanneauPrincipal extends JPanel {
             }
 
             //Initialisation.initialiser(nouveauProgramme.getInitialisation(), FramePrincipale.this);
-            Initialisation.initialiser(nouveauProgramme.getInitialisation(), frameParente, false);
+            Initialisation.initialiser(nouveauProgramme, frameParente, false);
             for (int i = 0;
-                    i < frameParente.getArbre().getRowCount(); i++) {
+                 i < frameParente.getArbre().getRowCount(); i++) {
                 frameParente.getArbre().expandRow(i);
             }
 
@@ -518,21 +517,20 @@ public class PanneauPrincipal extends JPanel {
                 Instruction instruction = null;
                 if (source == boutonAvance) {
                     instruction = new Avance(/*
-                             * PanneauPrincipal.this.frameParente.getRobot()
-                             */);
-                }
-                else if (source == boutonTourne) {
+                     * PanneauPrincipal.this.frameParente.getRobot()
+                     */);
+                } else if (source == boutonTourne) {
                     instruction = new Tourne(/*
-                             * PanneauPrincipal.this.frameParente.getRobot()
-                             */);
+                     * PanneauPrincipal.this.frameParente.getRobot()
+                     */);
                 } else if (source == boutonMarque) {
                     instruction = new Marque(/*
-                             * PanneauPrincipal.this.frameParente.getRobot()
-                             */);
+                     * PanneauPrincipal.this.frameParente.getRobot()
+                     */);
                 } else if (source == boutonEfface) {
                     instruction = new Efface(/*
-                             * PanneauPrincipal.this.frameParente.getRobot()
-                             */);
+                     * PanneauPrincipal.this.frameParente.getRobot()
+                     */);
                 } else if (source == boutonTantQue) {
                     ExprBool exp;
                     if (exprBoolComplexe != null) {
@@ -880,7 +878,7 @@ public class PanneauPrincipal extends JPanel {
                 XStream xstream = new XStream(new DomDriver());
 
                 Programme programme = null;
-                
+
                 programme = (Programme) xstream.fromXML(PanneauPrincipal.class.getResourceAsStream("/sources/" + nom + ".rob"));
 
                 //programme = (Programme) xstream.fromXML(getClass().getResourceAsStream("sources/" + nom + ".rob"));
@@ -888,8 +886,8 @@ public class PanneauPrincipal extends JPanel {
                 //File file = new File(getClass().getResource("sources/" + nom + ".rob.obj"));
                 // getClass().getr
                 try ( //os = new ObjectOutputStream(new FileOutputStream(new File(getClass().getResource("sources/" + nom + ".rob.obj").toURI())));
-                        //os = new ObjectOutputStream(getClass().getResourceAsStream("sources/" + nom + ".rob.obj"));
-                         ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("resources/sources/" + nom + ".rob.obj"))) {
+                      //os = new ObjectOutputStream(getClass().getResourceAsStream("sources/" + nom + ".rob.obj"));
+                      ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("resources/sources/" + nom + ".rob.obj"))) {
                     os.writeObject(programme);
                 }
             } catch (FileNotFoundException ex) {
@@ -906,4 +904,6 @@ public class PanneauPrincipal extends JPanel {
         demo.add(getMenuItem(nom));
 
     }
-}
+
+    //}
+};

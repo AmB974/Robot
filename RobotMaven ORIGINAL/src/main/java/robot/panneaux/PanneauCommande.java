@@ -220,12 +220,7 @@ public class PanneauCommande extends JPanel {
             robot.setCasser(false);
         }
 
-
         frameParente.getRobot().setImage(frameParente.getRobot().imageSelonOrientation());
-
-
-
-
     }// Ajouté par Sélim
 
     private void initialiseSelectionRobot()

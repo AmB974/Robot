@@ -36,6 +36,7 @@ import robot.Programme;
 import robot.Robot;
 import robot.panneaux.BoiteDeDialogueInit;
 import robot.panneaux.PanneauCommande;
+import robot.panneaux.PanneauPrincipal;
 import robot.panneaux.PanneauTerrain;
 import terrain.Terrain;
 
@@ -48,6 +49,10 @@ public interface Detachable {
     public Programme getProgramme();
     
     public Terrain getTerrain();
+
+    public PanneauPrincipal getPanneauPrincipal();
+
+    public Programme[] getProgrammes();
 
     public Programme getProgramme(int i);
     

@@ -235,16 +235,19 @@ public class Initialisation implements Serializable {
     }
 
     public static void initialiser(Detachable frameParente, boolean marque) {
-        initialiser(frameParente.getProgramme().getInitialisation(), frameParente, marque);
+        initialiser(frameParente.getProgrammes(), frameParente, marque);
     }
 
-    public static void initialiser(Initialisation initialisation, Detachable frameParente, boolean marque) {
+    public static void initialiser(Programme[] programmes, Detachable frameParente, boolean marque) {
 
         for(int i=1; i<FramePrincipale.getNbRobots()+1;++i)
         {
-            frameParente.getProgramme(i).setInitialisation(initialisation);
+            FramePrincipale.setRobotActif(i);
+            frameParente.getProgramme(i).setInitialisation(programmes[i].getInitialisation());
         }
-        frameParente.getDialogueInitialisation().setInitialisation(initialisation);
+        FramePrincipale.setRobotActif(1);
+
+        frameParente.getDialogueInitialisation().setInitialisation(programmes[FramePrincipale.getROBOTACTIF()].getInitialisation());
 
         int hauteur = -1;
         int largeur = -1;
