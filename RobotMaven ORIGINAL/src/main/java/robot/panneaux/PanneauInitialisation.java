@@ -76,6 +76,10 @@ public class PanneauInitialisation extends JPanel {
     private JTextField textNombrePasExact = new JTextField();
     private boolean synchroJaugeTexte = false;
     private JLabel textErreur = new JLabel();
+    private JButton ajoute = new JButton();
+    private JButton enleve = new JButton();
+
+
     // fin ajout
 
     private JComboBox comboRobotSelectionne;
@@ -201,7 +205,9 @@ public class PanneauInitialisation extends JPanel {
 
                                                                         .addComponent(jSliderNombrePas, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE) //ajout Ambre
                                                                         .addComponent(textNombrePasExact, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)//ajout Ambre
-                                                                        .addComponent(textErreur))//ajout Ambre
+                                                                        .addComponent(textErreur)//ajout Ambre
+                                                                .addComponent(ajoute)//ajout Ambre
+                                                        .addComponent(enleve))//ajout Ambre
                                                                 .addContainerGap()))
                                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)))
                                 )));
@@ -241,6 +247,12 @@ public class PanneauInitialisation extends JPanel {
                                 )
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(textErreur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                )
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(ajoute, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                )
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(enleve, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 )
 
                                 //fin ajout
@@ -313,9 +325,9 @@ public class PanneauInitialisation extends JPanel {
     private void initialiseSelectionRobot() {
         labelSelectionDuRobot.setText("Sélection du robot");
 
-        String s[] = new String[FramePrincipale.getNbRobotSurTerrain()];
+        String s[] = new String[FramePrincipale.getNBRobotsSurTerrain()];
 
-        for (int i = 0; i < FramePrincipale.getNbRobotSurTerrain(); ++i)
+        for (int i = 0; i < FramePrincipale.getNBRobotsSurTerrain(); ++i)
             s[i] = "Robot " + (i + 1);
 
 
@@ -493,6 +505,22 @@ public class PanneauInitialisation extends JPanel {
             }
         });
         //fin ajout
+
+        ajoute.setText("Ajouter");
+        ajoute.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ajouteActionPerformed(e);
+            }
+        });
+
+        enleve.setText("Enleve");
+        enleve.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                enleveActionPerformed(e);
+            }
+        });
     }
 
     //debut ajout
@@ -504,6 +532,7 @@ public class PanneauInitialisation extends JPanel {
         }else {
             textNombrePasExact.setText(jSliderNombrePas.getValue() + "");
             FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), Integer.parseInt(textNombrePasExact.getText()));
+            //FramePrincipale.setTableauPas(comboRobotSelectionne.getSelectedIndex() + 1,jSliderNombrePas.getValue());
             synchroJaugeTexte=true;
         }
     }//GEN-LAST:event_jSliderJaugeStateChanged
@@ -540,7 +569,8 @@ public class PanneauInitialisation extends JPanel {
                     jSliderNombrePas.setValue(5);
                 }
 
-                FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), Integer.parseInt(textNombrePasExact.getText()));
+                //FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), nombrePas);
+                FramePrincipale.setTableauPas(comboRobotSelectionne.getSelectedIndex() + 1,nombrePas);
             }
         };
        SwingUtilities.invokeLater(doTextNombrePas);
@@ -563,4 +593,33 @@ public class PanneauInitialisation extends JPanel {
     public Initialisation getInitialisation() {
         return initialisation;
     }
+
+    public void comboInitialisationActualise(){
+        String s[] = new String[FramePrincipale.getNBRobotsSurTerrain()];
+
+        for (int i = 0; i < FramePrincipale.getNBRobotsSurTerrain(); ++i)
+            s[i] = "Robot " + (i + 1);
+
+
+        comboRobotSelectionne.setModel(new DefaultComboBoxModel(s));
+    }
+    private void ajouteActionPerformed(java.awt.event.ActionEvent evt) {
+
+        FramePrincipale.setNBRobotsSurTerrain(FramePrincipale.getNBRobotsSurTerrain()+1);
+        //Robot.getRobots()[1].setCpt(FramePrincipale.getNbRobots());
+
+        comboInitialisationActualise();
+
+
+    }
+
+    private void enleveActionPerformed(java.awt.event.ActionEvent evt) {
+        FramePrincipale.setNBRobotsSurTerrain(FramePrincipale.getNBRobotsSurTerrain()-1);
+        //Robot.getRobots()[1].setCpt(FramePrincipale.getNbRobots());
+
+        comboInitialisationActualise();
+
+
+    }
+
 }

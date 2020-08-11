@@ -27,7 +27,8 @@ public class FramePrincipale extends JFrame implements Detachable {
 
     private static Robot robot = null;
     private static int NBROBOTS = 4;
-    private static int nbRobotSurTerrain = 1;
+    private static int NBRobotsSurTerrain=1;
+    //private static int nbRobotSurTerrain = 1;
 
     //Ajouté par Sélim
 
@@ -52,6 +53,7 @@ public class FramePrincipale extends JFrame implements Detachable {
     private static int[] orientationsRobots = {VIDE, QUELCONQUE, QUELCONQUE, QUELCONQUE, QUELCONQUE};
     private static int[] positionsRobots = {VIDE, QUELCONQUE, QUELCONQUE, QUELCONQUE, QUELCONQUE};
     private static int[] nombrePas = {VIDE,VIDE,VIDE,VIDE,VIDE};
+    private static int[] tableauPas = new int[5];
 
 
     @Override
@@ -100,7 +102,7 @@ public class FramePrincipale extends JFrame implements Detachable {
         dialogueInitialisation.setVisible(true);
         if (dialogueInitialisation.getOk()) {
             programme[ROBOTACTIF].setInitialisation(dialogueInitialisation.getInitialisation());
-            Initialisation.initialiser(dialogueInitialisation.getInitialisation(), this, true);
+            Initialisation.initialiser(dialogueInitialisation.getInitialisation(), this, true, FramePrincipale.getNbRobots());
         }
     }
 
@@ -125,7 +127,7 @@ public class FramePrincipale extends JFrame implements Detachable {
 
         dialogueInitialisation = new BoiteDeDialogueInit(this);
 
-        for(int i=0; i<NBROBOTS+1; ++i)
+        for(int i=1; i<5; ++i)
         {
             programme[i] = new Programme();
             arbre[i] = new JTreeRobot(programme[i].getArbreProgramme());
@@ -150,7 +152,7 @@ public class FramePrincipale extends JFrame implements Detachable {
         panneauCommande = new PanneauCommande(this);
         getContentPane().add(panneauCommande, "South");
 
-        Initialisation.initialiser(this, false);
+        Initialisation.initialiser(this, false, NBROBOTS);
 
         panneauDExecution = new PanneauDExecution(this);
 
@@ -279,6 +281,9 @@ public class FramePrincipale extends JFrame implements Detachable {
     public static int getNbRobots() {
         return NBROBOTS;
     }
+    public static void setNbRobots( int nb) {
+        NBROBOTS= nb;
+    }
 
     public static int getOrientationRobotActif() {
         return orientationsRobots[ROBOTACTIF];
@@ -325,6 +330,9 @@ public class FramePrincipale extends JFrame implements Detachable {
     {
         return nombrePas[i];
     }
-    public static void setNbRobotSurTerrain(int nbRobot){nbRobotSurTerrain=nbRobot;}
-    public static int getNbRobotSurTerrain(){return nbRobotSurTerrain;}
+    public static void setTableauPas(int id, int valeur){ tableauPas[id]=valeur;}
+    public static int[] getTableauPas(){return tableauPas;}
+
+    public static int getNBRobotsSurTerrain(){return NBRobotsSurTerrain;}
+    public static void setNBRobotsSurTerrain(int nb){NBRobotsSurTerrain=nb;}
 }

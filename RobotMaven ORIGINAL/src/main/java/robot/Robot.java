@@ -113,16 +113,16 @@ public class Robot implements Cellule, Runnable {
     private boolean pasInitialise= false;
     private boolean casser= false;
 
-    public boolean isCasser(){return this.casser;}
+    public boolean isCasser(){ return this.casser; }
     public void setCasser(boolean casser){this.casser=casser;}
-    public boolean isPasInitialise(){return this.pasInitialise;}
+    public boolean isPasInitialise(){ return this.pasInitialise;}
     public void setPasInitialise(boolean pasInitialise){this.pasInitialise=pasInitialise;}
     //fin ajout
 
     private static Integer cpt = 0;
-    private static Robot[] robots = new Robot[FramePrincipale.getNbRobots() + 1];
+    private static Robot[] robots = new Robot[5];
     private final int ID;
-    private static int NBROBOTS = FramePrincipale.getNbRobots();//--------------------------------- A mettre en place
+    //private static int NBROBOTS = FramePrincipale.getNbRobots();//--------------------------------- A mettre en place
     //Ajouté par Sélim
 
     public Cellule quoiDessous() {
@@ -799,7 +799,7 @@ public class Robot implements Cellule, Runnable {
      */
     public Robot(Terrain terrain) {
 
-        if (cpt < NBROBOTS)
+        if (cpt < FramePrincipale.getNbRobots())
             ID = ++cpt;
         else {
             cpt = 1;
@@ -812,7 +812,7 @@ public class Robot implements Cellule, Runnable {
 
     public Robot(Terrain terrain, int x, int y) {
 
-        if (cpt < NBROBOTS)
+        if (cpt < FramePrincipale.getNbRobots())
             ID = ++cpt;
         else {
             cpt = 1;
@@ -824,7 +824,7 @@ public class Robot implements Cellule, Runnable {
 
     public Robot(Terrain terrain, int x, int y, Color couleur) {
 
-        if (cpt < NBROBOTS)
+        if (cpt < FramePrincipale.getNbRobots())
             ID = ++cpt;
         else {
             cpt = 1;
@@ -836,7 +836,7 @@ public class Robot implements Cellule, Runnable {
 
     public Robot(Terrain terrain, Color couleur) {
 
-        if (cpt < NBROBOTS)
+        if (cpt < FramePrincipale.getNbRobots())
             ID = ++cpt;
         else {
             cpt = 1;
@@ -848,7 +848,7 @@ public class Robot implements Cellule, Runnable {
 
     public Robot(Terrain terrain, int x, int y, int dir) {
 
-        if (cpt < NBROBOTS)
+        if (cpt < FramePrincipale.getNbRobots())
             ID = ++cpt;
         else {
             cpt = 1;
@@ -1089,14 +1089,14 @@ public class Robot implements Cellule, Runnable {
             terrain.repaint();
             Thread.sleep(500);
             enMarche = true;
-            image = imageSelonOrientation();
+            image[0] = imageSelonOrientation()[this.ID -1];
             terrain.repaint();
             Thread.sleep(500);
 
             programme.go(this);
             enMarche = false;
             Thread.sleep(500);
-            image = imageSelonOrientation();
+            image[0] = imageSelonOrientation()[this.ID -1];
             terrain.repaint();
         } catch (DansLeMur ex) {
             //Logger.getLogger(Robot.class.getName()).log(Level.SEVERE, null, ex);
@@ -1170,4 +1170,6 @@ public class Robot implements Cellule, Runnable {
     public int getX(){return this.x;}
 
     public int getY(){return this.y;}
+
+    public void setCpt(int nb){cpt=nb;}
 }

@@ -30,8 +30,6 @@ package robot;
 
 import interfaces.Detachable;
 
-import java.applet.Applet;
-import java.awt.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Random;
@@ -39,13 +37,9 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import jdk.management.resource.internal.inst.AbstractPlainDatagramSocketImplRMHooks;
-import robot.panneaux.PanneauInitialisation;
 import terrain.Cellule;
 import terrain.Minerai;
 import terrain.Terrain;
-
-import javax.swing.*;
 
 /**
  *
@@ -234,11 +228,11 @@ public class Initialisation implements Serializable {
     public Initialisation() {
     }
 
-    public static void initialiser(Detachable frameParente, boolean marque) {
-        initialiser(frameParente.getProgramme().getInitialisation(), frameParente, marque);
+    public static void initialiser(Detachable frameParente, boolean marque, int nbRobot) {
+        initialiser(frameParente.getProgramme().getInitialisation(), frameParente, marque, nbRobot);
     }
 
-    public static void initialiser(Initialisation initialisation, Detachable frameParente, boolean marque) {
+    public static void initialiser(Initialisation initialisation, Detachable frameParente, boolean marque, int nbRobot) {
         frameParente.getProgramme().setInitialisation(initialisation);
         frameParente.getDialogueInitialisation().setInitialisation(initialisation);
         int hauteur = -1;
@@ -249,6 +243,7 @@ public class Initialisation implements Serializable {
         if (frameParente.getProgramme().getInitialisation().isPresenceLargeur()) {
             largeur = frameParente.getProgramme().getInitialisation().getLargeur();
         }
+
 
         // Récupérer les coordonnées des marques entrées à la souris
         class Coord {
@@ -309,6 +304,7 @@ public class Initialisation implements Serializable {
         //Ajouté par Sélim
 
         frameParente.getPanneauTerrain().add(frameParente.getTerrain(), "Center");
+        frameParente.getPanneauCommande().actualiseComboList();
 
         //debut ajout Ambre
         //fin ajout
@@ -337,13 +333,11 @@ public class Initialisation implements Serializable {
         while(frameParente.getTerrain().get(p.x,p.y) != null);
 
         FramePrincipale.setRobot(i,new Robot(frameParente.getTerrain(), p.x, p.y, orientationRobot));
-        if(i !=1 && FramePrincipale.getNbRobotSurTerrain()==1) {
-            frameParente.getTerrain().set(p.x, p.y, null);
-        }else if(i>2 && FramePrincipale.getNbRobotSurTerrain()==2){
-            frameParente.getTerrain().set(p.x, p.y, null);
-        }else if(i>3 && FramePrincipale.getNbRobotSurTerrain()==3) {
-            frameParente.getTerrain().set(p.x, p.y, null);
+
+        if(Robot.getRobots()[i].getID()>FramePrincipale.getNBRobotsSurTerrain()){
+            frameParente.getTerrain().set(p.x,p.y,null);
         }
+
     }//Ajouté par Sélim
 
     private static void placementDesRobots(Detachable frameParente)
@@ -358,6 +352,7 @@ public class Initialisation implements Serializable {
         }
 
         FramePrincipale.setRobotActif(FramePrincipale.getROBOTACTIF());
+
     }
 
     private static void setNombrePasRobots()
