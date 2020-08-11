@@ -334,9 +334,9 @@ public class Initialisation implements Serializable {
 
         FramePrincipale.setRobot(i,new Robot(frameParente.getTerrain(), p.x, p.y, orientationRobot));
 
-        if(Robot.getRobots()[i].getID()>FramePrincipale.getNBRobotsSurTerrain()){
+        /*if(Robot.getRobots()[i].getID()>FramePrincipale.getNBRobotsSurTerrain()){
             frameParente.getTerrain().set(p.x,p.y,null);
-        }
+        }*/
 
     }//Ajouté par Sélim
 

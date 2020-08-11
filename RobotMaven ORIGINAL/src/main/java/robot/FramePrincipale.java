@@ -26,9 +26,9 @@ import terrain.Terrain;
 public class FramePrincipale extends JFrame implements Detachable {
 
     private static Robot robot = null;
-    private static int NBROBOTS = 4;
-    private static int NBRobotsSurTerrain=1;
-    //private static int nbRobotSurTerrain = 1;
+    private static int NBROBOTS = 1;
+    //private static int NBRobotsSurTerrain=1;
+
 
     //Ajouté par Sélim
 
@@ -40,9 +40,9 @@ public class FramePrincipale extends JFrame implements Detachable {
     private Terrain terrain;
 
     private static PanneauCommande panneauCommande;
-    private Programme[] programme = new Programme[NBROBOTS+1];
+    private Programme[] programme = new Programme[5];
     private JSplitPane splitPane;
-    private JTreeRobot[] arbre = new JTreeRobot[NBROBOTS+1];
+    private JTreeRobot[] arbre = new JTreeRobot[5];
     private JFileChooser chooser;
     private BoiteDeDialogueInit dialogueInitialisation;
     //private File oldDir;
@@ -53,7 +53,6 @@ public class FramePrincipale extends JFrame implements Detachable {
     private static int[] orientationsRobots = {VIDE, QUELCONQUE, QUELCONQUE, QUELCONQUE, QUELCONQUE};
     private static int[] positionsRobots = {VIDE, QUELCONQUE, QUELCONQUE, QUELCONQUE, QUELCONQUE};
     private static int[] nombrePas = {VIDE,VIDE,VIDE,VIDE,VIDE};
-    private static int[] tableauPas = new int[5];
 
 
     @Override
@@ -319,7 +318,7 @@ public class FramePrincipale extends JFrame implements Detachable {
 
     public static void resetComboBoxEtROBOTACTIF()
     {
-        ROBOTACTIF = 1;
+        setRobotActif(1);
         panneauCommande.getComboRobotSelectionne().setSelectedIndex(FramePrincipale.getROBOTACTIF()-1);
     }
 
@@ -330,9 +329,7 @@ public class FramePrincipale extends JFrame implements Detachable {
     {
         return nombrePas[i];
     }
-    public static void setTableauPas(int id, int valeur){ tableauPas[id]=valeur;}
-    public static int[] getTableauPas(){return tableauPas;}
 
-    public static int getNBRobotsSurTerrain(){return NBRobotsSurTerrain;}
-    public static void setNBRobotsSurTerrain(int nb){NBRobotsSurTerrain=nb;}
+
+    
 }

@@ -250,9 +250,9 @@ public class PanneauCommande extends JPanel {
         labelSelectionDuRobot = new JLabel();
         labelSelectionDuRobot.setText("Sélection du robot");
 
-        String s[] = new String[FramePrincipale.getNBRobotsSurTerrain()];
+        String s[] = new String[FramePrincipale.getNbRobots()];
 
-        for (int i = 0; i < FramePrincipale.getNBRobotsSurTerrain(); ++i)
+        for (int i = 0; i < FramePrincipale.getNbRobots(); ++i)
             s[i] = "Robot " + (i + 1);
 
         comboRobotSelectionne = new JComboBox();
@@ -270,9 +270,9 @@ public class PanneauCommande extends JPanel {
     }
 
     public void actualiseComboList(){
-        String s[] = new String[FramePrincipale.getNBRobotsSurTerrain()];
+        String s[] = new String[FramePrincipale.getNbRobots()];
 
-        for (int i = 0; i < FramePrincipale.getNBRobotsSurTerrain(); ++i)
+        for (int i = 0; i < FramePrincipale.getNbRobots(); ++i)
             s[i] = "Robot " + (i + 1);
 
         comboRobotSelectionne.setModel(new DefaultComboBoxModel(s));
