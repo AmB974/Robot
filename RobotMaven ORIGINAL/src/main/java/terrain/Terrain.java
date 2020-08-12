@@ -29,6 +29,8 @@
 package terrain;
 
 import interfaces.Detachable;
+import robot.Robot;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
@@ -37,6 +39,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Random;
 import javax.swing.JPanel;
+
+import static robot.Initialisation.QUELCONQUE;
 
 /**
  * Le terrain de jeu du robot. Il peut contenir au départ 80x50 cellules. La
@@ -49,6 +53,12 @@ import javax.swing.JPanel;
 public class Terrain extends JPanel {
 
     private static final long serialVersionUID = 1L;
+
+    private int NBROBOTS = 4;
+    private int ROBOTACTIF = 1;
+    private Robot[] robots = new Robot[NBROBOTS + 1];
+
+    private Detachable frameParente;
 
     private static Random random = new Random();
     public static final int NORD = 0;
@@ -78,7 +88,6 @@ public class Terrain extends JPanel {
             this.y = y;
         }
     }
-    private Detachable frameParente;
 
     public Terrain(Detachable frameParente) {
         this(frameParente, -1, -1);
@@ -336,7 +345,44 @@ public class Terrain extends JPanel {
 
     }
 
-    public void ajouterMur(int x, int y) {
-        terrain[x][y] = new Mur(tailleCelluleX, tailleCelluleY);
+    public int getROBOTACTIF()
+    {
+        return ROBOTACTIF;
+    }
+
+    public Robot getRobotSelectionne()
+    {
+        return robots[ROBOTACTIF];
+    }
+
+    public Robot getRobot(int i)
+    {
+        return robots[i];
+    }
+
+    public int getNBROBOTS()
+    {
+        return NBROBOTS;
+    }
+
+    public void changeDeRobot(int i)
+    {
+        if(!getRobotSelectionne().isCasser()) {
+            getRobotSelectionne().setImage(frameParente.getTerrain().getRobotSelectionne().imageSelonOrientation());
+
+        }else{
+            getRobotSelectionne().setCasser(false);
+        }
+
+        ROBOTACTIF = i;
+
+        frameParente.getPanneauCommande().getComboRobotSelectionne().setSelectedIndex(ROBOTACTIF-1);
+        frameParente.getPanneauPrincipal().majVueProgramme();
+        getRobotSelectionne().setImage(frameParente.getTerrain().getRobotSelectionne().imageSelonOrientation());
+    }
+
+    public void setRobot(int id, Robot r)
+    {
+        robots[id] = r;
     }
 }

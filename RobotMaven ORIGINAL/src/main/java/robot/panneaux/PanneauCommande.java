@@ -30,8 +30,6 @@
 package robot.panneaux;
 
 import interfaces.Detachable;
-import javafx.scene.Group;
-import javafx.scene.control.ComboBox;
 import robot.*;
 
 import java.awt.event.ActionEvent;
@@ -46,21 +44,29 @@ import javax.swing.event.ChangeListener;
  * @author Maillot
  */
 public class PanneauCommande extends JPanel {
+
     private static final long serialVersionUID = 1L;
 
     private Detachable frameParente;
 
+    private JButton avance;
+    private JButton efface;
+    private JButton marque;
+    private JSlider sliderDuréeAction;
+    private JButton stopLeRobot;
+    private JButton tourne;
+    private ImageIcon image;
 
-    /**
-     * Creates new form panneauCommande
-     */
+    private JLabel labelSelectionDuRobot;
+    private JComboBox comboRobotSelectionne;
+
+
     public PanneauCommande(Detachable frameParente) {
         initComponents();
         this.frameParente = frameParente;
     }
 
     @SuppressWarnings("unchecked")
-    //    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         sliderDuréeAction = new JSlider();
@@ -171,58 +177,43 @@ public class PanneauCommande extends JPanel {
                                             .addComponent(comboRobotSelectionne,GroupLayout.PREFERRED_SIZE, 30,GroupLayout.PREFERRED_SIZE)))//Ajouté par Sélim
                                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
-
-    private void tourneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tourneActionPerformed
+    private void tourneActionPerformed(java.awt.event.ActionEvent evt) {
         try {
-            frameParente.getRobot().tourne();
+            frameParente.getTerrain().getRobotSelectionne().tourne();
         } catch (InterruptedException | TropDePas ex) {
             Logger.getLogger(PanneauCommande.class.getName()).log(Level.SEVERE, null, ex);
-            frameParente.getRobot().stop();
+            frameParente.getTerrain().getRobotSelectionne().stop();
         }
-    }//GEN-LAST:event_tourneActionPerformed
+    }
 
-    private void sliderDuréeActionStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sliderDuréeActionStateChanged
-        frameParente.getRobot().dureeReference = ((JSlider) evt.getSource()).getValue();
-    }//GEN-LAST:event_sliderDuréeActionStateChanged
+    private void sliderDuréeActionStateChanged(javax.swing.event.ChangeEvent evt) {
+        frameParente.getTerrain().getRobotSelectionne().dureeReference = ((JSlider) evt.getSource()).getValue();
+    }
 
-    private void stopLeRobotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopLeRobotActionPerformed
-        frameParente.getRobot().stop();
-    }//GEN-LAST:event_stopLeRobotActionPerformed
+    private void stopLeRobotActionPerformed(java.awt.event.ActionEvent evt) {
+        frameParente.getTerrain().getRobotSelectionne().stop();
+    }
 
-    private void marqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_marqueActionPerformed
-        // TODO add your handling code here:
-        frameParente.getRobot().poserUneMarque();
-    }//GEN-LAST:event_marqueActionPerformed
+    private void marqueActionPerformed(java.awt.event.ActionEvent evt) {
+        frameParente.getTerrain().getRobotSelectionne().poserUneMarque();
+    }
 
-    private void effaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_effaceActionPerformed
-        // TODO add your handling code here:
-        frameParente.getRobot().enleverUneMarque();
-    }//GEN-LAST:event_effaceActionPerformed
+    private void effaceActionPerformed(java.awt.event.ActionEvent evt) {
+        frameParente.getTerrain().getRobotSelectionne().enleverUneMarque();
+    }
 
-    private void avanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_avanceActionPerformed
-        // TODO add your handling code here:
+    private void avanceActionPerformed(java.awt.event.ActionEvent evt) {
         try {
-            PanneauCommande.this.frameParente.getRobot().avance();
+            frameParente.getTerrain().getRobotSelectionne().avance();
         } catch (DansLeMur | TropDePas ex) {
             Logger.getLogger(PanneauCommande.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_avanceActionPerformed
+    }
 
     private void comboRobotSelectionneDefinieActionPerformed(ActionEvent evt) {
-        Robot robot = frameParente.getRobot();
-
-        FramePrincipale.setRobotActif(comboRobotSelectionne.getSelectedIndex() + 1);
-        if(!robot.isCasser()) {
-            robot.setImage(robot.imageSelonOrientation());
-
-        }else{
-            robot.setCasser(false);
-        }
-
-        frameParente.getPanneauPrincipal().majVueProgramme();
-        frameParente.getRobot().setImage(frameParente.getRobot().imageSelonOrientation());
+        frameParente.getTerrain().changeDeRobot(comboRobotSelectionne.getSelectedIndex() + 1);
     }// Ajouté par Sélim
 
     private void initialiseSelectionRobot()
@@ -230,9 +221,9 @@ public class PanneauCommande extends JPanel {
         labelSelectionDuRobot = new JLabel();
         labelSelectionDuRobot.setText("Sélection du robot");
 
-        String s[] = new String[FramePrincipale.getNbRobots()];
+        String s[] = new String[frameParente.getTerrain().getNBROBOTS()];
 
-        for (int i = 0; i < FramePrincipale.getNbRobots(); ++i)
+        for (int i = 0; i < frameParente.getTerrain().getNBROBOTS(); ++i)
             s[i] = "Robot " + (i + 1);
 
         comboRobotSelectionne = new JComboBox();
@@ -249,20 +240,4 @@ public class PanneauCommande extends JPanel {
     {
         return comboRobotSelectionne;
     }
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton avance;
-    private javax.swing.JButton efface;
-    private javax.swing.JButton marque;
-    private javax.swing.JSlider sliderDuréeAction;
-    private javax.swing.JButton stopLeRobot;
-    private javax.swing.JButton tourne;
-    private javax.swing.ImageIcon image;
-    // End of variables declaration//GEN-END:variables
-
-    private JLabel labelSelectionDuRobot;
-    private JComboBox comboRobotSelectionne;
-
-
-
 }

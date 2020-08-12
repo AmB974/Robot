@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -25,32 +24,20 @@ import terrain.Terrain;
  */
 public class FramePrincipale extends JFrame implements Detachable {
 
-    private static Robot robot = null;
-    private static int NBROBOTS = 4;
-
     //Ajouté par Sélim
 
     private static final long serialVersionUID = 1L;
 
-    private static Random random = new Random();
+    private PanneauDExecution panneauDExecution;
+    private PanneauCommande panneauCommande;
     private PanneauPrincipal panneauPrincipal;
     private PanneauTerrain panneauTerrain = new PanneauTerrain();
+
     private Terrain terrain;
 
-    private static PanneauCommande panneauCommande;
-    private Programme[] programme = new Programme[NBROBOTS+1];
     private JSplitPane splitPane;
-    private JTreeRobot[] arbre = new JTreeRobot[NBROBOTS+1];
     private JFileChooser chooser;
     private BoiteDeDialogueInit dialogueInitialisation;
-    //private File oldDir;
-    private PanneauDExecution panneauDExecution;
-    private static int ROBOTACTIF = 1;
-    private static int VIDE = -2;
-    private static int QUELCONQUE = -1;
-    private static int[] orientationsRobots = {VIDE, QUELCONQUE, QUELCONQUE, QUELCONQUE, QUELCONQUE};
-    private static int[] positionsRobots = {VIDE, QUELCONQUE, QUELCONQUE, QUELCONQUE, QUELCONQUE};
-    private static int[] nombrePas = {VIDE,VIDE,VIDE,VIDE,VIDE};
 
 
     @Override
@@ -75,26 +62,6 @@ public class FramePrincipale extends JFrame implements Detachable {
      */
 
     @Override
-    public JTree getArbre() {
-        return arbre[ROBOTACTIF];
-    }
-
-    @Override
-    public Programme getProgramme() {
-        return programme[ROBOTACTIF];
-    }
-
-    public Programme getProgramme(int i)
-    {
-        return programme[i];
-    }
-
-    @Override
-    public Robot getRobot() {
-        return robot;
-    }
-
-    @Override
     public JSplitPane getSplitPane() {
         return splitPane;
     }
@@ -103,8 +70,8 @@ public class FramePrincipale extends JFrame implements Detachable {
     public void montreDialInit() {
         dialogueInitialisation.setVisible(true);
         if (dialogueInitialisation.getOk()) {
-            programme[ROBOTACTIF].setInitialisation(dialogueInitialisation.getInitialisation());
-            Initialisation.initialiser(getProgrammes(), this, true);
+            terrain.getRobotSelectionne().getProgramme().setInitialisation(dialogueInitialisation.getInitialisation());
+            terrain.getRobotSelectionne().getProgramme().getInitialisation().initialiser(this, true);
         }
     }
 
@@ -129,10 +96,10 @@ public class FramePrincipale extends JFrame implements Detachable {
 
         dialogueInitialisation = new BoiteDeDialogueInit(this);
 
-        for(int i=1; i<NBROBOTS+1; ++i)
+        for(int i=1; i<terrain.getNBROBOTS()+1; ++i)
         {
-            programme[i] = new Programme();
-            arbre[i] = new JTreeRobot(programme[i].getArbreProgramme());
+            terrain.getRobot(i).setProgramme(new Programme());
+            terrain.getRobot(i).setArbre(new JTreeRobot(terrain.getRobot(i).getProgramme().getArbreProgramme()));
         }
 
         miseEnPlaceDesMenus();
@@ -154,7 +121,7 @@ public class FramePrincipale extends JFrame implements Detachable {
         panneauCommande = new PanneauCommande(this);
         getContentPane().add(panneauCommande, "South");
 
-        Initialisation.initialiser(this, false);
+        terrain.getRobotSelectionne().getProgramme().getInitialisation().initialiser(this, true);
 
         panneauDExecution = new PanneauDExecution(this);
 
@@ -197,9 +164,9 @@ public class FramePrincipale extends JFrame implements Detachable {
                     ObjectOutputStream os = null;
                     try {
 
-                        xstream.toXML(programme, new FileOutputStream(f));
+                        xstream.toXML(terrain.getRobotSelectionne().getProgramme(), new FileOutputStream(f));
                         os = new ObjectOutputStream(new FileOutputStream(new File(f.toString() + ".obj")));
-                        os.writeObject(programme);
+                        os.writeObject(terrain.getRobotSelectionne().getProgramme());
                         FramePrincipale.this.setTitle(f.getAbsolutePath());
 
                     } catch (FileNotFoundException ex) {
@@ -233,11 +200,6 @@ public class FramePrincipale extends JFrame implements Detachable {
             }
         });
 
-    }
-
-    public static void setRobotActif(int id) {
-        robot = Robot.getRobots()[id];
-        ROBOTACTIF = id;
     }
 
     @Override
@@ -278,64 +240,6 @@ public class FramePrincipale extends JFrame implements Detachable {
     @Override
     public void executeSelection() {
         panneauDExecution.executeSelection();
-    }
-
-    public static int getNbRobots() {
-        return NBROBOTS;
-    }
-
-    public static int getOrientationRobotActif() {
-        return orientationsRobots[ROBOTACTIF];
-    }
-
-    public static int getPositionRobotActif() {
-        return positionsRobots[ROBOTACTIF];
-    }
-
-    public static void setOrientationRobot(int orientation, int id) {
-        orientationsRobots[id] = orientation;
-    }
-
-    public static void setPositionRobot(int position, int id) {
-        positionsRobots[id] = position;
-    }
-
-    public static int getROBOTACTIF() {
-        return ROBOTACTIF;
-    }
-
-    public static int getOrientationRobot(int i) {
-        return orientationsRobots[i];
-    }
-
-    public static int getPositionRobot(int i) {
-        return positionsRobots[i];
-    }
-
-    public static void setRobot(int i, Robot r) {
-        Robot.getRobots()[i] = r;
-    }
-
-    public static void resetComboBoxEtROBOTACTIF()
-    {
-        ROBOTACTIF = 1;
-        panneauCommande.getComboRobotSelectionne().setSelectedIndex(FramePrincipale.getROBOTACTIF()-1);
-    }
-
-    public static void setNombreDePas(int i, int nbPas)
-    {
-        nombrePas[i] = nbPas;
-    }
-
-    public static int getNombreDePas(int i)
-    {
-        return nombrePas[i];
-    }
-
-    @Override
-    public Programme[] getProgrammes()
-    {
-        return programme;
     }
 
     @Override

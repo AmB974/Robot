@@ -36,9 +36,11 @@
 
 package robot.panneaux;
 
+import interfaces.Detachable;
 import robot.*;
 import terrain.Terrain;
 
+import javax.naming.InitialContext;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -55,6 +57,7 @@ public class PanneauInitialisation extends JPanel {
     private static final long serialVersionUID = 1L;
 
     private final Initialisation initialisation;
+    private final Detachable frameParente;
     private boolean changementInterne = false;
 
     private JComboBox comboOrientationRobot;
@@ -84,21 +87,23 @@ public class PanneauInitialisation extends JPanel {
     /**
      * Creates new form NewJPanel
      */
-    public PanneauInitialisation() {
+    public PanneauInitialisation(Detachable frameParente) {
         initialisation = new Initialisation();
+        this.frameParente = frameParente;
         initComponents();
     }
 
-    public PanneauInitialisation(Initialisation initialisation) {
+    public PanneauInitialisation(Initialisation initialisation, Detachable frameParente) {
+        this.frameParente = frameParente;
         this.initialisation = initialisation;
         initComponents();
 
         changementInterne = true;
 
         jCheckBoxMinerai.setSelected(initialisation.isPresenceMinerai());
-        comboOrientationRobot.setSelectedIndex(FramePrincipale.getOrientationRobotActif() + 1);
+        comboOrientationRobot.setSelectedIndex(frameParente.getTerrain().getRobotSelectionne().getOrientation()+ 1);
         comboPositionMinerai.setSelectedIndex(initialisation.getPositionMinerai() + 1);
-        comboPositionRobot.setSelectedIndex(FramePrincipale.getPositionRobotActif() + 1);
+        comboPositionRobot.setSelectedIndex(frameParente.getTerrain().getRobotSelectionne().getPosition()+ 1);
         largeurDefinie.setSelected(initialisation.isPresenceLargeur());
         jSliderLargeur.setEnabled(initialisation.isPresenceLargeur());
         jSliderLargeur.setValue(initialisation.getLargeur());
@@ -258,12 +263,12 @@ public class PanneauInitialisation extends JPanel {
 
     private void comboOrientationRobotItemStateChanged(ActionEvent evt) {
         if (changementInterne) return;
-        FramePrincipale.setOrientationRobot(comboOrientationRobot.getSelectedIndex() - 1, FramePrincipale.getROBOTACTIF());
+        frameParente.getTerrain().getRobotSelectionne().setOrientation(comboOrientationRobot.getSelectedIndex() - 1);
     }
 
     private void comboPositionRobotItemStateChanged(ActionEvent evt) {
         if (changementInterne) return;
-        FramePrincipale.setPositionRobot(comboPositionRobot.getSelectedIndex() - 1, FramePrincipale.getROBOTACTIF());
+        frameParente.getTerrain().getRobotSelectionne().setPosition(comboPositionRobot.getSelectedIndex() - 1);
     }
 
     private void comboPositionMineraiItemStateChanged(ItemEvent evt) {
@@ -297,24 +302,23 @@ public class PanneauInitialisation extends JPanel {
 
     private void comboRobotSelectionneDefinieActionPerformed(ActionEvent evt) {
         if (changementInterne) return;
-        selectionneRobot(comboRobotSelectionne.getSelectedIndex() + 1);
-        FramePrincipale.setOrientationRobot(comboOrientationRobot.getSelectedIndex() - 1, comboRobotSelectionne.getSelectedIndex() + 1);
-        FramePrincipale.setPositionRobot(comboPositionRobot.getSelectedIndex() - 1, comboRobotSelectionne.getSelectedIndex() + 1);
-        if (nombrePasDefinie.isSelected())
-            FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), Integer.parseInt(textNombrePasExact.getText()));
-        else FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), -2);
-    }// Ajouté par Sélim
 
-    public static void selectionneRobot(int id) {
-        FramePrincipale.setRobotActif(id);
-    }//Ajouté par Sélim
+        frameParente.getTerrain().changeDeRobot(comboRobotSelectionne.getSelectedIndex() + 1);
+        frameParente.getTerrain().getRobotSelectionne().setOrientation(comboOrientationRobot.getSelectedIndex() - 1);
+        frameParente.getTerrain().getRobotSelectionne().setPosition(comboPositionRobot.getSelectedIndex() - 1);
+
+        if (nombrePasDefinie.isSelected())
+            frameParente.getTerrain().getRobotSelectionne().setNombreDepPas(Integer.parseInt(textNombrePasExact.getText()));
+        else
+            frameParente.getTerrain().getRobotSelectionne().setNombreDepPas(Initialisation.VIDE);
+    }// Ajouté par Sélim
 
     private void initialiseSelectionRobot() {
         labelSelectionDuRobot.setText("Sélection du robot");
 
-        String s[] = new String[FramePrincipale.getNbRobots()];
+        String s[] = new String[frameParente.getTerrain().getNBROBOTS()];
 
-        for (int i = 0; i < FramePrincipale.getNbRobots(); ++i)
+        for (int i = 0; i < frameParente.getTerrain().getNBROBOTS(); ++i)
             s[i] = "Robot " + (i + 1);
 
 
@@ -342,7 +346,7 @@ public class PanneauInitialisation extends JPanel {
     private void initialisePositionRobot() {
         labelPositionRobot.setText("Position du robot");
 
-        if (FramePrincipale.getNbRobots() == 1) {
+        if (frameParente.getTerrain().getNBROBOTS() == 1) {
             comboPositionRobot.setModel(new DefaultComboBoxModel(new String[]{"N'importe où", "Contre un mur", "Dans un coin", "Pas contre un mur", "Pas dans un coin", "Contre le mur nord", "Contre le mur est", "Contre le mur sud", "Contre le mur ouest", "Dans le coin nord-est", "Dans le coin sud-est", "Dans le coin sud-ouest", "Dans le coin nord-ouest"}));
         } else {
             comboPositionRobot.setModel(new DefaultComboBoxModel(new String[]{"N'importe où", "Contre un mur", "Dans un coin", "Pas contre un mur", "Pas dans un coin", "Contre le mur nord", "Contre le mur est", "Contre le mur sud", "Contre le mur ouest"}));
@@ -385,7 +389,7 @@ public class PanneauInitialisation extends JPanel {
         jSliderHauteur.setPaintTicks(true);
         jSliderHauteur.setSnapToTicks(true);
         jSliderHauteur.setToolTipText(jSliderHauteur.getValue() + "");
-        jSliderHauteur.setValue(10);
+        jSliderHauteur.setValue(jSliderHauteur.getMinimum());
         jSliderHauteur.setBorder(BorderFactory.createTitledBorder("Hauteur"));
         jSliderHauteur.setEnabled(false);
         jSliderHauteur.addChangeListener(new ChangeListener() {
@@ -409,7 +413,7 @@ public class PanneauInitialisation extends JPanel {
         jSliderLargeur.setPaintTicks(true);
         jSliderLargeur.setSnapToTicks(true);
         jSliderLargeur.setToolTipText(jSliderLargeur.getValue() + "");
-        jSliderLargeur.setValue(5);
+        jSliderLargeur.setValue(jSliderLargeur.getMinimum());
         jSliderLargeur.setBorder(BorderFactory.createTitledBorder("Largeur"));
         jSliderLargeur.setEnabled(false);
         jSliderLargeur.addChangeListener(new ChangeListener() {
@@ -434,7 +438,7 @@ public class PanneauInitialisation extends JPanel {
         jSliderNombrePas.setPaintTicks(true);
         jSliderNombrePas.setSnapToTicks(true);
         jSliderNombrePas.setToolTipText(jSliderNombrePas.getValue() + "");
-        jSliderNombrePas.setValue(5);
+        jSliderNombrePas.setValue(jSliderNombrePas.getMinimum());
         jSliderNombrePas.setBorder(javax.swing.BorderFactory.createTitledBorder("Nombre de Pas"));
         jSliderNombrePas.setEnabled(false);
         jSliderNombrePas.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -504,7 +508,7 @@ public class PanneauInitialisation extends JPanel {
             synchroJaugeTexte = false;
         } else {
             textNombrePasExact.setText(jSliderNombrePas.getValue() + "");
-            FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), Integer.parseInt(textNombrePasExact.getText()));
+            frameParente.getTerrain().getRobotSelectionne().setNombreDepPas(Integer.parseInt(textNombrePasExact.getText()));
             synchroJaugeTexte = true;
         }
     }//GEN-LAST:event_jSliderJaugeStateChanged
@@ -517,10 +521,10 @@ public class PanneauInitialisation extends JPanel {
         synchroJaugeTexte = nombrePasDefinie.isSelected();
         if (!synchroJaugeTexte) {
             textNombrePasExact.setText("");
-            FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), -2);
+            frameParente.getTerrain().getRobotSelectionne().setNombreDepPas(Initialisation.VIDE);
         } else {
-            textNombrePasExact.setText("5");
-            FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), 5);
+            textNombrePasExact.setText(jSliderNombrePas.getMinimum() + "");
+            frameParente.getTerrain().getRobotSelectionne().setNombreDepPas(jSliderNombrePas.getMinimum());
         }
 
     }//GEN-LAST:event_jaugeDefinieActionPerformed
@@ -535,15 +539,15 @@ public class PanneauInitialisation extends JPanel {
 
                 nombrePas = Integer.parseInt(textNombrePasExact.getText());
 
-                if (nombrePas > 5 && nombrePas < 100) {
+                if (nombrePas > jSliderNombrePas.getMinimum() && nombrePas < jSliderNombrePas.getMaximum()) {
                     jSliderNombrePas.setValue(nombrePas);
-                } else if (nombrePas >= 100) {
-                    jSliderNombrePas.setValue(100);
+                } else if (nombrePas >= jSliderNombrePas.getMaximum()) {
+                    jSliderNombrePas.setValue(jSliderNombrePas.getMaximum());
                 } else {
-                    jSliderNombrePas.setValue(5);
+                    jSliderNombrePas.setValue(jSliderNombrePas.getMinimum());
                 }
 
-                FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), Integer.parseInt(textNombrePasExact.getText()));
+                frameParente.getTerrain().getRobotSelectionne().setNombreDepPas(nombrePas);
             }
         };
         SwingUtilities.invokeLater(doTextNombrePas);

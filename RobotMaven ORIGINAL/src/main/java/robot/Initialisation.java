@@ -30,8 +30,6 @@ package robot;
 
 import interfaces.Detachable;
 
-import java.applet.Applet;
-import java.awt.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Random;
@@ -39,13 +37,9 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import jdk.management.resource.internal.inst.AbstractPlainDatagramSocketImplRMHooks;
-import robot.panneaux.PanneauInitialisation;
 import terrain.Cellule;
 import terrain.Minerai;
 import terrain.Terrain;
-
-import javax.swing.*;
 
 /**
  *
@@ -70,11 +64,12 @@ public class Initialisation implements Serializable {
     public static final int DANS_LE_COIN_SO = 10;
     public static final int DANS_LE_COIN_NO = 11;
 
-    //Ajouté par Sélim
-    private boolean presenceMinerai = false;
     private int positionMinerai = QUELCONQUE;
+
+    private boolean presenceMinerai = false;
     private boolean presenceHauteur = false;
     private boolean presenceLargeur = false;
+
     private int hauteur;
     private int largeur;
 
@@ -161,22 +156,6 @@ public class Initialisation implements Serializable {
     //debut ajout
     //fin ajout
 
-    public int getHauteur() {
-        return hauteur;
-    }
-
-    public void setHauteur(int hauteur) {
-        this.hauteur = hauteur;
-    }
-
-    public int getLargeur() {
-        return largeur;
-    }
-
-    public void setLargeur(int largeur) {
-        this.largeur = largeur;
-    }
-
     public boolean isPresenceHauteur() {
         return presenceHauteur;
     }
@@ -193,16 +172,8 @@ public class Initialisation implements Serializable {
         this.presenceLargeur = presenceLargeur;
     }
 
-    public int getPositionMinerai() {
-        return positionMinerai;
-    }
-
     public boolean isPresenceMinerai() {
         return presenceMinerai;
-    }
-
-    public void setPositionMinerai(int positionMinerai) {
-        this.positionMinerai = positionMinerai;
     }
 
     public void setPrésenceMinerai(boolean presenceMinerai) {
@@ -211,49 +182,31 @@ public class Initialisation implements Serializable {
 
     @Override
     public String toString() {
-        String s="";
-        String s2="";
-
-        for(int i=1; i<=FramePrincipale.getNbRobots(); ++i)
-            s+=i + " " + FramePrincipale.getPositionRobot(i) + " ";
-
-        for(int i=1; i<=FramePrincipale.getNbRobots(); ++i)
-            s2+=i + " " + FramePrincipale.getOrientationRobot(i) + " ";
-
-        return "{Position des robots : " + s
-                + ",\\nOrientations des robots : " + s2
-                + ",\\nPrésence du minerai : " + presenceMinerai
-                + ",\\nPosition du minerai : " + positionMinerai
+        return " Présence du minerai : " + presenceMinerai
                 + ",\\nHauteur définie : " + presenceHauteur
-                + ",\\nHauteur : " + hauteur
                 + ",\\nLargeur définie : " + presenceLargeur
-                + ",\\nLargeur : " + largeur
                 + "}";
     }
 
-    public Initialisation() {
-    }
+    public Initialisation() {}
 
-    public static void initialiser(Detachable frameParente, boolean marque) {
-        initialiser(frameParente.getProgrammes(), frameParente, marque);
-    }
+    public void initialiser(Detachable frameParente, boolean marque) {
 
-    public static void initialiser(Programme[] programmes, Detachable frameParente, boolean marque) {
-
-        for(int i=1; i<FramePrincipale.getNbRobots()+1;++i)
+        for(int i=1; i<frameParente.getTerrain().getNBROBOTS()+1;++i)
         {
-            frameParente.getProgramme(i).setInitialisation(programmes[i].getInitialisation());
+            frameParente.getTerrain().getRobot(i).getProgramme().setInitialisation(this);
         }
 
-        frameParente.getDialogueInitialisation().setInitialisation(programmes[FramePrincipale.getROBOTACTIF()].getInitialisation());
+        frameParente.getDialogueInitialisation().setInitialisation(this);
 
         int hauteur = -1;
         int largeur = -1;
-        if (frameParente.getProgramme().getInitialisation().isPresenceHauteur()) {
-            hauteur = frameParente.getProgramme().getInitialisation().getHauteur();
+
+        if (isPresenceHauteur()) {
+            hauteur = this.hauteur;
         }
-        if (frameParente.getProgramme().getInitialisation().isPresenceLargeur()) {
-            largeur = frameParente.getProgramme().getInitialisation().getLargeur();
+        if (isPresenceLargeur()) {
+            largeur = this.largeur;
         }
 
         // Récupérer les coordonnées des marques entrées à la souris
@@ -287,7 +240,6 @@ public class Initialisation implements Serializable {
             frameParente.viderTerrain();
         }
 
-
         frameParente.setTerrain(new Terrain(frameParente, hauteur, largeur));
 
         // Remettre les marques (tant que faire se peut, puisque
@@ -303,33 +255,24 @@ public class Initialisation implements Serializable {
             }
         }
 
-
-        //placementDesMurs();
         // Le minerai doit être placé avant le robot...
-        if (frameParente.getProgramme().getInitialisation().isPresenceMinerai()) {
-            placementDuMinerai(frameParente.getProgramme().getInitialisation().getPositionMinerai(), frameParente.getTerrain());
+        if (isPresenceMinerai()) {
+            placementDuMinerai(positionMinerai, frameParente.getTerrain());
         }
 
         placementDesRobots(frameParente);
-        setNombrePasRobots();
+        setNombrePasRobots(frameParente);
         //Ajouté par Sélim
 
         frameParente.getPanneauTerrain().add(frameParente.getTerrain(), "Center");
-
-        //debut ajout Ambre
-        //fin ajout
-
-
-        //frameParente.getRobot().dureeReference = frameParente.getPanneauCommande().getDuree();
-        //Programme.changerDeRobot((Instruction) frameParente.getProgramme().getArbreProgramme().getRoot(), frameParente.getRobot());
     }
 
-    private static void placementDuMinerai(int positionMinerai, Terrain terrain) {
+    private void placementDuMinerai(int positionMinerai, Terrain terrain) {
         Terrain.Position p = Initialisation.calculPosition(positionMinerai, terrain);
         terrain.set(p.x, p.y, new Minerai(terrain.getTailleCelluleX(), terrain.getTailleCelluleY()));
     }
 
-    private static void placementDuRobot(int orientationRobot, int positionRobot, Detachable frameParente, int i) {
+    private void placementDuRobot(int orientationRobot, int positionRobot, Detachable frameParente, int i) {
 
         if (orientationRobot == QUELCONQUE) {
             orientationRobot = random.nextInt(4);
@@ -342,29 +285,50 @@ public class Initialisation implements Serializable {
         }
         while(frameParente.getTerrain().get(p.x,p.y) != null);
 
-        FramePrincipale.setRobot(i,new Robot(frameParente.getTerrain(), p.x, p.y, orientationRobot));
+        frameParente.getTerrain().setRobot(i,new Robot(frameParente.getTerrain(), p.x, p.y, orientationRobot));
     }//Ajouté par Sélim
 
-    private static void placementDesRobots(Detachable frameParente)
+    private void placementDesRobots(Detachable frameParente)
     {
-        Robot.setRobot(0,null);
+        frameParente.getTerrain().setRobot(0,null);
 
-        for (int i = 1; i < FramePrincipale.getNbRobots() + 1; ++i) {
-            placementDuRobot(FramePrincipale.getOrientationRobot(i),
-                    FramePrincipale.getPositionRobot(i),
-                    frameParente,
-                    i);
+        for (int i = 1; i < frameParente.getTerrain().getNBROBOTS() + 1; ++i) {
+            placementDuRobot(frameParente.getTerrain().getRobot(i).getOrientation(), frameParente.getTerrain().getRobot(i).getPosition(), frameParente, i);
         }
 
-        FramePrincipale.setRobotActif(FramePrincipale.getROBOTACTIF());
+        frameParente.getTerrain().changeDeRobot(frameParente.getTerrain().getROBOTACTIF());
     }
 
-    private static void setNombrePasRobots()
+    private void setNombrePasRobots(Detachable frameParente)
     {
-        for(int i=1; i<FramePrincipale.getNbRobots()+1; ++i)
+        for(int i=1; i<frameParente.getTerrain().getNBROBOTS()+1; ++i)
         {
-            Robot.getRobots()[i].setNombreDepPas(FramePrincipale.getNombreDePas(i));
-            Robot.getRobots()[i].setNombrePas(FramePrincipale.getNombreDePas(i));
+            frameParente.getTerrain().getRobot(i).setNombreDepPas(frameParente.getTerrain().getRobot(i).getNombreDepPas());
         }
+    }
+
+    public int getHauteur() {
+        return hauteur;
+    }
+
+    public void setHauteur(int hauteur) {
+        this.hauteur = hauteur;
+    }
+
+    public int getLargeur() {
+        return largeur;
+    }
+
+    public void setLargeur(int l) {
+        largeur = l;
+    }
+
+    public int getPositionMinerai() {
+        return positionMinerai;
+    }
+
+    public void setPositionMinerai(int position)
+    {
+        positionMinerai = position;
     }
 }

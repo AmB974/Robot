@@ -43,15 +43,9 @@ import terrain.Terrain;
  */
 public interface Detachable {
 
-    public Programme getProgramme();
-
     public PanneauPrincipal getPanneauPrincipal();
 
     public Terrain getTerrain();
-
-    public Programme[] getProgrammes();
-
-    public Programme getProgramme(int i);
     
     public void setTerrain(Terrain terrain);
     
@@ -59,11 +53,7 @@ public interface Detachable {
 
     public void redessine();
 
-    public Robot getRobot();
-
     public Dimension getSize();
-
-    public JTree getArbre();
 
     public void montreDialInit();
     

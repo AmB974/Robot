@@ -41,11 +41,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.*;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.logging.Level;
@@ -435,14 +433,14 @@ public class PanneauPrincipal extends JPanel {
 
             frameParente.setTitle(fichier.getFile());
 
-            setAppelProcedure(nouveauProgramme[FramePrincipale.getROBOTACTIF()].getProcedures());
-            Programme programme = frameParente.getProgramme();
-            Instruction racine = (Instruction) frameParente.getProgramme().getArbreProgramme().getRoot();
+            setAppelProcedure(nouveauProgramme[frameParente.getTerrain().getROBOTACTIF()].getProcedures());
+            Programme programme = frameParente.getTerrain().getRobotSelectionne().getProgramme();
+            Instruction racine = (Instruction) frameParente.getTerrain().getRobotSelectionne().getProgramme().getArbreProgramme().getRoot();
 
             while (racine.getChildCount() > 0) {
                 programme.getArbreProgramme().removeNodeFromParent((MutableTreeNode) racine.getFirstChild());
             }
-            Instruction nouvelleRacine = (Instruction) nouveauProgramme[FramePrincipale.getROBOTACTIF()].getArbreProgramme().getRoot();
+            Instruction nouvelleRacine = (Instruction) nouveauProgramme[frameParente.getTerrain().getROBOTACTIF()].getArbreProgramme().getRoot();
 
             programme.supprimerProcedure();
 
@@ -454,10 +452,10 @@ public class PanneauPrincipal extends JPanel {
             }
 
             //Initialisation.initialiser(nouveauProgramme.getInitialisation(), FramePrincipale.this);
-            Initialisation.initialiser(nouveauProgramme, frameParente, false);
+            frameParente.getDialogueInitialisation().getInitialisation().initialiser(frameParente, false);
             for (int i = 0;
-                 i < frameParente.getArbre().getRowCount(); i++) {
-                frameParente.getArbre().expandRow(i);
+                 i < frameParente.getTerrain().getRobotSelectionne().getArbre().getRowCount(); i++) {
+                frameParente.getTerrain().getRobotSelectionne().getArbre().expandRow(i);
             }
 
         } catch (FileNotFoundException | NullPointerException ex) {
@@ -503,16 +501,16 @@ public class PanneauPrincipal extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                TreePath treePath = PanneauPrincipal.this.frameParente.getArbre().getSelectionPath();
+                TreePath treePath = frameParente.getTerrain().getRobotSelectionne().getArbre().getSelectionPath();
                 Instruction select;
                 //if (treePath != null) {
                 if (treePath == null) {
-                    select = (Instruction) PanneauPrincipal.this.frameParente.getArbre().getModel().getRoot();
+                    select = (Instruction) frameParente.getTerrain().getRobotSelectionne().getArbre().getModel().getRoot();
                 } else {
                     select = (Instruction) treePath.getLastPathComponent();
                 }
                 if (select.getParent() == null) {
-                    select = PanneauPrincipal.this.frameParente.getProgramme().getProcedurePrincipal();
+                    select = frameParente.getTerrain().getRobotSelectionne().getProgramme().getProcedurePrincipal();
                 }
 
                 JButton source = (JButton) e.getSource();
@@ -560,8 +558,8 @@ public class PanneauPrincipal extends JPanel {
                     }
                 } else if (source == boutonAjoutProcedure) {
                     if (texteNouvelleProcedure.getText().length() > 0
-                            && PanneauPrincipal.this.frameParente.getProgramme().getProcedure(texteNouvelleProcedure.getText()) == null) {
-                        instruction = PanneauPrincipal.this.frameParente.getProgramme().ajoutProcedure(texteNouvelleProcedure.getText());
+                            && frameParente.getTerrain().getRobotSelectionne().getProgramme().getProcedure(texteNouvelleProcedure.getText()) == null) {
+                        instruction = frameParente.getTerrain().getRobotSelectionne().getProgramme().ajoutProcedure(texteNouvelleProcedure.getText());
                         comboAppelProcedure.addItem(instruction);
                         instruction = null; // Important, ne pas enlever
                     }
@@ -589,14 +587,14 @@ public class PanneauPrincipal extends JPanel {
                 }
                 if (instruction != null) {
                     if (select.autorisationAjout()) {
-                        PanneauPrincipal.this.frameParente.getProgramme().getArbreProgramme().insertNodeInto(instruction, select, select.getChildCount());
+                        frameParente.getTerrain().getRobotSelectionne().getProgramme().getArbreProgramme().insertNodeInto(instruction, select, select.getChildCount());
                     } else {
                         Instruction parent = (Instruction) select.getParent();
                         if (parent != null && parent.autorisationAjout()) {
-                            PanneauPrincipal.this.frameParente.getProgramme().getArbreProgramme().insertNodeInto(instruction, parent, parent.getIndex(select));
+                            frameParente.getTerrain().getRobotSelectionne().getProgramme().getArbreProgramme().insertNodeInto(instruction, parent, parent.getIndex(select));
                         }
                     }
-                    JTree arbre = PanneauPrincipal.this.frameParente.getArbre();
+                    JTree arbre = frameParente.getTerrain().getRobotSelectionne().getArbre();
                     for (int i = 0; i < arbre.getRowCount(); i++) {
                         arbre.expandRow(i);
                     }
@@ -621,7 +619,7 @@ public class PanneauPrincipal extends JPanel {
         comboExpression.addItem(new DevantRobot());
         comboExpression.addItem(new DevantRobotOuMur());
 
-        parseur = new ParseurExprBool(frameParente.getRobot(), getListeTests());
+        parseur = new ParseurExprBool(frameParente.getTerrain().getRobotSelectionne(), getListeTests());
 
         texteExprBool.setBorder(BorderFactory.createTitledBorder("Expression booléene complexe"));
         texteExprBool.addCaretListener(new CaretListener() {
@@ -630,7 +628,7 @@ public class PanneauPrincipal extends JPanel {
             public void caretUpdate(CaretEvent e) {
                 JTextArea source = (JTextArea) e.getSource();
 
-                exprBoolComplexe = parseur.compile(source.getText(), PanneauPrincipal.this.frameParente.getRobot());
+                exprBoolComplexe = parseur.compile(source.getText(), frameParente.getTerrain().getRobotSelectionne());
                 if (exprBoolComplexe == null) {
                     source.setForeground(Color.RED);
                 } else {
@@ -640,7 +638,7 @@ public class PanneauPrincipal extends JPanel {
             }
         });
 
-        vueDArbre = new JScrollPane(frameParente.getArbre());//Vue programme !!!! ________________________
+        vueDArbre = new JScrollPane(frameParente.getTerrain().getRobotSelectionne().getArbre());//Vue programme !!!! ________________________
         panneauArbre = new JPanel(new BorderLayout());
         panneauArbre.setPreferredSize(new Dimension(300, 400));
         panneauArbre.add(vueDArbre, "Center");
@@ -661,7 +659,7 @@ public class PanneauPrincipal extends JPanel {
 
         add(splitPane, "Center");
 
-        frameParente.getArbre().addKeyListener(new KeyListener() {
+        frameParente.getTerrain().getRobotSelectionne().getArbre().addKeyListener(new KeyListener() {
 
             @Override
             public void keyTyped(KeyEvent ke) {
@@ -689,7 +687,7 @@ public class PanneauPrincipal extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                FramePrincipale.setRobotActif(1);
+                frameParente.getTerrain().changeDeRobot(1);
                 PanneauPrincipal.this.frameParente.montreDialInit();
             }
         });
@@ -712,7 +710,7 @@ public class PanneauPrincipal extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                TreePath selection[] = PanneauPrincipal.this.frameParente.getArbre().getSelectionPaths();
+                TreePath selection[] = frameParente.getTerrain().getRobotSelectionne().getArbre().getSelectionPaths();
                 if (selection != null) {
                     for (TreePath currentSelection : selection) {
                         Instruction currentNode = (Instruction) (currentSelection.getLastPathComponent());
@@ -721,24 +719,24 @@ public class PanneauPrincipal extends JPanel {
                             while (currentNode.getChildCount() > 1) {
                                 comboAppelProcedure.removeItem((Instruction) currentNode.getFirstChild());
                                 //PanneauPrincipal.this.frameParente.getProgramme().getArbreProgramme().removeNodeFromParent((MutableTreeNode) currentNode.getFirstChild());
-                                PanneauPrincipal.this.frameParente.getProgramme().retraitProcedure(currentNode.getFirstChild().toString());
+                                frameParente.getTerrain().getRobotSelectionne().getProgramme().retraitProcedure(currentNode.getFirstChild().toString());
                             }
                             currentNode = (Instruction) currentNode.getFirstChild();
                             if (currentNode != null) {
                                 while (currentNode.getChildCount() > 0) {
-                                    PanneauPrincipal.this.frameParente.getProgramme().getArbreProgramme().removeNodeFromParent((MutableTreeNode) currentNode.getFirstChild());
+                                    frameParente.getTerrain().getRobotSelectionne().getProgramme().getArbreProgramme().removeNodeFromParent((MutableTreeNode) currentNode.getFirstChild());
                                 }
                             }
 
                         } else if (parent.getParent() == null) {
                             if (currentNode.getChildCount() > 0) {
                                 while (currentNode.getChildCount() > 0) {
-                                    PanneauPrincipal.this.frameParente.getProgramme().getArbreProgramme().removeNodeFromParent((MutableTreeNode) currentNode.getFirstChild());
+                                    frameParente.getTerrain().getRobotSelectionne().getProgramme().getArbreProgramme().removeNodeFromParent((MutableTreeNode) currentNode.getFirstChild());
                                 }
 
                             } else {
                                 comboAppelProcedure.removeItem(currentNode);
-                                PanneauPrincipal.this.frameParente.getProgramme().retraitProcedure(currentNode.toString());
+                                frameParente.getTerrain().getRobotSelectionne().getProgramme().retraitProcedure(currentNode.toString());
                             }
                             //if (currentNode.getNom().equalsIgnoreCase("procédure principale"))
                         } else {
@@ -746,10 +744,10 @@ public class PanneauPrincipal extends JPanel {
                             if (suivant == null) {
                                 suivant = currentNode.getPreviousNode();
                             }
-                            PanneauPrincipal.this.frameParente.getProgramme().getArbreProgramme().removeNodeFromParent(currentNode);
+                            frameParente.getTerrain().getRobotSelectionne().getProgramme().getArbreProgramme().removeNodeFromParent(currentNode);
                             TreePath chemin = new TreePath(suivant);
-                            PanneauPrincipal.this.frameParente.getArbre().setSelectionPath(chemin);
-                            PanneauPrincipal.this.frameParente.getProgramme().getArbreProgramme().nodeChanged(suivant);
+                            frameParente.getTerrain().getRobotSelectionne().getArbre().setSelectionPath(chemin);
+                            frameParente.getTerrain().getRobotSelectionne().getProgramme().getArbreProgramme().nodeChanged(suivant);
                         }
                     }
                 }
@@ -767,7 +765,7 @@ public class PanneauPrincipal extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                TreePath[] tp = PanneauPrincipal.this.frameParente.getArbre().getSelectionPaths();
+                TreePath[] tp = frameParente.getTerrain().getRobotSelectionne().getArbre().getSelectionPaths();
 
                 Deque<TreePath> treePaths = new ArrayDeque<TreePath>();
                 for (int i = tp.length - 1; i > 0; i--) {
@@ -802,7 +800,7 @@ public class PanneauPrincipal extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                TreePath treePath = PanneauPrincipal.this.frameParente.getArbre().getSelectionPath();
+                TreePath treePath = frameParente.getTerrain().getRobotSelectionne().getArbre().getSelectionPath();
                 if (treePath != null && brancheCopiee != null) {
                     Instruction select = (Instruction) treePath.getLastPathComponent();
                     Instruction parent;
@@ -827,7 +825,7 @@ public class PanneauPrincipal extends JPanel {
                             Logger.getLogger(PanneauPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         //Programme.changerDeRobot(instruction, PanneauPrincipal.this.frameParente.getRobot());
-                        PanneauPrincipal.this.frameParente.getProgramme().getArbreProgramme().insertNodeInto(instruction, parent, positionInsertion++);
+                        frameParente.getTerrain().getRobotSelectionne().getProgramme().getArbreProgramme().insertNodeInto(instruction, parent, positionInsertion++);
                     }
                     // }
                 }
@@ -911,7 +909,7 @@ public class PanneauPrincipal extends JPanel {
 
     public void majVueProgramme()
     {
-        vueDArbre = new JScrollPane(frameParente.getArbre());
+        vueDArbre = new JScrollPane(frameParente.getTerrain().getRobotSelectionne().getArbre());
         panneauArbre.removeAll();
         panneauArbre.add(vueDArbre, "Center");
         panneauArbre.updateUI();

@@ -33,7 +33,6 @@ import interfaces.Detachable;
 import robot.*;
 import java.awt.BorderLayout;
 import java.awt.Dialog;
-import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -58,7 +57,7 @@ public class BoiteDeDialogueInit extends JDialog {
         super((Dialog)null, "Initialisation");
         this.environnement = environnement;
         setModalityType(ModalityType.APPLICATION_MODAL);
-        panneauInit = new PanneauInitialisation();
+        panneauInit = new PanneauInitialisation(environnement);
         setLayout(new BorderLayout());
         add(panneauInit, "Center");
         JPanel boutons = new JPanel();
@@ -71,7 +70,7 @@ public class BoiteDeDialogueInit extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
                 reponse = false;
-                FramePrincipale.resetComboBoxEtROBOTACTIF();
+                environnement.getTerrain().changeDeRobot(1);
             }
         });
       
@@ -81,7 +80,7 @@ public class BoiteDeDialogueInit extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
                 reponse = true;
-                FramePrincipale.resetComboBoxEtROBOTACTIF();
+                environnement.getTerrain().changeDeRobot(1);
             }
         });
 
@@ -93,7 +92,7 @@ public class BoiteDeDialogueInit extends JDialog {
     }
     public void setInitialisation(Initialisation initialisation)  {
         remove(panneauInit);
-        panneauInit = new PanneauInitialisation(initialisation);
+        panneauInit = new PanneauInitialisation(initialisation, environnement);
         add(panneauInit, "Center"); 
 
         

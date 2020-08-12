@@ -36,9 +36,10 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.text.Position;
 
+import robot.panneaux.JTreeRobot;
 import terrain.Cellule;
 import terrain.Marque;
 import terrain.Mur;
@@ -47,6 +48,13 @@ import terrain.Terrain;
 public class Robot implements Cellule, Runnable {
 
     private Cellule passage = null;
+    private Programme programme;
+    private Instruction instruction;
+    private JTreeRobot arbre;
+
+    private int position = Initialisation.QUELCONQUE;
+    private int orientation = Initialisation.QUELCONQUE;
+
     private static Random random = new Random();
     private boolean stop = false;
     // La durée en ms pour avancer d'une case.
@@ -56,7 +64,6 @@ public class Robot implements Cellule, Runnable {
     private Color couleur;
     private Terrain terrain;
     private int x, y;
-    private Instruction programme;
     private Image[] image =new Image[1];
     private Image[] robotN = new Image[4];
     private Image[] robotS = new Image[4];
@@ -96,8 +103,12 @@ public class Robot implements Cellule, Runnable {
     private int nombrePas = -1;
     private int nombreDepPas;
     public int getNombrePas(){ return this.nombrePas;}
-    public void setNombrePas(int nombrePas){ this.nombrePas=nombrePas;}
-    public void setNombreDepPas(int nombreDepPas){ this.nombreDepPas = nombreDepPas;}
+    public int getNombreDepPas(){return this.nombreDepPas;}
+    private void setNombrePas(int nombrePas){ this.nombrePas=nombrePas;}
+    public void setNombreDepPas(int nombreDepPas){
+        this.nombreDepPas = nombreDepPas;
+        setNombrePas(nombreDepPas);
+    }
     private Image[][] robotCouleurE = new Image[5][4];
     private Image[][] robotCouleurEprem = new Image[5][4];
 
@@ -118,7 +129,6 @@ public class Robot implements Cellule, Runnable {
     //fin ajout
 
     private static Integer cpt = 0;
-    private static Robot[] robots = new Robot[FramePrincipale.getNbRobots() + 1];
     private final int ID;
     //Ajouté par Sélim
 
@@ -321,15 +331,9 @@ public class Robot implements Cellule, Runnable {
         }
     };
 
-
-    /*
-     * public void prend(Cellule c) { if (passage == null) passage = c; else
-     * passage.prend(c);
-    }
-     */
     public Image[] imageSelonOrientation() {
 
-        if(this.ID!= FramePrincipale.getROBOTACTIF()) {
+        if(this.ID!= terrain.getROBOTACTIF()) {
             if (vers.direction == Terrain.EST) {
                 return robotE;
 
@@ -744,10 +748,6 @@ public class Robot implements Cellule, Runnable {
         System.out.println("ID : "+ID);
         image[0] = imageSelonOrientation()[this.ID -1];
         terrain.repaint();
-
-
-
-
     }
 
     /**
@@ -757,57 +757,32 @@ public class Robot implements Cellule, Runnable {
      * @see public Robot(Terrain terrain, int x, int y)
      */
     public Robot(Terrain terrain) {
-
-        if (cpt < FramePrincipale.getNbRobots())
-            ID = ++cpt;
-        else {
-            cpt = 1;
-            ID = cpt;
-        } //Ajouté par Sélim
-        init(terrain, random.nextInt(terrain.getNx()), random.nextInt(terrain.getNy()), random.nextInt(4), new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256)));
-        lancementAnimation();
-
+        this(terrain, random.nextInt(terrain.getNx()), random.nextInt(terrain.getNy()), random.nextInt(4));
     }
 
     public Robot(Terrain terrain, int x, int y) {
-
-        if (cpt < FramePrincipale.getNbRobots())
-            ID = ++cpt;
-        else {
-            cpt = 1;
-            ID = cpt;
-        } //Ajouté par Sélim
-        init(terrain, x, y, random.nextInt(4), new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256)));
-        lancementAnimation();
+        this(terrain,x,y,new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256)));
     }
 
     public Robot(Terrain terrain, int x, int y, Color couleur) {
 
-        if (cpt < FramePrincipale.getNbRobots())
+        if (cpt < terrain.getNBROBOTS())
             ID = ++cpt;
         else {
             cpt = 1;
             ID = cpt;
         } //Ajouté par Sélim
-        init(terrain, x, y, random.nextInt(4), new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256)));
+        init(terrain, x, y, random.nextInt(4), couleur);
         lancementAnimation();
     }
 
     public Robot(Terrain terrain, Color couleur) {
-
-        if (cpt < FramePrincipale.getNbRobots())
-            ID = ++cpt;
-        else {
-            cpt = 1;
-            ID = cpt;
-            init(terrain, random.nextInt(terrain.getNx()), random.nextInt(terrain.getNy()), random.nextInt(4), couleur);
-            lancementAnimation();
-        } //Ajouté par Sélim
+        this(terrain, random.nextInt(terrain.getNx()), random.nextInt(terrain.getNy()), couleur);
     }
 
     public Robot(Terrain terrain, int x, int y, int dir) {
 
-        if (cpt < FramePrincipale.getNbRobots())
+        if (cpt < terrain.getNBROBOTS())
             ID = ++cpt;
         else {
             cpt = 1;
@@ -1015,7 +990,7 @@ public class Robot implements Cellule, Runnable {
     //fin ajout
 
     public synchronized void execute(Instruction i) {
-        programme = i;
+        instruction = i;
         stop();
         processus = new Thread(this);
 
@@ -1048,7 +1023,7 @@ public class Robot implements Cellule, Runnable {
             terrain.repaint();
             Thread.sleep(500);
 
-            programme.go(this);
+            instruction.go(this);
             enMarche = false;
             Thread.sleep(500);
             image = imageSelonOrientation();
@@ -1101,33 +1076,53 @@ public class Robot implements Cellule, Runnable {
         }
     }
 
-    public static void setRobot(int i, Robot r)
-    {
-        robots[i] = r;
-    }
-
-    public static Robot[] getRobots()
-    {
-        return robots;
-    }
-
-    public static void setRobots(Robot[] r)
-    {
-        robots = r;
-    }
-
     public int getID()
     {
         return ID;
     }
 
-    public Instruction getInstruction()
+    public static int getCpt()
+    {
+        return cpt;
+    }
+
+    public Programme getProgramme()
     {
         return programme;
     }
 
-    public static int getCpt()
+    public void setProgramme(Programme p)
     {
-        return cpt;
+        programme = p;
+    }
+
+    public JTreeRobot getArbre()
+    {
+        return arbre;
+    }
+
+    public void setArbre(JTreeRobot a)
+    {
+        arbre = a;
+    }
+
+    public int getPosition()
+    {
+        return position;
+    }
+
+    public int getOrientation()
+    {
+        return orientation;
+    }
+
+    public void setOrientation(int orientation)
+    {
+        this.orientation = orientation;
+    }
+
+    public void setPosition(int position)
+    {
+        this.position = position;
     }
 }

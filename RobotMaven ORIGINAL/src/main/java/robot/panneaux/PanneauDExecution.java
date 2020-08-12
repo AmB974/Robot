@@ -99,12 +99,12 @@ public class PanneauDExecution extends JPanel {
                     @Override
                     public void run() {
                         //arret_reprise.setEnabled(true);
-                        Instruction instruction[] = new Instruction[FramePrincipale.getNbRobots()+1];
-                        for(int i=1; i<FramePrincipale.getNbRobots()+1; ++i)
+                        Instruction instruction[] = new Instruction[fenetreRobot.getTerrain().getNBROBOTS()+1];
+                        for(int i=1; i<fenetreRobot.getTerrain().getNBROBOTS()+1; ++i)
                         {
-                            instruction[i] = fenetreRobot.getProgramme(i).getProcedurePrincipal();
+                            instruction[i] = fenetreRobot.getTerrain().getRobot(i).getProgramme().getProcedurePrincipal();
                         }
-                        Initialisation.initialiser(fenetreRobot.getProgrammes(), PanneauDExecution.this.fenetreRobot, true);
+                        fenetreRobot.getDialogueInitialisation().getInitialisation().initialiser(PanneauDExecution.this.fenetreRobot, true);
 
                         try {
                             Thread.sleep(100);
@@ -120,15 +120,15 @@ public class PanneauDExecution extends JPanel {
                             PanneauDExecution.this.fenetreRobot.getTerrain().revalidate();
                         }
 
-                        for(int i=1; i<FramePrincipale.getNbRobots()+1; ++i)
+                        for(int i=1; i<fenetreRobot.getTerrain().getNBROBOTS()+1; ++i)
                         {
-                            Robot.getRobots()[i].execute(instruction[i]);
+                            fenetreRobot.getTerrain().getRobot(i).execute(instruction[i]);
                         }
 
                         try {
                             Thread.sleep(1000);
 
-                            PanneauDExecution.this.fenetreRobot.getRobot().getProcessus().join();
+                            fenetreRobot.getTerrain().getRobotSelectionne().getProcessus().join();
 
                         } catch (InterruptedException ex) {
                         }
@@ -149,8 +149,8 @@ public class PanneauDExecution extends JPanel {
                     @Override
                     public synchronized void run() {
                         //arret_reprise.setEnabled(true);
-                        Instruction select = (Instruction) PanneauDExecution.this.fenetreRobot.getArbre().getSelectionPath().getLastPathComponent();
-                        PanneauDExecution.this.fenetreRobot.getRobot().execute(select);
+                        Instruction select = (Instruction) fenetreRobot.getTerrain().getRobotSelectionne().getArbre().getSelectionPath().getLastPathComponent();
+                        fenetreRobot.getTerrain().getRobotSelectionne().execute(select);
                         try {
                             if (PanneauDExecution.this.fenetreRobot.getSplitPane().getDividerLocation() > 2) {
                                 PanneauDExecution.this.fenetreRobot.getSplitPane().setDividerLocation(0.0);
@@ -158,7 +158,7 @@ public class PanneauDExecution extends JPanel {
                             boutonExecuteProgramme.setEnabled(false);
                             boutonExecuteSelection.setEnabled(false);
                             Thread.sleep(1000);
-                            PanneauDExecution.this.fenetreRobot.getRobot().getProcessus().join();
+                            fenetreRobot.getTerrain().getRobotSelectionne().getProcessus().join();
                             boutonExecuteProgramme.setEnabled(true);
                             boutonExecuteSelection.setEnabled(true);
                             //getSplitPane().setDividerLocation(dl);
