@@ -40,7 +40,6 @@ import interfaces.Detachable;
 import robot.*;
 import terrain.Terrain;
 
-import javax.naming.InitialContext;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -258,7 +257,7 @@ public class PanneauInitialisation extends JPanel {
             comboPositionMinerai.setEnabled(true);
         else
             comboPositionMinerai.setEnabled(false);
-        initialisation.setPrésenceMinerai(jCheckBoxMinerai.isSelected());
+        initialisation.setPresenceMinerai(jCheckBoxMinerai.isSelected());
     }
 
     private void comboOrientationRobotItemStateChanged(ActionEvent evt) {

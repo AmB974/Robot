@@ -96,6 +96,7 @@ public class Terrain extends JPanel {
 
     public Terrain(Detachable frameParente, int hauteur, int largeur) {
         this.frameParente = frameParente;
+
         if (largeur < 3) {
             nX = random.nextInt(maxX) + minX + 2;
         } else {
@@ -368,8 +369,7 @@ public class Terrain extends JPanel {
     public void changeDeRobot(int i)
     {
         if(!getRobotSelectionne().isCasser()) {
-            getRobotSelectionne().setImage(frameParente.getTerrain().getRobotSelectionne().imageSelonOrientation());
-
+            getRobotSelectionne().setImage(getRobotSelectionne().imageSelonOrientation());
         }else{
             getRobotSelectionne().setCasser(false);
         }
@@ -377,8 +377,7 @@ public class Terrain extends JPanel {
         ROBOTACTIF = i;
 
         frameParente.getPanneauCommande().getComboRobotSelectionne().setSelectedIndex(ROBOTACTIF-1);
-        frameParente.getPanneauPrincipal().majVueProgramme();
-        getRobotSelectionne().setImage(frameParente.getTerrain().getRobotSelectionne().imageSelonOrientation());
+        getRobotSelectionne().setImage(getRobotSelectionne().imageSelonOrientation());
     }
 
     public void setRobot(int id, Robot r)

@@ -28,6 +28,7 @@
  */
 package robot;
 
+import com.sun.org.apache.xml.internal.security.Init;
 import instruction.Instruction;
 
 import java.awt.*;
@@ -48,7 +49,7 @@ import terrain.Terrain;
 public class Robot implements Cellule, Runnable {
 
     private Cellule passage = null;
-    private Programme programme;
+    private Programme programme = new Programme();
     private Instruction instruction;
     private JTreeRobot arbre;
 

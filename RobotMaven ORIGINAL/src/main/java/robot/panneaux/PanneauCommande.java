@@ -62,8 +62,8 @@ public class PanneauCommande extends JPanel {
 
 
     public PanneauCommande(Detachable frameParente) {
-        initComponents();
         this.frameParente = frameParente;
+        initComponents();
     }
 
     @SuppressWarnings("unchecked")
@@ -214,6 +214,7 @@ public class PanneauCommande extends JPanel {
 
     private void comboRobotSelectionneDefinieActionPerformed(ActionEvent evt) {
         frameParente.getTerrain().changeDeRobot(comboRobotSelectionne.getSelectedIndex() + 1);
+        frameParente.getPanneauPrincipal().majVueProgramme();
     }// Ajouté par Sélim
 
     private void initialiseSelectionRobot()

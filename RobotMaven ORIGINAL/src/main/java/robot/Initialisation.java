@@ -37,6 +37,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import robot.panneaux.JTreeRobot;
 import terrain.Cellule;
 import terrain.Minerai;
 import terrain.Terrain;
@@ -65,6 +66,8 @@ public class Initialisation implements Serializable {
     public static final int DANS_LE_COIN_NO = 11;
 
     private int positionMinerai = QUELCONQUE;
+    private final int positionRobotParDefaut = QUELCONQUE;
+    private final int orientationRobotParDefaut = QUELCONQUE;
 
     private boolean presenceMinerai = false;
     private boolean presenceHauteur = false;
@@ -76,7 +79,7 @@ public class Initialisation implements Serializable {
     // debut Ajout
     // fin Ajout
 
-    private static Random random = new Random();
+    private static final Random random = new Random();
 
     public static Terrain.Position calculPosition(int position, Terrain terrain) {
 
@@ -176,7 +179,7 @@ public class Initialisation implements Serializable {
         return presenceMinerai;
     }
 
-    public void setPrésenceMinerai(boolean presenceMinerai) {
+    public void setPresenceMinerai(boolean presenceMinerai) {
         this.presenceMinerai = presenceMinerai;
     }
 
@@ -219,7 +222,7 @@ public class Initialisation implements Serializable {
                 this.y = y;
             }
         }
-        Set<Coord> marquesALaSouris = new HashSet<Coord>();
+        Set<Coord> marquesALaSouris = new HashSet<>();
         try {
             for (int x = 0; x < frameParente.getTerrain().getNx(); x++) {
                 for (int y = 0; y < frameParente.getTerrain().getNy(); y++) {
@@ -260,8 +263,10 @@ public class Initialisation implements Serializable {
             placementDuMinerai(positionMinerai, frameParente.getTerrain());
         }
 
+
         placementDesRobots(frameParente);
         setNombrePasRobots(frameParente);
+        setProgrammeRobot(frameParente);
         //Ajouté par Sélim
 
         frameParente.getPanneauTerrain().add(frameParente.getTerrain(), "Center");
@@ -288,15 +293,24 @@ public class Initialisation implements Serializable {
         frameParente.getTerrain().setRobot(i,new Robot(frameParente.getTerrain(), p.x, p.y, orientationRobot));
     }//Ajouté par Sélim
 
-    private void placementDesRobots(Detachable frameParente)
+    public void placementDesRobots(Detachable frameParente)
     {
         frameParente.getTerrain().setRobot(0,null);
 
         for (int i = 1; i < frameParente.getTerrain().getNBROBOTS() + 1; ++i) {
-            placementDuRobot(frameParente.getTerrain().getRobot(i).getOrientation(), frameParente.getTerrain().getRobot(i).getPosition(), frameParente, i);
+            placementDuRobot(orientationRobotParDefaut,positionRobotParDefaut, frameParente, i);
         }
 
-        frameParente.getTerrain().changeDeRobot(frameParente.getTerrain().getROBOTACTIF());
+        //frameParente.getTerrain().changeDeRobot(frameParente.getTerrain().getROBOTACTIF());
+    }
+
+    private void setProgrammeRobot(Detachable frameParente)
+    {
+        for(int i=1; i<frameParente.getTerrain().getNBROBOTS()+1; ++i)
+        {
+            frameParente.getTerrain().getRobot(i).setProgramme(new Programme());
+            frameParente.getTerrain().getRobot(i).setArbre(new JTreeRobot(frameParente.getTerrain().getRobot(i).getProgramme().getArbreProgramme()));
+        }
     }
 
     private void setNombrePasRobots(Detachable frameParente)

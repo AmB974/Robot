@@ -28,16 +28,16 @@ public class FramePrincipale extends JFrame implements Detachable {
 
     private static final long serialVersionUID = 1L;
 
-    private PanneauDExecution panneauDExecution;
+    private final PanneauDExecution panneauDExecution;
     private PanneauCommande panneauCommande;
-    private PanneauPrincipal panneauPrincipal;
+    private final PanneauPrincipal panneauPrincipal;
     private PanneauTerrain panneauTerrain = new PanneauTerrain();
 
     private Terrain terrain;
 
-    private JSplitPane splitPane;
-    private JFileChooser chooser;
-    private BoiteDeDialogueInit dialogueInitialisation;
+    private final JSplitPane splitPane;
+    private final JFileChooser chooser;
+    private final BoiteDeDialogueInit dialogueInitialisation;
 
 
     @Override
@@ -91,17 +91,10 @@ public class FramePrincipale extends JFrame implements Detachable {
     public FramePrincipale() {
         super("Le monde de Nono");
         setJMenuBar(new JMenuBar());
-
+        terrain = new Terrain(this);
         setSize(800, 600);
 
         dialogueInitialisation = new BoiteDeDialogueInit(this);
-
-        for(int i=1; i<terrain.getNBROBOTS()+1; ++i)
-        {
-            terrain.getRobot(i).setProgramme(new Programme());
-            terrain.getRobot(i).setArbre(new JTreeRobot(terrain.getRobot(i).getProgramme().getArbreProgramme()));
-        }
-
         miseEnPlaceDesMenus();
 
         panneauPrincipal = new PanneauPrincipal(this);
@@ -169,8 +162,6 @@ public class FramePrincipale extends JFrame implements Detachable {
                         os.writeObject(terrain.getRobotSelectionne().getProgramme());
                         FramePrincipale.this.setTitle(f.getAbsolutePath());
 
-                    } catch (FileNotFoundException ex) {
-                        Logger.getLogger(FramePrincipale.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (IOException ex) {
                         Logger.getLogger(FramePrincipale.class.getName()).log(Level.SEVERE, null, ex);
                     } finally {
