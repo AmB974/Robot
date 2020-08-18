@@ -160,9 +160,8 @@ public class PanneauInitialisation extends JPanel {
         labelRobot.setFont(font);
         labelTerrain.setFont(font);
         labelPresenceMinerai.setText("Présence de minerai");
-        labelPresenceMinerai.setEnabled(false);
-        labelPositionMinerai.setEnabled(false);
-
+        labelPresenceMinerai.setEnabled(jCheckBoxMinerai.isSelected());
+        labelPositionMinerai.setEnabled(jCheckBoxMinerai.isSelected());
 
         initialisePositionRobot();
 
@@ -603,7 +602,7 @@ public class PanneauInitialisation extends JPanel {
         return initialisation;
     }
 
-    public void comboInitialisationActualise() {
+    public void majComboRobotSelectionne() {
         String s[] = new String[FramePrincipale.getNbRobots()];
 
         for (int i = 0; i < FramePrincipale.getNbRobots(); ++i)
@@ -624,6 +623,7 @@ public class PanneauInitialisation extends JPanel {
 
 
         comboNombreRobot.setModel(new DefaultComboBoxModel(s));
+        comboNombreRobot.setSelectedIndex(FramePrincipale.getNbRobots()-1);
         comboNombreRobot.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -634,12 +634,8 @@ public class PanneauInitialisation extends JPanel {
 
     private void comboNombreRobotDefinieActionPerformed(ActionEvent evt) {
         if (changementInterne) return;
-
-
         FramePrincipale.setNbRobots(comboNombreRobot.getSelectedIndex() + 1);
         Robot.getRobots()[1].setCpt(FramePrincipale.getNbRobots());
-
-        comboInitialisationActualise();
+        majComboRobotSelectionne();
     }
-
 }
