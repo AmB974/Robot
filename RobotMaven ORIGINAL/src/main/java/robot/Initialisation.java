@@ -42,6 +42,8 @@ import terrain.Cellule;
 import terrain.Minerai;
 import terrain.Terrain;
 
+import javax.swing.tree.DefaultTreeModel;
+
 /**
  *
  * @author Yvan
@@ -297,10 +299,15 @@ public class Initialisation implements Serializable {
     {
         frameParente.getTerrain().setRobot(0,null);
 
-        for (int i = 1; i < frameParente.getTerrain().getNBROBOTS() + 1; ++i) {
+        for(int i = 1; i < frameParente.getTerrain().getNBROBOTS() + 1; ++i) {
             placementDuRobot(orientationRobotParDefaut,positionRobotParDefaut, frameParente, i);
         }
 
+        for(int i=1; i<frameParente.getTerrain().getNBROBOTS()+1; ++i)
+        {
+            frameParente.getTerrain().getRobot(i).setProgramme(new Programme());
+            frameParente.getTerrain().getRobot(i).setArbre(new JTreeRobot(frameParente.getTerrain().getRobot(i).getProgramme().getArbreProgramme()));
+        }
         //frameParente.getTerrain().changeDeRobot(frameParente.getTerrain().getROBOTACTIF());
     }
 

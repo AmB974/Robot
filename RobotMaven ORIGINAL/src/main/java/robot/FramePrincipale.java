@@ -95,6 +95,7 @@ public class FramePrincipale extends JFrame implements Detachable {
         setSize(800, 600);
 
         dialogueInitialisation = new BoiteDeDialogueInit(this);
+        dialogueInitialisation.getInitialisation().placementDesRobots(this);
         miseEnPlaceDesMenus();
 
         panneauPrincipal = new PanneauPrincipal(this);
