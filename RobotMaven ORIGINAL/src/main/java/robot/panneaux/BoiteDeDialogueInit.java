@@ -104,11 +104,6 @@ public class BoiteDeDialogueInit extends JDialog {
         //    environnement.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
-    private void resetRobotActif()
-    {
-        FramePrincipale.setRobotActif(1);
-    }
-
     public Initialisation getInitialisation() {
         return panneauInit.getInitialisation();
     }

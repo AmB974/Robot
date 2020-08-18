@@ -84,6 +84,11 @@ public class FramePrincipale extends JFrame implements Detachable {
         return programme[ROBOTACTIF];
     }
 
+    public Programme getProgramme(int i)
+    {
+        return programme[i];
+    }
+
     @Override
     public Robot getRobot() {
         return robot;
@@ -99,7 +104,7 @@ public class FramePrincipale extends JFrame implements Detachable {
         dialogueInitialisation.setVisible(true);
         if (dialogueInitialisation.getOk()) {
             programme[ROBOTACTIF].setInitialisation(dialogueInitialisation.getInitialisation());
-            Initialisation.initialiser(dialogueInitialisation.getInitialisation(), this, true);
+            Initialisation.initialiser(getProgrammes(), this, true);
         }
     }
 
@@ -124,7 +129,7 @@ public class FramePrincipale extends JFrame implements Detachable {
 
         dialogueInitialisation = new BoiteDeDialogueInit(this);
 
-        for(int i=0; i<NBROBOTS+1; ++i)
+        for(int i=1; i<NBROBOTS+1; ++i)
         {
             programme[i] = new Programme();
             arbre[i] = new JTreeRobot(programme[i].getArbreProgramme());
@@ -325,5 +330,17 @@ public class FramePrincipale extends JFrame implements Detachable {
     public static int getNombreDePas(int i)
     {
         return nombrePas[i];
+    }
+
+    @Override
+    public Programme[] getProgrammes()
+    {
+        return programme;
+    }
+
+    @Override
+    public PanneauPrincipal getPanneauPrincipal()
+    {
+        return panneauPrincipal;
     }
 }

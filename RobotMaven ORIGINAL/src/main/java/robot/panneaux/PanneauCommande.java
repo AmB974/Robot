@@ -50,6 +50,7 @@ public class PanneauCommande extends JPanel {
 
     private Detachable frameParente;
 
+
     /**
      * Creates new form panneauCommande
      */
@@ -220,12 +221,8 @@ public class PanneauCommande extends JPanel {
             robot.setCasser(false);
         }
 
-
+        frameParente.getPanneauPrincipal().majVueProgramme();
         frameParente.getRobot().setImage(frameParente.getRobot().imageSelonOrientation());
-
-
-
-
     }// Ajouté par Sélim
 
     private void initialiseSelectionRobot()
