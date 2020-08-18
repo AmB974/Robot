@@ -71,6 +71,7 @@ public class PanneauCommande extends JPanel {
         efface = new JButton();
         image = new ImageIcon();
 
+
         sliderDuréeAction.setMajorTickSpacing(50);
         sliderDuréeAction.setMaximum(300);
         sliderDuréeAction.setMinorTickSpacing(10);
@@ -123,6 +124,10 @@ public class PanneauCommande extends JPanel {
             }
         });
 
+
+
+
+
         initialiseSelectionRobot();
 
         GroupLayout layout = new GroupLayout(this);
@@ -147,7 +152,7 @@ public class PanneauCommande extends JPanel {
                                 .addGap(44, 44, 44)
                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                         .addComponent(labelSelectionDuRobot)
-                                        .addComponent(comboRobotSelectionne,GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE))//Ajouté par Sélim
+                                        .addComponent(comboRobotSelectionne, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE))//Ajouté par Sélim
                                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -167,8 +172,8 @@ public class PanneauCommande extends JPanel {
                                                         .addComponent(efface, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)))
                                         .addComponent(sliderDuréeAction, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                         .addGroup(layout.createSequentialGroup()
-                                            .addComponent(labelSelectionDuRobot)
-                                            .addComponent(comboRobotSelectionne,GroupLayout.PREFERRED_SIZE, 30,GroupLayout.PREFERRED_SIZE)))//Ajouté par Sélim
+                                                .addComponent(labelSelectionDuRobot)
+                                                .addComponent(comboRobotSelectionne, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)))
                                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -214,19 +219,14 @@ public class PanneauCommande extends JPanel {
         Robot robot = frameParente.getRobot();
 
         FramePrincipale.setRobotActif(comboRobotSelectionne.getSelectedIndex() + 1);
-        if(!robot.isCasser()) {
-            robot.setImage(robot.imageSelonOrientation());
+        robot.gestionImage(robot.getEchelon());
 
-        }else{
-            robot.setCasser(false);
-        }
+        frameParente.getRobot().gestionImage(frameParente.getRobot().getEchelon());
 
         frameParente.getPanneauPrincipal().majVueProgramme();
-        frameParente.getRobot().setImage(frameParente.getRobot().imageSelonOrientation());
-    }// Ajouté par Sélim
+    }// Ajouté par Ambre
 
-    private void initialiseSelectionRobot()
-    {
+    private void initialiseSelectionRobot() {
         labelSelectionDuRobot = new JLabel();
         labelSelectionDuRobot.setText("Sélection du robot");
 
@@ -245,9 +245,17 @@ public class PanneauCommande extends JPanel {
         });
     }
 
-    public JComboBox getComboRobotSelectionne()
-    {
+    public JComboBox getComboRobotSelectionne() {
         return comboRobotSelectionne;
+    }
+
+    public void actualiseComboList(){
+        String s[] = new String[FramePrincipale.getNbRobots()];
+
+        for (int i = 0; i < FramePrincipale.getNbRobots(); ++i)
+            s[i] = "Robot " + (i + 1);
+
+        comboRobotSelectionne.setModel(new DefaultComboBoxModel(s));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -262,7 +270,4 @@ public class PanneauCommande extends JPanel {
 
     private JLabel labelSelectionDuRobot;
     private JComboBox comboRobotSelectionne;
-
-
-
 }

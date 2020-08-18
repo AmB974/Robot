@@ -30,8 +30,6 @@ package robot;
 
 import interfaces.Detachable;
 
-import java.applet.Applet;
-import java.awt.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Random;
@@ -39,13 +37,9 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import jdk.management.resource.internal.inst.AbstractPlainDatagramSocketImplRMHooks;
-import robot.panneaux.PanneauInitialisation;
 import terrain.Cellule;
 import terrain.Minerai;
 import terrain.Terrain;
-
-import javax.swing.*;
 
 /**
  *
@@ -256,6 +250,7 @@ public class Initialisation implements Serializable {
             largeur = frameParente.getProgramme().getInitialisation().getLargeur();
         }
 
+
         // Récupérer les coordonnées des marques entrées à la souris
         class Coord {
 
@@ -315,6 +310,7 @@ public class Initialisation implements Serializable {
         //Ajouté par Sélim
 
         frameParente.getPanneauTerrain().add(frameParente.getTerrain(), "Center");
+        frameParente.getPanneauCommande().actualiseComboList();
 
         //debut ajout Ambre
         //fin ajout
@@ -343,6 +339,9 @@ public class Initialisation implements Serializable {
         while(frameParente.getTerrain().get(p.x,p.y) != null);
 
         FramePrincipale.setRobot(i,new Robot(frameParente.getTerrain(), p.x, p.y, orientationRobot));
+
+
+
     }//Ajouté par Sélim
 
     private static void placementDesRobots(Detachable frameParente)
@@ -357,6 +356,7 @@ public class Initialisation implements Serializable {
         }
 
         FramePrincipale.setRobotActif(FramePrincipale.getROBOTACTIF());
+
     }
 
     private static void setNombrePasRobots()
@@ -365,6 +365,14 @@ public class Initialisation implements Serializable {
         {
             Robot.getRobots()[i].setNombreDepPas(FramePrincipale.getNombreDePas(i));
             Robot.getRobots()[i].setNombrePas(FramePrincipale.getNombreDePas(i));
+            if(FramePrincipale.getNombreDePas(i)==-2){
+                Robot.getRobots()[i].setPasInitialise(false);
+            }else{
+                Robot.getRobots()[i].setPasInitialise(true);
+                Robot.getRobots()[i].gestionImage(0);
+            }
         }
+
     }
+
 }

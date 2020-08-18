@@ -26,7 +26,9 @@ import terrain.Terrain;
 public class FramePrincipale extends JFrame implements Detachable {
 
     private static Robot robot = null;
-    private static int NBROBOTS = 4;
+    private static int NBROBOTS = 1;
+    //private static int NBRobotsSurTerrain=1;
+
 
     //Ajouté par Sélim
 
@@ -38,9 +40,9 @@ public class FramePrincipale extends JFrame implements Detachable {
     private Terrain terrain;
 
     private static PanneauCommande panneauCommande;
-    private Programme[] programme = new Programme[NBROBOTS+1];
+    private Programme[] programme = new Programme[5];
     private JSplitPane splitPane;
-    private JTreeRobot[] arbre = new JTreeRobot[NBROBOTS+1];
+    private JTreeRobot[] arbre = new JTreeRobot[5];
     private JFileChooser chooser;
     private BoiteDeDialogueInit dialogueInitialisation;
     //private File oldDir;
@@ -129,7 +131,7 @@ public class FramePrincipale extends JFrame implements Detachable {
 
         dialogueInitialisation = new BoiteDeDialogueInit(this);
 
-        for(int i=1; i<NBROBOTS+1; ++i)
+        for(int i=1; i<5; ++i)
         {
             programme[i] = new Programme();
             arbre[i] = new JTreeRobot(programme[i].getArbreProgramme());
@@ -283,6 +285,9 @@ public class FramePrincipale extends JFrame implements Detachable {
     public static int getNbRobots() {
         return NBROBOTS;
     }
+    public static void setNbRobots( int nb) {
+        NBROBOTS= nb;
+    }
 
     public static int getOrientationRobotActif() {
         return orientationsRobots[ROBOTACTIF];
@@ -318,15 +323,13 @@ public class FramePrincipale extends JFrame implements Detachable {
 
     public static void resetComboBoxEtROBOTACTIF()
     {
-        ROBOTACTIF = 1;
+        setRobotActif(1);
         panneauCommande.getComboRobotSelectionne().setSelectedIndex(FramePrincipale.getROBOTACTIF()-1);
     }
 
-    public static void setNombreDePas(int i, int nbPas)
-    {
+    public static void setNombreDePas(int i, int nbPas) {
         nombrePas[i] = nbPas;
     }
-
     public static int getNombreDePas(int i)
     {
         return nombrePas[i];
