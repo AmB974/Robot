@@ -881,6 +881,9 @@ public class Robot implements Cellule, Runnable {
         if (pasInitialise) {
             decrementerPas();
         }
+        else{
+            gestionImage(echelon);
+        }
         //fin ajout
         /*
         emplacement du robot actuelle
@@ -958,7 +961,7 @@ public class Robot implements Cellule, Runnable {
         if (this.nombrePas == 0) {
             nombrePas = -1;
             gestionImage(4);
-            echelon=-1;
+            echelon=0;
             enMarche = false;
             terrain.repaint();
             pasInitialise = false;
@@ -1151,8 +1154,5 @@ public class Robot implements Cellule, Runnable {
         } else {
             casser = false;
         }
-
     }
-
-
 }
