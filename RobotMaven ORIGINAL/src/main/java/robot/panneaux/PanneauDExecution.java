@@ -97,7 +97,7 @@ public class PanneauDExecution extends JPanel {
                     public void run() {
                         //arret_reprise.setEnabled(true);
                         Instruction instruction = PanneauDExecution.this.fenetreRobot.getProgramme().getProcedurePrincipal();
-                        Initialisation.initialiser(PanneauDExecution.this.fenetreRobot.getProgramme().getInitialisation(), PanneauDExecution.this.fenetreRobot, true, FramePrincipale.getNbRobots());
+                        Initialisation.initialiser(PanneauDExecution.this.fenetreRobot.getProgramme().getInitialisation(), PanneauDExecution.this.fenetreRobot, true);
                         
                         try {
                             Thread.sleep(100);

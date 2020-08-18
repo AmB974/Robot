@@ -101,7 +101,7 @@ public class FramePrincipale extends JFrame implements Detachable {
         dialogueInitialisation.setVisible(true);
         if (dialogueInitialisation.getOk()) {
             programme[ROBOTACTIF].setInitialisation(dialogueInitialisation.getInitialisation());
-            Initialisation.initialiser(dialogueInitialisation.getInitialisation(), this, true, FramePrincipale.getNbRobots());
+            Initialisation.initialiser(dialogueInitialisation.getInitialisation(), this, true);
         }
     }
 
@@ -151,7 +151,7 @@ public class FramePrincipale extends JFrame implements Detachable {
         panneauCommande = new PanneauCommande(this);
         getContentPane().add(panneauCommande, "South");
 
-        Initialisation.initialiser(this, false, NBROBOTS);
+        Initialisation.initialiser(this, false);
 
         panneauDExecution = new PanneauDExecution(this);
 

@@ -36,7 +36,6 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import terrain.Cellule;
@@ -57,7 +56,7 @@ public class Robot implements Cellule, Runnable {
     private Terrain terrain;
     private int x, y;
     private Instruction programme;
-    private Image[] image =new Image[1];
+    private Image[] image = new Image[1];
     private Image[] robotN = new Image[4];
     private Image[] robotS = new Image[4];
     private Image[] robotE = new Image[4];
@@ -95,9 +94,19 @@ public class Robot implements Cellule, Runnable {
     //debut ajout
     private int nombrePas = -1;
     private int nombreDepPas;
-    public int getNombrePas(){ return this.nombrePas;}
-    public void setNombrePas(int nombrePas){ this.nombrePas=nombrePas;}
-    public void setNombreDepPas(int nombreDepPas){ this.nombreDepPas = nombreDepPas;}
+
+    public int getNombrePas() {
+        return this.nombrePas;
+    }
+
+    public void setNombrePas(int nombrePas) {
+        this.nombrePas = nombrePas;
+    }
+
+    public void setNombreDepPas(int nombreDepPas) {
+        this.nombreDepPas = nombreDepPas;
+    }
+
     private Image[][] robotCouleurE = new Image[5][4];
     private Image[][] robotCouleurEprem = new Image[5][4];
 
@@ -110,13 +119,28 @@ public class Robot implements Cellule, Runnable {
     private Image[][] robotCouleurN = new Image[5][4];
     private Image[][] robotCouleurNprem = new Image[5][4];
 
-    private boolean pasInitialise= false;
-    private boolean casser= false;
+    private boolean pasInitialise = false;
+    private boolean casser = false;
+    private int echelon=0;
 
-    public boolean isCasser(){ return this.casser; }
-    public void setCasser(boolean casser){this.casser=casser;}
-    public boolean isPasInitialise(){ return this.pasInitialise;}
-    public void setPasInitialise(boolean pasInitialise){this.pasInitialise=pasInitialise;}
+    public boolean isCasser() {
+        return this.casser;
+    }
+
+    public void setCasser(boolean casser) {
+        this.casser = casser;
+    }
+
+    public boolean isPasInitialise() {
+        return this.pasInitialise;
+    }
+
+    public void setPasInitialise(boolean pasInitialise) {
+        this.pasInitialise = pasInitialise;
+    }
+    public int getEchelon(){
+        return echelon;
+    }
     //fin ajout
 
     private static Integer cpt = 0;
@@ -235,11 +259,6 @@ public class Robot implements Cellule, Runnable {
         robotCasse[3] = robotCasseprem[3].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
 
 
-
-
-
-
-
         robotCouleurE[0][0] = robotCouleurEprem[0][0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
         robotCouleurE[1][0] = robotCouleurEprem[1][0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
         robotCouleurE[2][0] = robotCouleurEprem[2][0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
@@ -263,13 +282,6 @@ public class Robot implements Cellule, Runnable {
         robotCouleurE[2][3] = robotCouleurEprem[2][3].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
         robotCouleurE[3][3] = robotCouleurEprem[3][3].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
         robotCouleurE[4][3] = robotCouleurEprem[4][3].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
-
-
-
-
-
-
-
 
 
         robotCouleurS[0][0] = robotCouleurSprem[0][0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
@@ -297,8 +309,6 @@ public class Robot implements Cellule, Runnable {
         robotCouleurS[4][3] = robotCouleurSprem[4][3].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
 
 
-
-
         robotCouleurO[0][0] = robotCouleurOprem[0][0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
         robotCouleurO[1][0] = robotCouleurOprem[1][0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
         robotCouleurO[2][0] = robotCouleurOprem[2][0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
@@ -322,8 +332,6 @@ public class Robot implements Cellule, Runnable {
         robotCouleurO[2][3] = robotCouleurOprem[2][3].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
         robotCouleurO[3][3] = robotCouleurOprem[3][3].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
         robotCouleurO[4][3] = robotCouleurOprem[4][3].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
-
-
 
 
         robotCouleurN[0][0] = robotCouleurNprem[0][0].getScaledInstance(lx, ly, Image.SCALE_SMOOTH);
@@ -360,7 +368,9 @@ public class Robot implements Cellule, Runnable {
             pasy = py;
             direction = ix;
         }
-    };
+    }
+
+    ;
 
 
     /*
@@ -368,57 +378,7 @@ public class Robot implements Cellule, Runnable {
      * passage.prend(c);
     }
      */
-    public Image[] imageSelonOrientation() {
 
-        if(this.ID!= FramePrincipale.getROBOTACTIF()) {
-            if (vers.direction == Terrain.EST) {
-                return robotE;
-
-            } else if (vers.direction == Terrain.OUEST) {
-                return robotO;
-            } else if (vers.direction == Terrain.SUD) {
-                return robotS;
-            } else {
-                return robotN;
-            }
-        }else{
-            if (vers.direction == Terrain.EST) {
-                return robotEActif;
-
-            } else if (vers.direction == Terrain.OUEST) {
-                return robotOActif;
-            } else if (vers.direction == Terrain.SUD) {
-                return robotSActif;
-            } else {
-                return robotNActif;
-            }
-
-
-        }
-
-
-        /*if (!enMarche) {
-            if (vers.direction == Terrain.EST) {
-                return robotE;
-            } else if (vers.direction == Terrain.OUEST) {
-                return robotO;
-            } else if (vers.direction == Terrain.SUD) {
-                return robotS;
-            } else {
-                return robotN;
-            }
-        } else {
-            if (vers.direction == Terrain.EST) {
-                return robotEeM;
-            } else if (vers.direction == Terrain.OUEST) {
-                return robotOeM;
-            } else if (vers.direction == Terrain.SUD) {
-                return robotSeM;
-            } else {
-                return robotNeM;
-            }
-        }*/
-    }
 
     private void init(Terrain terrain, int x, int y, int direction, Color couleur) {
         this.terrain = terrain;
@@ -525,8 +485,6 @@ public class Robot implements Cellule, Runnable {
             robotCasse[3] = robotCasseprem[3].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
 
 
-
-
             robotEpremActif[0] = ImageIO.read(Robot.class.getResource("/images/robotBlancEstUnActif.png"));
             robotEpremActif[1] = ImageIO.read(Robot.class.getResource("/images/robotBlancEstDeuxActif.png"));
             robotEpremActif[2] = ImageIO.read(Robot.class.getResource("/images/robotBlancEstTroisActif.png"));
@@ -568,7 +526,6 @@ public class Robot implements Cellule, Runnable {
             robotNActif[1] = robotNpremActif[1].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
             robotNActif[2] = robotNpremActif[2].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
             robotNActif[3] = robotNpremActif[3].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
-
 
 
             robotCouleurEprem[0][0] = ImageIO.read(Robot.class.getResource("/images/robotVertEstUn.png"));
@@ -620,10 +577,6 @@ public class Robot implements Cellule, Runnable {
             robotCouleurE[4][3] = robotCouleurEprem[4][3].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
 
 
-
-
-
-
             robotCouleurSprem[0][0] = ImageIO.read(Robot.class.getResource("/images/robotVertSudUn.png"));
             robotCouleurSprem[1][0] = ImageIO.read(Robot.class.getResource("/images/robotVertClaireSudUn.png"));
             robotCouleurSprem[2][0] = ImageIO.read(Robot.class.getResource("/images/robotJauneSudUn.png"));
@@ -673,10 +626,6 @@ public class Robot implements Cellule, Runnable {
             robotCouleurS[4][3] = robotCouleurSprem[4][3].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
 
 
-
-
-
-
             robotCouleurOprem[0][0] = ImageIO.read(Robot.class.getResource("/images/robotVertOuestUn.png"));
             robotCouleurOprem[1][0] = ImageIO.read(Robot.class.getResource("/images/robotVertClaireOuestUn.png"));
             robotCouleurOprem[2][0] = ImageIO.read(Robot.class.getResource("/images/robotJauneOuestUn.png"));
@@ -724,10 +673,6 @@ public class Robot implements Cellule, Runnable {
             robotCouleurO[2][3] = robotCouleurOprem[2][3].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
             robotCouleurO[3][3] = robotCouleurOprem[3][3].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
             robotCouleurO[4][3] = robotCouleurOprem[4][3].getScaledInstance(terrain.getTailleCelluleX(), terrain.getTailleCelluleY(), Image.SCALE_SMOOTH);
-
-
-
-
 
 
             robotCouleurNprem[0][0] = ImageIO.read(Robot.class.getResource("/images/robotVertNordUn.png"));
@@ -782,11 +727,9 @@ public class Robot implements Cellule, Runnable {
             Logger.getLogger(Robot.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        System.out.println("ID : "+ID);
-        image[0] = imageSelonOrientation()[this.ID -1];
+        System.out.println("ID : " + ID);
+        gestionImage(0);
         terrain.repaint();
-
-
 
 
     }
@@ -917,7 +860,6 @@ public class Robot implements Cellule, Runnable {
         }
 
 
-
         Cellule cellule = terrain.get(x, y);
         if (cellule != this) {
             if (cellule instanceof Robot || cellule instanceof Mur) {
@@ -926,7 +868,7 @@ public class Robot implements Cellule, Runnable {
                 image[0] = robotCasse[0];
                 terrain.repaint();
                 enMarche = false;
-                casser=true;
+                casser = true;
                 throw new DansLeMur();
             } else {
                 terrain.set(xa, ya, passage);
@@ -935,9 +877,9 @@ public class Robot implements Cellule, Runnable {
             }
         }
         //debut ajout
-        System.out.println("pasInitialiser avance : "+pasInitialise);
+        System.out.println("pasInitialiser avance : " + pasInitialise);
 
-        if(pasInitialise) {
+        if (pasInitialise) {
             decrementerPas();
         }
         //fin ajout
@@ -970,11 +912,11 @@ public class Robot implements Cellule, Runnable {
     //@Override
     public void tourne() throws InterruptedException, TropDePas {
         vers = tOrientation[(vers.direction + 1) % 4];
-        image[0] = imageSelonOrientation()[this.ID-1];
+        gestionImage(0);
 
         //debut ajout
-        System.out.println("pasInitialiser tourne : "+pasInitialise);
-        if(pasInitialise) {
+        System.out.println("pasInitialiser tourne : " + pasInitialise);
+        if (pasInitialise) {
             decrementerPas();
         }
         //fin ajout
@@ -984,79 +926,51 @@ public class Robot implements Cellule, Runnable {
         Thread.sleep(dureeReference);
 
 
-
     }
 
     //debut ajout
-    public void decrementerPas() throws TropDePas{
+    public void decrementerPas() throws TropDePas {
 
 
+        if (this.nombrePas * 1.0 > this.nombreDepPas * 0.75) {
+            echelon=0;
+            gestionImage(echelon);
 
 
-
-            if(this.nombrePas*1.0 > this.nombreDepPas * 0.75 ){
-                image[0]=imageSelonCouleur(0)[this.ID-1];
-
-
-            } else if(this.nombrePas*1.0 <= this.nombreDepPas * 0.75 && this.nombrePas*1.0 > this.nombreDepPas * 0.50 ){
-                image[0]=imageSelonCouleur(1)[this.ID-1];
+        } else if (this.nombrePas * 1.0 <= this.nombreDepPas * 0.75 && this.nombrePas * 1.0 > this.nombreDepPas * 0.50) {
+            echelon=1;
+           gestionImage(echelon);
 
 
-            } else if(this.nombrePas*1.0 <= this.nombreDepPas * 0.50 && this.nombrePas*1.0 > this.nombreDepPas * 0.25 ){
-                image[0]=imageSelonCouleur(2)[this.ID-1];
+        } else if (this.nombrePas * 1.0 <= this.nombreDepPas * 0.50 && this.nombrePas * 1.0 > this.nombreDepPas * 0.25) {
+            echelon=2;
+            gestionImage(echelon);
 
 
-            } else if (nombrePas>0){
-                image[0]=imageSelonCouleur(3)[this.ID-1];
+        } else if (nombrePas > 0) {
+            echelon=3;
+            gestionImage(echelon);
 
-
-            }
-
-            this.nombrePas--;
-
-            if (this.nombrePas == 0) {
-                nombrePas=-1;
-                image[0]=imageSelonCouleur(4)[this.ID-1];
-                enMarche=false;
-                terrain.repaint();
-                pasInitialise = false;
-
-                throw new TropDePas();
-
-            }
-
-
-    }
-
-    public Image[]imageSelonCouleur(int numero){
-
-
-        if (vers.direction == Terrain.NORD) {
-            //image Nord
-            return this.robotCouleurN[numero];
-
-        } else if(vers.direction == Terrain.EST){
-            //image Est
-            return this.robotCouleurE[numero];
-
-        }else if(vers.direction == Terrain.SUD){
-            //image Sud
-            return this.robotCouleurS[numero];
-
-        }else{
-            //image Ouest
-            return this.robotCouleurO[numero];
 
         }
+
+        this.nombrePas--;
+
+        if (this.nombrePas == 0) {
+            nombrePas = -1;
+            gestionImage(4);
+            echelon=-1;
+            enMarche = false;
+            terrain.repaint();
+            pasInitialise = false;
+
+            throw new TropDePas();
+
+        }
+
+
     }
 
-
-
-
-    public void setImage(Image[] image){
-        this.image[0]=image[this.ID-1];
-        terrain.repaint(x * terrain.getTailleCelluleX(), y * terrain.getTailleCelluleY(), terrain.getTailleCelluleX(), terrain.getTailleCelluleY());
-    }
     //fin ajout
 
     public synchronized void execute(Instruction i) {
@@ -1089,21 +1003,21 @@ public class Robot implements Cellule, Runnable {
             terrain.repaint();
             Thread.sleep(500);
             enMarche = true;
-            image[0] = imageSelonOrientation()[this.ID -1];
+            gestionImage(0);
             terrain.repaint();
             Thread.sleep(500);
 
             programme.go(this);
             enMarche = false;
             Thread.sleep(500);
-            image[0] = imageSelonOrientation()[this.ID -1];
+            gestionImage(0);
             terrain.repaint();
         } catch (DansLeMur ex) {
             //Logger.getLogger(Robot.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "<html><p>Erreur de programmation</p></html>",
                     "Bouuuum !!! Dans le mur",
                     JOptionPane.ERROR_MESSAGE
-                    );
+            );
             stop();
 
         } catch (InterruptedException ex) {
@@ -1147,29 +1061,90 @@ public class Robot implements Cellule, Runnable {
         }
     }
 
-    public static void setRobot(int i, Robot r)
-    {
+    public static void setRobot(int i, Robot r) {
         robots[i] = r;
     }
 
-    public static Robot[] getRobots()
-    {
+    public static Robot[] getRobots() {
         return robots;
     }
 
-    public static void setRobots(Robot[] r)
-    {
+    public static void setRobots(Robot[] r) {
         robots = r;
     }
 
-    public int getID()
-    {
+    public int getID() {
         return ID;
     }
 
-    public int getX(){return this.x;}
+    public int getX() {
+        return this.x;
+    }
 
-    public int getY(){return this.y;}
+    public int getY() {
+        return this.y;
+    }
 
-    public void setCpt(int nb){cpt=nb;}
+    public void setCpt(int nb) {
+        cpt = nb;
+    }
+
+    public void gestionImage(int numero) {
+
+        if (!casser) {
+            if (!pasInitialise) {
+
+
+                if (this.ID != FramePrincipale.getROBOTACTIF()) {
+                    if (vers.direction == Terrain.EST) {
+                        image[0] = robotE[ID - 1];
+
+                    } else if (vers.direction == Terrain.OUEST) {
+                        image[0] = robotO[ID - 1];
+                    } else if (vers.direction == Terrain.SUD) {
+                        image[0] = robotS[ID - 1];
+                    } else {
+                        image[0] = robotN[ID - 1];
+                    }
+                } else {
+                    if (vers.direction == Terrain.EST) {
+                        image[0] = robotEActif[ID - 1];
+
+                    } else if (vers.direction == Terrain.OUEST) {
+                        image[0] = robotOActif[ID - 1];
+                    } else if (vers.direction == Terrain.SUD) {
+                        image[0] = robotSActif[ID - 1];
+                    } else {
+                        image[0] = robotNActif[ID - 1];
+                    }
+                }
+            } else {
+                if (vers.direction == Terrain.NORD) {
+                    //image Nord
+                    image[0] = this.robotCouleurN[numero][ID - 1];
+
+                } else if (vers.direction == Terrain.EST) {
+                    //image Est
+                    image[0] = this.robotCouleurE[numero][ID - 1];
+
+                } else if (vers.direction == Terrain.SUD) {
+                    //image Sud
+                    image[0] = this.robotCouleurS[numero][ID - 1];
+
+                } else {
+                    //image Ouest
+                    image[0] = this.robotCouleurO[numero][ID - 1];
+
+                }
+
+            }
+            terrain.repaint(x * terrain.getTailleCelluleX(), y * terrain.getTailleCelluleY(), terrain.getTailleCelluleX(), terrain.getTailleCelluleY());
+
+        } else {
+            casser = false;
+        }
+
+    }
+
+
 }

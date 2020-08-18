@@ -228,11 +228,11 @@ public class Initialisation implements Serializable {
     public Initialisation() {
     }
 
-    public static void initialiser(Detachable frameParente, boolean marque, int nbRobot) {
-        initialiser(frameParente.getProgramme().getInitialisation(), frameParente, marque, nbRobot);
+    public static void initialiser(Detachable frameParente, boolean marque) {
+        initialiser(frameParente.getProgramme().getInitialisation(), frameParente, marque);
     }
 
-    public static void initialiser(Initialisation initialisation, Detachable frameParente, boolean marque, int nbRobot) {
+    public static void initialiser(Initialisation initialisation, Detachable frameParente, boolean marque) {
         frameParente.getProgramme().setInitialisation(initialisation);
         frameParente.getDialogueInitialisation().setInitialisation(initialisation);
         int hauteur = -1;
@@ -334,9 +334,7 @@ public class Initialisation implements Serializable {
 
         FramePrincipale.setRobot(i,new Robot(frameParente.getTerrain(), p.x, p.y, orientationRobot));
 
-        /*if(Robot.getRobots()[i].getID()>FramePrincipale.getNBRobotsSurTerrain()){
-            frameParente.getTerrain().set(p.x,p.y,null);
-        }*/
+
 
     }//Ajouté par Sélim
 
@@ -365,6 +363,7 @@ public class Initialisation implements Serializable {
                 Robot.getRobots()[i].setPasInitialise(false);
             }else{
                 Robot.getRobots()[i].setPasInitialise(true);
+                Robot.getRobots()[i].gestionImage(0);
             }
         }
 

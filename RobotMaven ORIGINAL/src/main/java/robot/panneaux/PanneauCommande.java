@@ -219,32 +219,14 @@ public class PanneauCommande extends JPanel {
 
 
     private void comboRobotSelectionneDefinieActionPerformed(ActionEvent evt) {
-
-
-         if ( !frameParente.getRobot().isCasser() && ! frameParente.getRobot().isPasInitialise() ) {
-             frameParente.getRobot().setImage(frameParente.getRobot().imageSelonOrientation());
-
-
-        } else {
-             frameParente.getRobot().setCasser(false);
-
-        }
+        Robot robot = frameParente.getRobot();
 
         FramePrincipale.setRobotActif(comboRobotSelectionne.getSelectedIndex() + 1);
+        robot.gestionImage(robot.getEchelon());
 
-        //System.out.println("Robot avant casse : " + robot.isCasser()+ "intialiser : " + robot.isPasInitialise());
-        System.out.println("Robot apres casse : " + frameParente.getRobot().isCasser() + "intialise : "+ frameParente.getRobot().isPasInitialise());
+        frameParente.getRobot().gestionImage(frameParente.getRobot().getEchelon());
 
-
-
-
-
-            frameParente.getRobot().setImage(frameParente.getRobot().imageSelonOrientation());
-
-
-
-
-    }// Ajouté par Sélim
+    }// Ajouté par Ambre
 
     private void initialiseSelectionRobot() {
         labelSelectionDuRobot = new JLabel();

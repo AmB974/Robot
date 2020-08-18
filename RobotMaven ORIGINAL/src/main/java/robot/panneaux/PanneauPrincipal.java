@@ -452,7 +452,7 @@ public class PanneauPrincipal extends JPanel {
             }
 
             //Initialisation.initialiser(nouveauProgramme.getInitialisation(), FramePrincipale.this);
-            Initialisation.initialiser(nouveauProgramme.getInitialisation(), frameParente, false, FramePrincipale.getNbRobots());
+            Initialisation.initialiser(nouveauProgramme.getInitialisation(), frameParente, false);
             for (int i = 0;
                     i < frameParente.getArbre().getRowCount(); i++) {
                 frameParente.getArbre().expandRow(i);
