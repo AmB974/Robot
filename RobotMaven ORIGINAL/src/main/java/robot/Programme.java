@@ -103,7 +103,6 @@ public class Programme implements Serializable {
         procedure.put(nom, bloc);
         arbreProgramme.insertNodeInto(bloc, (Instruction)arbreProgramme.getRoot(), 0);
         return bloc;
-
     }
     public void setInitialisation(Initialisation initialisation) {
         this.initialisation = initialisation;
