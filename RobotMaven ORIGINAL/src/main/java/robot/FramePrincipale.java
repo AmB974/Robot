@@ -27,6 +27,7 @@ public class FramePrincipale extends JFrame implements Detachable {
 
     private static Robot robot = null;
     private static int NBROBOTS = 1;
+    private static final int NBMAXROBOTS = 4;
     //private static int NBRobotsSurTerrain=1;
 
 
@@ -131,7 +132,7 @@ public class FramePrincipale extends JFrame implements Detachable {
 
         dialogueInitialisation = new BoiteDeDialogueInit(this);
 
-        for(int i=1; i<5; ++i)
+        for(int i=1; i<NBMAXROBOTS+1; ++i)
         {
             programme[i] = new Programme();
             arbre[i] = new JTreeRobot(programme[i].getArbreProgramme());
