@@ -146,7 +146,6 @@ public class Robot implements Cellule, Runnable {
     private static Integer cpt = 0;
     private static Robot[] robots = new Robot[5];
     private final int ID;
-    //private static int NBROBOTS = FramePrincipale.getNbRobots();//--------------------------------- A mettre en place
     //Ajouté par Sélim
 
     public Cellule quoiDessous() {
@@ -882,6 +881,9 @@ public class Robot implements Cellule, Runnable {
         if (pasInitialise) {
             decrementerPas();
         }
+        else{
+            gestionImage(echelon);
+        }
         //fin ajout
         /*
         emplacement du robot actuelle
@@ -959,7 +961,7 @@ public class Robot implements Cellule, Runnable {
         if (this.nombrePas == 0) {
             nombrePas = -1;
             gestionImage(4);
-            echelon=-1;
+            echelon=0;
             enMarche = false;
             terrain.repaint();
             pasInitialise = false;
@@ -1016,8 +1018,7 @@ public class Robot implements Cellule, Runnable {
             //Logger.getLogger(Robot.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "<html><p>Erreur de programmation</p></html>",
                     "Bouuuum !!! Dans le mur",
-                    JOptionPane.ERROR_MESSAGE
-            );
+                    JOptionPane.ERROR_MESSAGE);
             stop();
 
         } catch (InterruptedException ex) {
@@ -1075,6 +1076,16 @@ public class Robot implements Cellule, Runnable {
 
     public int getID() {
         return ID;
+    }
+
+    public Instruction getInstruction()
+    {
+        return programme;
+    }
+
+    public static int getCpt()
+    {
+        return cpt;
     }
 
     public int getX() {
@@ -1143,8 +1154,5 @@ public class Robot implements Cellule, Runnable {
         } else {
             casser = false;
         }
-
     }
-
-
 }

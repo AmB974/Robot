@@ -50,6 +50,7 @@ public class PanneauCommande extends JPanel {
 
     private Detachable frameParente;
 
+
     /**
      * Creates new form panneauCommande
      */
@@ -214,10 +215,6 @@ public class PanneauCommande extends JPanel {
         }
     }//GEN-LAST:event_avanceActionPerformed
 
-
-
-
-
     private void comboRobotSelectionneDefinieActionPerformed(ActionEvent evt) {
         Robot robot = frameParente.getRobot();
 
@@ -226,6 +223,7 @@ public class PanneauCommande extends JPanel {
 
         frameParente.getRobot().gestionImage(frameParente.getRobot().getEchelon());
 
+        frameParente.getPanneauPrincipal().majVueProgramme();
     }// Ajouté par Ambre
 
     private void initialiseSelectionRobot() {
@@ -272,7 +270,4 @@ public class PanneauCommande extends JPanel {
 
     private JLabel labelSelectionDuRobot;
     private JComboBox comboRobotSelectionne;
-
-
-
 }
