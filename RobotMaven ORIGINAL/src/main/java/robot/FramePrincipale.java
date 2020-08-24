@@ -41,9 +41,9 @@ public class FramePrincipale extends JFrame implements Detachable {
     private Terrain terrain;
 
     private static PanneauCommande panneauCommande;
-    private Programme[] programme = new Programme[5];
+    private Programme[] programme = new Programme[NBMAXROBOTS+1];
     private JSplitPane splitPane;
-    private JTreeRobot[] arbre = new JTreeRobot[5];
+    private JTreeRobot[] arbre = new JTreeRobot[NBMAXROBOTS+1];
     private JFileChooser chooser;
     private BoiteDeDialogueInit dialogueInitialisation;
     //private File oldDir;
