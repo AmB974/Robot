@@ -336,17 +336,13 @@ public class PanneauInitialisation extends JPanel {
 
     private void comboRobotSelectionneDefinieActionPerformed(ActionEvent evt) {
         if (changementInterne) return;
-        selectionneRobot(comboRobotSelectionne.getSelectedIndex() + 1);
+        FramePrincipale.setRobotActif( comboRobotSelectionne.getSelectedIndex() + 1);
         FramePrincipale.setOrientationRobot(comboOrientationRobot.getSelectedIndex() - 1, comboRobotSelectionne.getSelectedIndex() + 1);
         FramePrincipale.setPositionRobot(comboPositionRobot.getSelectedIndex() - 1, comboRobotSelectionne.getSelectedIndex() + 1);
         if (nombrePasDefinie.isSelected())
             FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), Integer.parseInt(textNombrePasExact.getText()));
         else FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), -2);
     }// Ajouté par Sélim
-
-    public static void selectionneRobot(int id) {
-        FramePrincipale.setRobotActif(id);
-    }//Ajouté par Sélim
 
     private void initialiseSelectionRobot() {
         labelSelectionDuRobot.setText("Sélection du robot");
@@ -634,6 +630,7 @@ public class PanneauInitialisation extends JPanel {
 
     private void comboNombreRobotDefinieActionPerformed(ActionEvent evt) {
         if (changementInterne) return;
+
 
 
         FramePrincipale.setNbRobots(comboNombreRobot.getSelectedIndex() + 1);
