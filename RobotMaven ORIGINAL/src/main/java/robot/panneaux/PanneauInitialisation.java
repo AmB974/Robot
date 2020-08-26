@@ -45,6 +45,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -82,7 +83,12 @@ public class PanneauInitialisation extends JPanel {
 
     private JComboBox comboNombreRobot;
     private JLabel labelNombreRobot;
-
+    private JCheckBox nombrePasGlobalDefinie;
+    private JLabel labelNombrePasGlobal;
+    private JTable tableauPasRobot;
+    private DefaultTableModel tab;
+    private String[] columnNames;
+    private Object[][] data;
     // fin ajout
 
     private JComboBox comboRobotSelectionne;
@@ -154,6 +160,11 @@ public class PanneauInitialisation extends JPanel {
         comboRobotSelectionne = new JComboBox();
         //Ajouté par Sélim
 
+
+        labelNombrePasGlobal = new JLabel();
+        nombrePasGlobalDefinie = new JCheckBox();
+
+
         labelTerrain.setText("Initialisation du terrain :");
         labelRobot.setText("Initialisation du robot :");
         Font font = new Font("Test", Font.BOLD, 17);
@@ -180,6 +191,7 @@ public class PanneauInitialisation extends JPanel {
         //debut ajout
         initialiseNombrePas();
         initialiseNombreRobot();
+        initialiseNombrePasGlobal();
         //fin ajout
 
         GroupLayout layout = new GroupLayout(this);
@@ -203,10 +215,12 @@ public class PanneauInitialisation extends JPanel {
                                                                 .addGap(18, 18, 18)
                                                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                                                         .addComponent(labelNombreRobot)
-                                                                        .addComponent(comboNombreRobot,GroupLayout.Alignment.LEADING, 160, 160, 160)
+                                                                        .addComponent(comboNombreRobot, GroupLayout.Alignment.LEADING, 160, 160, 160)
                                                                         .addComponent(labelSelectionDuRobot)// Ajouté par Sélim
-                                                                        .addComponent(comboRobotSelectionne,GroupLayout.Alignment.LEADING, 160, 160, 160))// Ajouté par Sélim
+                                                                        .addComponent(comboRobotSelectionne, GroupLayout.Alignment.LEADING, 160, 160, 160))// Ajouté par Sélim
                                                                 .addGap(18, 18, 18)
+                                                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                                        .addComponent(tableauPasRobot))
                                                                 .addContainerGap())
                                                         .addGap(18, 18, 18)
                                                         .addComponent(labelTerrain)
@@ -222,6 +236,7 @@ public class PanneauInitialisation extends JPanel {
                                                         .addGroup(layout.createSequentialGroup()
                                                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
                                                                         .addComponent(nombrePasDefinie)//debut ajout
+                                                                        .addComponent(nombrePasGlobalDefinie)
                                                                         .addComponent(largeurDefinie)
                                                                         .addComponent(hauteurDefinie))
                                                                 //fin ajout
@@ -230,6 +245,7 @@ public class PanneauInitialisation extends JPanel {
                                                                         .addComponent(jSliderNombrePas, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)//ajout Ambre
                                                                         .addComponent(textNombrePasExact, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)//ajout Ambre
                                                                         .addComponent(textErreur, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)//ajout Ambre
+                                                                        .addComponent(labelNombrePasGlobal, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)//ajout Ambre
                                                                         .addComponent(jSliderLargeur, GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
                                                                         .addComponent(jSliderHauteur, GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE))
                                                                 .addContainerGap()))
@@ -246,7 +262,8 @@ public class PanneauInitialisation extends JPanel {
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(comboOrientationRobot, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(comboNombreRobot, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(comboNombreRobot, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(tableauPasRobot))
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(labelPositionRobot)
@@ -264,6 +281,9 @@ public class PanneauInitialisation extends JPanel {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(textErreur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addComponent(nombrePasGlobalDefinie)
+                                        .addComponent(labelNombrePasGlobal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                                 .addComponent(labelTerrain)
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
@@ -342,6 +362,7 @@ public class PanneauInitialisation extends JPanel {
         if (nombrePasDefinie.isSelected())
             FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), Integer.parseInt(textNombrePasExact.getText()));
         else FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), -2);
+        actualiseTableau();
     }// Ajouté par Sélim
 
     public static void selectionneRobot(int id) {
@@ -475,6 +496,7 @@ public class PanneauInitialisation extends JPanel {
         jSliderNombrePas.setValue(5);
         jSliderNombrePas.setBorder(javax.swing.BorderFactory.createTitledBorder("Nombre de Pas"));
         jSliderNombrePas.setEnabled(false);
+
         jSliderNombrePas.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jSliderNombrePasStateChanged(evt);
@@ -489,8 +511,7 @@ public class PanneauInitialisation extends JPanel {
 
         textNombrePasExact.setColumns(1);
         textNombrePasExact.setEditable(false);
-        //textNombrePasExact.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
-        textNombrePasExact.setBorder(javax.swing.BorderFactory.createBevelBorder(2, Color.BLUE, Color.DARK_GRAY));
+        textNombrePasExact.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
         textErreur.setForeground(Color.RED);
         textNombrePasExact.addKeyListener(new KeyAdapter() {
             @Override
@@ -540,13 +561,22 @@ public class PanneauInitialisation extends JPanel {
             synchroJaugeTexte = false;
         } else {
             textNombrePasExact.setText(jSliderNombrePas.getValue() + "");
-            FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), Integer.parseInt(textNombrePasExact.getText()));
+            if (nombrePasGlobalDefinie.isSelected()) {
+                for (int i = 1; i < FramePrincipale.getNbRobots() + 1; i++) {
+                    FramePrincipale.setNombreDePas(i, Integer.parseInt(textNombrePasExact.getText()));
+                }
+            } else {
+                FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), Integer.parseInt(textNombrePasExact.getText()));
+
+            }
             synchroJaugeTexte = true;
         }
+        actualiseTableau();
     }//GEN-LAST:event_jSliderJaugeStateChanged
 
     private void nombrePasDefinieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jaugeDefinieActionPerformed
         if (changementInterne) return;
+
         jSliderNombrePas.setEnabled(nombrePasDefinie.isSelected());
         textNombrePasExact.setEnabled(nombrePasDefinie.isSelected());
         textNombrePasExact.setEditable(nombrePasDefinie.isSelected());
@@ -558,6 +588,7 @@ public class PanneauInitialisation extends JPanel {
             textNombrePasExact.setText("5");
             FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), 5);
         }
+
 
     }//GEN-LAST:event_jaugeDefinieActionPerformed
 
@@ -579,7 +610,14 @@ public class PanneauInitialisation extends JPanel {
                     jSliderNombrePas.setValue(5);
                 }
 
-                FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), nombrePas);
+                if (nombrePasGlobalDefinie.isSelected()) {
+                    for (int i = 1; i < FramePrincipale.getNbRobots() + 1; i++) {
+                        FramePrincipale.setNombreDePas(i, nombrePas);
+                    }
+                } else {
+                    FramePrincipale.setNombreDePas(FramePrincipale.getROBOTACTIF(), nombrePas);
+                }
+                actualiseTableau();
 
             }
         };
@@ -588,15 +626,7 @@ public class PanneauInitialisation extends JPanel {
 
     }//GEN-LAST:event_jSliderJaugeStateChanged
 
-    private void jTextFieldKeyPressed(KeyEvent evt) {
-        char c = evt.getKeyChar();
-        if (Character.isLetter(c)) {
-            textNombrePasExact.setEditable(false);
 
-        } else {
-            textNombrePasExact.setEditable(true);
-        }
-    }
     // fin ajout
 
     public Initialisation getInitialisation() {
@@ -632,6 +662,42 @@ public class PanneauInitialisation extends JPanel {
         });
     }
 
+    private void initialiseNombrePasGlobal() {
+        labelNombrePasGlobal.setText("Même nombre de pas pour tous les robots");
+        labelNombrePasGlobal.setEnabled(nombrePasGlobalDefinie.isSelected());
+        tab = new DefaultTableModel();
+        tableauPasRobot = new JTable(tab);
+
+
+        columnNames = new String[]{"Robot",
+                "Nombre pas"};
+        data = new Object[][]{
+                {"Robot 1", "-"},
+                {"Robot 2", "-"},
+                {"Robot 3", "-"},
+                {"Robot 4 ", "-"}
+        };
+        //tableauPasRobot = new JTable(data, columnNames);
+
+        tableauPasRobot.setPreferredScrollableViewportSize(new Dimension(200, 50));
+        tableauPasRobot.setFillsViewportHeight(false);
+        tab.addColumn("robot");
+        tab.addColumn("Nombre de Pas");
+
+        nombrePasGlobalDefinie.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nombrePasGLobalDefinieActionPerformed(evt);
+            }
+        });
+
+    }
+
+    private void nombrePasGLobalDefinieActionPerformed(ActionEvent evt) {
+        if (changementInterne) return;
+        actualiseTableau();
+
+    }
+
     private void comboNombreRobotDefinieActionPerformed(ActionEvent evt) {
         if (changementInterne) return;
 
@@ -640,6 +706,36 @@ public class PanneauInitialisation extends JPanel {
         Robot.getRobots()[1].setCpt(FramePrincipale.getNbRobots());
 
         comboInitialisationActualise();
+        actualiseTableau();
+
+    }
+
+    private void actualiseTableau() {
+        Object[] s=null;
+        for (int i = tab.getRowCount()-1; i >= 0; i--) {
+            tab.removeRow(i);
+        }
+
+        if (!nombrePasGlobalDefinie.isSelected()) {
+            tableauPasRobot.setVisible(true);
+            for (int i = 0; i < FramePrincipale.getNbRobots(); i++) {
+                if (FramePrincipale.getNombreDePas(i + 1) == -2) {
+                    s = new Object[]{"Robot " + (i+1), "0"};
+
+                } else {
+                    s = new Object[]{"Robot " + (i+1), FramePrincipale.getNombreDePas(i + 1) + ""};
+                }
+
+                tab.addRow(s);
+            }
+
+
+        } else {
+            tableauPasRobot.setVisible(false);
+
+        }
+
+
     }
 
 }
