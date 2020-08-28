@@ -27,7 +27,7 @@ public class FramePrincipale extends JFrame implements Detachable {
 
     private static Robot robot = null;
     private static int NBROBOTS = 1;
-    //private static int NBRobotsSurTerrain=1;
+    
 
 
     //Ajouté par Sélim
