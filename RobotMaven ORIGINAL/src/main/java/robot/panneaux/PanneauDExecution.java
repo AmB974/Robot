@@ -99,6 +99,9 @@ public class PanneauDExecution extends JPanel {
                     @Override
                     public void run() {
                         //arret_reprise.setEnabled(true);
+                        boutonExecuteProgramme.setEnabled(false);
+                        boutonExecuteSelection.setEnabled(false);
+
                         Instruction instruction[] = new Instruction[FramePrincipale.getNbRobots()+1];
                         for(int i=1; i<FramePrincipale.getNbRobots()+1; ++i)
                         {
@@ -111,8 +114,7 @@ public class PanneauDExecution extends JPanel {
                         } catch (InterruptedException ex) {
                             Logger.getLogger(Terrain.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        boutonExecuteProgramme.setEnabled(false);
-                        boutonExecuteSelection.setEnabled(false);
+
 
                         if (PanneauDExecution.this.fenetreRobot.getSplitPane().getDividerLocation() > 1) {
                             PanneauDExecution.this.fenetreRobot.getSplitPane().setDividerLocation(0.0);

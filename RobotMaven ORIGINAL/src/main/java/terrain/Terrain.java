@@ -301,6 +301,11 @@ public class Terrain extends JPanel {
         return terrain[x][y];
     }
 
+    public Cellule get(Position p)
+    {
+        return terrain[p.x][p.y];
+    }
+
     @Override
     public void paint(java.awt.Graphics g) {
         super.paint(g);

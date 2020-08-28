@@ -2,28 +2,28 @@
  * Creative commons CC BY-NC-SA 2020 Yvan Maillot <yvan.maillot@uha.fr>
  *
  *     Share - You can copy and redistribute the material in any medium or format
- * 
- *     Adapt - You can remix, transform, and build upon the material 
- * 
+ *
+ *     Adapt - You can remix, transform, and build upon the material
+ *
  * Under the following terms :
- * 
- *     Attribution - You must give appropriate credit, provide a link to the license, 
- *     and indicate if changes were made. You may do so in any reasonable manner, 
- *     but not in any way that suggests the licensor endorses you or your use. 
- * 
- *     NonCommercial — You may not use the material for commercial purposes. 
- * 
- *     ShareAlike — If you remix, transform, or build upon the material, 
- *     you must distribute your contributions under the same license as the original. 
- * 
- * Notices:    You do not have to comply with the license for elements of 
- *             the material in the public domain or where your use is permitted 
- *             by an applicable exception or limitation. 
- * 
- * No warranties are given. The license may not give you all of the permissions 
- * necessary for your intended use. For example, other rights such as publicity, 
- * privacy, or moral rights may limit how you use the material. 
- * 
+ *
+ *     Attribution - You must give appropriate credit, provide a link to the license,
+ *     and indicate if changes were made. You may do so in any reasonable manner,
+ *     but not in any way that suggests the licensor endorses you or your use.
+ *
+ *     NonCommercial — You may not use the material for commercial purposes.
+ *
+ *     ShareAlike — If you remix, transform, or build upon the material,
+ *     you must distribute your contributions under the same license as the original.
+ *
+ * Notices:    You do not have to comply with the license for elements of
+ *             the material in the public domain or where your use is permitted
+ *             by an applicable exception or limitation.
+ *
+ * No warranties are given. The license may not give you all of the permissions
+ * necessary for your intended use. For example, other rights such as publicity,
+ * privacy, or moral rights may limit how you use the material.
+ *
  * See <https://creativecommons.org/licenses/by-nc-sa/4.0/>.
  */
 package robot;
@@ -42,7 +42,6 @@ import terrain.Minerai;
 import terrain.Terrain;
 
 /**
- *
  * @author Yvan
  */
 public class Initialisation implements Serializable {
@@ -69,8 +68,8 @@ public class Initialisation implements Serializable {
     private int positionMinerai = QUELCONQUE;
     private boolean presenceHauteur = false;
     private boolean presenceLargeur = false;
-    private int hauteur;
-    private int largeur;
+    private static int hauteur;
+    private static int largeur;
 
     // debut Ajout
     // fin Ajout
@@ -205,14 +204,14 @@ public class Initialisation implements Serializable {
 
     @Override
     public String toString() {
-        String s="";
-        String s2="";
+        String s = "";
+        String s2 = "";
 
-        for(int i=1; i<=FramePrincipale.getNbRobots(); ++i)
-            s+=i + " " + FramePrincipale.getPositionRobot(i) + " ";
+        for (int i = 1; i <= FramePrincipale.getNbRobots(); ++i)
+            s += i + " " + FramePrincipale.getPositionRobot(i) + " ";
 
-        for(int i=1; i<=FramePrincipale.getNbRobots(); ++i)
-            s2+=i + " " + FramePrincipale.getOrientationRobot(i) + " ";
+        for (int i = 1; i <= FramePrincipale.getNbRobots(); ++i)
+            s2 += i + " " + FramePrincipale.getOrientationRobot(i) + " ";
 
         return "{Position des robots : " + s
                 + ",\\nOrientations des robots : " + s2
@@ -234,8 +233,7 @@ public class Initialisation implements Serializable {
 
     public static void initialiser(Programme[] programmes, Detachable frameParente, boolean marque) {
 
-        for(int i=1; i<FramePrincipale.getNbRobots()+1;++i)
-        {
+        for (int i = 1; i < FramePrincipale.getNbRobots() + 1; ++i) {
             frameParente.getProgramme(i).setInitialisation(programmes[i].getInitialisation());
         }
 
@@ -333,20 +331,30 @@ public class Initialisation implements Serializable {
 
         Terrain.Position p;
 
-        do{
+        if (positionRobot == DANS_LE_COIN_NE || positionRobot == DANS_LE_COIN_NO || positionRobot == DANS_LE_COIN_SE || positionRobot == DANS_LE_COIN_SO)
+        {
             p = calculPosition(positionRobot, frameParente.getTerrain());
+            if(frameParente.getTerrain().get(p) != null)
+                throw new IllegalStateException("Robot déjà placé dans ce coin");
         }
-        while(frameParente.getTerrain().get(p.x,p.y) != null);
+        else if ((positionRobot == CONTRE_LE_MUR_NORD || positionRobot == CONTRE_LE_MUR_SUD) && (largeur - 2 < FramePrincipale.getNbRobots())) {
+            throw new IllegalStateException("Nombre de robots trop grand par rapport à la largeur du mur");
+        } else if ((positionRobot == CONTRE_LE_MUR_EST || positionRobot == CONTRE_LE_MUR_OUEST) && (hauteur - 2 < FramePrincipale.getNbRobots())) {
+            throw new IllegalStateException("Nombre de robots trop grand par rapport à la hauteur du mur");
+        } else
+            do {
+                p = calculPosition(positionRobot, frameParente.getTerrain());
+            }
+            while (frameParente.getTerrain().get(p.x, p.y) != null);
 
-        FramePrincipale.setRobot(i,new Robot(frameParente.getTerrain(), p.x, p.y, orientationRobot));
-
+        FramePrincipale.setRobot(i, new Robot(frameParente.getTerrain(), p.x, p.y, orientationRobot));
 
 
     }//Ajouté par Sélim
 
-    private static void placementDesRobots(Detachable frameParente)
-    {
-        Robot.setRobot(0,null);
+    private static void placementDesRobots(Detachable frameParente) {
+        Robot.setRobot(0, null);
+
 
         for (int i = 1; i < FramePrincipale.getNbRobots() + 1; ++i) {
             placementDuRobot(FramePrincipale.getOrientationRobot(i),
@@ -359,15 +367,13 @@ public class Initialisation implements Serializable {
 
     }
 
-    private static void setNombrePasRobots()
-    {
-        for(int i=1; i<FramePrincipale.getNbRobots()+1; ++i)
-        {
+    private static void setNombrePasRobots() {
+        for (int i = 1; i < FramePrincipale.getNbRobots() + 1; ++i) {
             Robot.getRobots()[i].setNombreDepPas(FramePrincipale.getNombreDePas(i));
             Robot.getRobots()[i].setNombrePas(FramePrincipale.getNombreDePas(i));
-            if(FramePrincipale.getNombreDePas(i)==-2){
+            if (FramePrincipale.getNombreDePas(i) == -2) {
                 Robot.getRobots()[i].setPasInitialise(false);
-            }else{
+            } else {
                 Robot.getRobots()[i].setPasInitialise(true);
                 Robot.getRobots()[i].gestionImage(0);
             }
