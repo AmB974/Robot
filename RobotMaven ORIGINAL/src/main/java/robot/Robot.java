@@ -1450,24 +1450,6 @@ public class Robot implements Cellule, Runnable {
                 if (this.ID != FramePrincipale.getROBOTACTIF()) {
                     if (vers.direction == Terrain.NORD) {
                         //image Nord
-                        image[0] = this.robotCouleurNActif[numero][ID - 1];
-
-                    } else if (vers.direction == Terrain.EST) {
-                        //image Est
-                        image[0] = this.robotCouleurEActif[numero][ID - 1];
-
-                    } else if (vers.direction == Terrain.SUD) {
-                        //image Sud
-                        image[0] = this.robotCouleurSActif[numero][ID - 1];
-
-                    } else {
-                        //image Ouest
-                        image[0] = this.robotCouleurOActif[numero][ID - 1];
-
-                    }
-                }else {
-                    if (vers.direction == Terrain.NORD) {
-                        //image Nord
                         image[0] = this.robotCouleurN[numero][ID - 1];
 
                     } else if (vers.direction == Terrain.EST) {
@@ -1481,6 +1463,24 @@ public class Robot implements Cellule, Runnable {
                     } else {
                         //image Ouest
                         image[0] = this.robotCouleurO[numero][ID - 1];
+
+                    }
+                }else {
+                    if (vers.direction == Terrain.NORD) {
+                        //image Nord
+                        image[0] = this.robotCouleurNActif[numero][ID - 1];
+
+                    } else if (vers.direction == Terrain.EST) {
+                        //image Est
+                        image[0] = this.robotCouleurEActif[numero][ID - 1];
+
+                    } else if (vers.direction == Terrain.SUD) {
+                        //image Sud
+                        image[0] = this.robotCouleurSActif[numero][ID - 1];
+
+                    } else {
+                        //image Ouest
+                        image[0] = this.robotCouleurOActif[numero][ID - 1];
                     }
                 }
 
