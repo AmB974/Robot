@@ -31,6 +31,7 @@ package instruction;
 
 import javax.swing.ImageIcon;
 import robot.DansLeMur;
+import robot.FramePrincipale;
 
 /**
  *
@@ -46,7 +47,7 @@ public class Racine extends InstructionComposee {
     }
     
     public Racine() {
-        this("programme");
+        this("Programme robot");
     }
 
     @Override

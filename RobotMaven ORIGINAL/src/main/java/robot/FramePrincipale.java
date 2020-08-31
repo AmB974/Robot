@@ -27,7 +27,7 @@ public class FramePrincipale extends JFrame implements Detachable {
 
     private static Robot robot = null;
     private static int NBROBOTS = 1;
-    //private static int NBRobotsSurTerrain=1;
+    
 
 
     //Ajouté par Sélim
@@ -86,6 +86,11 @@ public class FramePrincipale extends JFrame implements Detachable {
         return programme[ROBOTACTIF];
     }
 
+    public Programme getProgramme(int i)
+    {
+        return programme[i];
+    }
+
     @Override
     public Robot getRobot() {
         return robot;
@@ -101,7 +106,7 @@ public class FramePrincipale extends JFrame implements Detachable {
         dialogueInitialisation.setVisible(true);
         if (dialogueInitialisation.getOk()) {
             programme[ROBOTACTIF].setInitialisation(dialogueInitialisation.getInitialisation());
-            Initialisation.initialiser(dialogueInitialisation.getInitialisation(), this, true);
+            Initialisation.initialiser(getProgrammes(), this, true);
         }
     }
 
@@ -330,6 +335,15 @@ public class FramePrincipale extends JFrame implements Detachable {
         return nombrePas[i];
     }
 
+    @Override
+    public Programme[] getProgrammes()
+    {
+        return programme;
+    }
 
-    
+    @Override
+    public PanneauPrincipal getPanneauPrincipal()
+    {
+        return panneauPrincipal;
+    }
 }
