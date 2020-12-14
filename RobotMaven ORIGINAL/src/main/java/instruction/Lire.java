@@ -63,6 +63,7 @@ public class Lire extends InstructionElementaire {
 
     }
 
+    
     /*@Override
     public void set(Object o) {
     }*/
